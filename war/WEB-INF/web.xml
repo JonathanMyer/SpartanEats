@@ -8,18 +8,17 @@
   <!-- Servlets -->
   <servlet>
     <servlet-name>LoginServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.jmyer.servlet.IndexServlet</servlet-class>
+    <servlet-class>edu.ycp.cs320.spartaneats.servlet.LoginServlet</servlet-class>
   </servlet>
- 
   
- 
+  
+
 
   <!-- Servlet mappings -->
   <servlet-mapping>
     <servlet-name>LoginServlet</servlet-name>
-    <url-pattern>/index</url-pattern>
+    <url-pattern>/login</url-pattern>
   </servlet-mapping>
-  
   
 
 
