@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>CS320_jmyer</name>
+	<name>CS320_Jetty9</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -14,11 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>CS320_Jetty9</name>
-			<type>2</type>
-			<location>C:/Users/Jon/eclipse-workspace/CS320_Jetty9</location>
-		</link>
-	</linkedResources>
 </projectDescription>
