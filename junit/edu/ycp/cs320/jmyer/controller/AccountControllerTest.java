@@ -12,10 +12,12 @@ public class AccountControllerTest {
 	private AccountController controller;
 	private Account account1;
 	
+	
 	@Before
 	public void setUp() {
 		controller = new AccountController();
 		account1 = new Account("BigBob","1234");
+		
 	}
 	
 	
@@ -23,6 +25,8 @@ public class AccountControllerTest {
 	public void testAddController() {
 		controller.addAccount(account1);
 		assertTrue(controller.getAccount("BigBob").equals(account1));
+		
+		
 	}
 	
 }
