@@ -15,7 +15,7 @@ public class Account {
 	}
 	
 	
-	// checks to see if the password is correct for this account
+	// checks to see if the given password is correct for this account
 	public Boolean isPasswordCorrect(String password) {
 		if (this.password == password) {
 			return true;
