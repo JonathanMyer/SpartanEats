@@ -6,7 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 
 import edu.ycp.cs320.spartaneats.controller.AccountController;
 import edu.ycp.cs320.spartaneats.model.Account;
@@ -70,6 +70,7 @@ public class LoginServlet extends HttpServlet {
 		
 		// Forward to view to render the result HTML document
 		if (model.getSuccess()) {
+			HttpSession session = req.getSession(true);    // create the session
 			resp.sendRedirect(req.getContextPath()+"/loginsuccess");
 		}
 		else {
