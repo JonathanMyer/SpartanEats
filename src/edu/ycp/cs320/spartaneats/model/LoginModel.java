@@ -8,6 +8,7 @@ public class LoginModel {
 	private String password;
 	private String error;
 	private Account account;
+	private boolean success;
 	
 	
 	// create an account with given nanme and password
@@ -45,5 +46,13 @@ public class LoginModel {
 	
 	public Account getAccount() {
 		return this.account;
+	}
+	
+	public boolean getSuccess() {
+		return this.success;
+	}
+	
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
 }

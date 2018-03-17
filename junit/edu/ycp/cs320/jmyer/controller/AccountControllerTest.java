@@ -35,7 +35,7 @@ public class AccountControllerTest {
 	
 	@Test
 	public void testGetAccount() {
-		assertTrue(controller.getAccount(account3.getAccountName()).equals(account2));
+		assertTrue(controller.getAccount(accountName).equals(account2));
 	}
 	
 	@Test 

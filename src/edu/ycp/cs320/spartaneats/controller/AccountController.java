@@ -22,7 +22,7 @@ public class AccountController {
 	// returns the account with given username
 	public Account getAccount(String username) {
 		for (Account account: accountList) {
-			if (account.getAccountName() == username) {
+			if (account.getAccountName().equals(username)) {
 				System.out.println("What is Happening");
 				return account;
 			}
@@ -34,7 +34,7 @@ public class AccountController {
 	
 	public boolean doesAccountExist(String username) {
 		for (Account account: accountList) {
-			if (account.getAccountName() == username) {
+			if (account.getAccountName().equals(username)) {
 				return true;
 			}
 		}

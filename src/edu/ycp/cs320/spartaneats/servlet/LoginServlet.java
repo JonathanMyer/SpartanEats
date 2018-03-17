@@ -49,23 +49,18 @@ public class LoginServlet extends HttpServlet {
 		// decode POSTed form parameters and dispatch to controller
 		model.setAccountName(req.getParameter("userName"));
 		model.setPassword(req.getParameter("password"));
-		String name = req.getParameter("userName");
+		model.setSuccess(false);
 		
-		Account account = new Account(req.getParameter("userName"),req.getParameter("password"));
 		
-		if (!controller.doesAccountExist(account.getAccountName())) {
-			System.out.println("Hi THere");
-			System.out.println(account.getAccountName());
-			System.out.println(controller.getAccount(name).getAccountName());
-			System.out.println(controller.getAccount("billybones").getAccountName());
+		if (!controller.doesAccountExist(model.getAccountName())) {
 			errorMessage = "Username does not exist";
 		}
-		else if (controller.getAccount(account.getAccountName()).isPasswordCorrect(model.getPassword()) == false) {
+		else if (controller.getAccount(model.getAccountName()).isPasswordCorrect(model.getPassword()) == false) {
 			errorMessage = "Password is not correct";
 		}
 		
 		else {
-			req.getRequestDispatcher("/_view/logginsuccess.jsp").forward(req, resp);
+			model.setSuccess(true);
 		}
 		
 		
@@ -74,7 +69,12 @@ public class LoginServlet extends HttpServlet {
 		req.setAttribute("model", model);
 		
 		// Forward to view to render the result HTML document
-		req.getRequestDispatcher("/_view/login.jsp").forward(req, resp);
+		if (model.getSuccess()) {
+			resp.sendRedirect(req.getContextPath()+"/loginsuccess");
+		}
+		else {
+			req.getRequestDispatcher("/_view/login.jsp").forward(req, resp);
+		}
 	}
 
 	

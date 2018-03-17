@@ -17,10 +17,10 @@
 	</head>
 
 	<body>
+		
 		<c:if test="${! empty model.error}">
 			<div class="error">${model.error}</div>
 		</c:if>
-	
 		<form action="${pageContext.servletContext.contextPath}/login" method="post">
 			<table>
 				<tr>
