@@ -15,6 +15,7 @@ public class AccountControllerTest {
 	private Account account3;
 	private String accountName;
 	
+	
 	@Before
 	public void setUp() {
 		controller = new AccountController();
@@ -25,12 +26,16 @@ public class AccountControllerTest {
 		controller.addAccount(account1);
 		controller.addAccount(account3);
 		accountName = "BillyBones";
+
+
 	}
 	
 	
 	@Test
 	public void testAddAccount() {
 		assertTrue(controller.getAccount("BigBob").equals(account1));
+		
+		
 	}
 	
 	@Test
