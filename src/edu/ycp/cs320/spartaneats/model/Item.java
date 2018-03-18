@@ -1,60 +1,40 @@
 package edu.ycp.cs320.spartaneats.model;
 
 public class Item {
-	private String mainItem;
-	private String Side;
-	private String drink;
-	private int count;
+	
+	private String itemName;
 	private double price;
+	private int count;
 	
 	//item has a main item and side
-	public Item(String mainItem, String Side, double price, int count) {
-		this.setMainItem(mainItem);
-		this.setSide(Side);
+	public Item(String itemName, double price, int count) {
+		this.setItemName(itemName);
 		this.setPrice(price);
 		this.setCount(count);
 	}
 
-	//number of items
-	private void setCount(int Count) {
-		this.count = Count;
+	public String getItemName() {
+		return itemName;
 	}
 
-	//price of items
-	private void setPrice(double Price) {
-		this.price = Price;
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
 	}
 
-	//get the side
-	public String getSide(String side) {
-		return side;
+	public double getPrice() {
+		return price;
 	}
 
-	//set the side
-	public void setSide(String side) {
-		this.Side = side;
-	}
-
-	//get the main item
-	public String getmainItem() {
-		return mainitem;
-	}
-
-	//set the main item
-	public void setMainItem(String mainItem) {
-		this.mainItem = mainItem;
-	}
-	
-	public void getPrice(double price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
-	public String getDrink() {
-		return drink;
+	public int getCount() {
+		return count;
 	}
 
-	public void setDrink(String drink) {
-		this.drink = drink;
+	public void setCount(int count) {
+		this.count = count;
 	}
-	
+
 }

@@ -4,22 +4,22 @@ import java.util.ArrayList;
 
 public class Order  {
 	private ArrayList<Item> selectedItems;
-	private Boolean Delivery = false;
-	private Boolean Pickup = false;
+	private Boolean delivery = false;
+	private Boolean pickup = false;
+	private int orderNumber;
 	
-	public Order(ArrayList<Item> selectedItems, Boolean Delivery) {
+	public Order(ArrayList<Item> selectedItems, Boolean Delivery, Boolean pickup, int OrderNumber) {
 		this.selectedItems = selectedItems;
-		this.setDelivery(Delivery);
+		this.delivery = Delivery;
+		this.pickup = pickup;
+		this.orderNumber = OrderNumber;
 	}
 
-	//return the order
-	public ArrayList<Item> getOrder() {
-		return this.selectedItems;
-	}
 	
 	//add an item from an order
 	public void addItem(Item Item) {
 		selectedItems.add(Item);
+		
 	}
 	
 	//remove an item from an order
@@ -28,21 +28,34 @@ public class Order  {
 	}
 
 	public Boolean getDelivery() {
-		return Delivery;
+		return delivery;
 	}
 
 	public void setDelivery(Boolean delivery) {
-		Delivery = delivery;
+		this.delivery = delivery;
 	}
 
 	public Boolean getPickup() {
-		return Pickup;
+		return pickup;
 	}
 
 	public void setPickup(Boolean pickup) {
-		Pickup = pickup;
+		this.pickup = pickup;
 	}
 	
+	// returns the account with given username
+	public Item getItem(Item item) {
+		for (Item selectedItems: selectedItems) {
+			if (item.getItemName().equals(selectedItems.getItemName())) {
+				System.out.println("found Item");
+				return item;
+			}
+		}	
+		return null;
+				
+	}
 
-	
+	public int getOrderNumber() {
+		return orderNumber;
+	}
 }
