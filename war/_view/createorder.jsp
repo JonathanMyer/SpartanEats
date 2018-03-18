@@ -9,7 +9,8 @@
 		.error {
 			color: red;
 		}
-		
+		body{
+		font-size: 25px;
 		td.label {
 			text-align: right;
 		}
