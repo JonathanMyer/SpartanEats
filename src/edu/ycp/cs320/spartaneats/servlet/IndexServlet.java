@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 
 
-public class LoginSuccessServlet extends HttpServlet {
+public class IndexServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Override
@@ -29,7 +29,7 @@ public class LoginSuccessServlet extends HttpServlet {
 	        } 
 	    
 	    
-		req.getRequestDispatcher("/_view/loginsuccess.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);
 	}
 	
 	

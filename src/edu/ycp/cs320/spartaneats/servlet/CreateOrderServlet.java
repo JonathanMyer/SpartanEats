@@ -11,9 +11,12 @@ import javax.servlet.http.HttpSession;
 import edu.ycp.cs320.spartaneats.controller.AccountController;
 import edu.ycp.cs320.spartaneats.model.Account;
 import edu.ycp.cs320.spartaneats.model.AccountControllerPopulate;
+import edu.ycp.cs320.spartaneats.model.CreateOrderModel;
 import edu.ycp.cs320.spartaneats.model.LoginModel;
+import edu.ycp.cs320.spartaneats.model.Order;
+import edu.ycp.cs320.spartaneats.model.OrderModel;
 
-public class LoginServlet extends HttpServlet {
+public class CreateOrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Override
@@ -36,20 +39,18 @@ public class LoginServlet extends HttpServlet {
 		String errorMessage = null;
 
 		// result of calculation goes here
-		AccountController controller = new AccountController();
+		OrderController controller = new OrderController();
 		//new AccountControllerPopulate(controller);
-		LoginModel model = new LoginModel();
-		Account account1 = new Account("billybones","ImaPirate");
-		Account account2 = new Account("SwashBucket","ImaBucket");
-		Account account3 = new Account("DeckBroom","ImaBroom");
-		controller.addAccount(account1);
-		controller.addAccount(account2);
-		controller.addAccount(account3);
+		Order order = new Order();
+		Inventory inventory = new Inventory();
+		CreateOrderModel model = new CreateOrderModel();
+		model.setOrder(order);
+		model.setInventory(inventory);
 		
 		// decode POSTed form parameters and dispatch to controller
-		model.setAccountName(req.getParameter("userName"));
-		model.setPassword(req.getParameter("password"));
-		model.setSuccess(false);
+		inventory.addItem(new Item("Hamburger",8.24,3));
+		inventory.addItem(new Item("Coke",3.09, 4));
+		inventory.addItem(new Item("French Fries", 4.49, 8));
 		
 		
 		if (!controller.doesAccountExist(model.getAccountName())) {
@@ -68,10 +69,11 @@ public class LoginServlet extends HttpServlet {
 		
 		req.setAttribute("model", model);
 		
+		
 		// Forward to view to render the result HTML document
-		if (model.getSuccess()) {
+		if (model.isSuccess()) {
 			HttpSession session = req.getSession(true);    // create the session
-			resp.sendRedirect(req.getContextPath()+"/index");
+			resp.sendRedirect(req.getContextPath()+"/loginsuccess");
 		}
 		else {
 			req.getRequestDispatcher("/_view/login.jsp").forward(req, resp);
