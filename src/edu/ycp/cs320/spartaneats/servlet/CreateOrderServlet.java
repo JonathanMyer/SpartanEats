@@ -44,8 +44,8 @@ public class CreateOrderServlet extends HttpServlet {
 	 		// result of calculation goes here
 	 		OrderController controller = new OrderController();
 	 		//new AccountControllerPopulate(controller);
-	 		Order order = new Order(new ArrayList<Item>(), false, true, 1);
-	 		Inventory inventory = new Inventory(new ArrayList<Item>());
+	 		Order order = new Order( false, true, 1);
+	 		Inventory inventory = new Inventory();
 	 		CreateOrderModel model = new CreateOrderModel();
 	 		model.setOrder(order);
 	 		model.setInventory(inventory);

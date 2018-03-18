@@ -26,18 +26,18 @@ public class InventoryTest {
 	
 	@Test
 	public void testGetItem() {
-		assertTrue(inventory1.getItem(item1).equals(item1));
+		assertTrue(inventory1.getItem(item1.getItemName()).equals(item1));
 	}
 	
 	@Test
 	public void testAddItem() {
 		inventory1.addItem(item2);
-		assertTrue(inventory1.getItem(item2) == item2);
+		assertTrue(inventory1.getItem(item2.getItemName()) == item2);
 	}
 	
 	@Test
 	public void testRemoveItem() {
 		inventory1.removeItem(item3);
-		assertTrue(inventory1.getItem(item3) == null);
+		assertTrue(inventory1.getItem(item3.getItemName()) == null);
 	}
 }
