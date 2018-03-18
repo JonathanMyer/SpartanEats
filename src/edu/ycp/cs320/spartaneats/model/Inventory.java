@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class Inventory {
 	private ArrayList<Item> selectedItems;
 	
-	public Inventory(ArrayList<Item> selectedItems) {
-		this.selectedItems = selectedItems;
+	public Inventory() {
+		selectedItems = new ArrayList<Item>();
 	}
 
 	
