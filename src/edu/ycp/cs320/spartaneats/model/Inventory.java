@@ -20,15 +20,19 @@ public class Inventory {
 		selectedItems.remove(Item);
 	}
 	
-	// returns the account with given username
-	public Item getItem(Item item) {
-		for (Item selectedItems: selectedItems) {
-			if (item.getItemName().equals(selectedItems.getItemName())) {
+	// returns the item with given itemname
+	public Item getItem(String item) {
+		for (Item i: selectedItems) {
+			if (i.getItemName().equals(item)) {
 				System.out.println("found Item");
-				return item;
+				return i;
 			}
 		}	
 		return null;
+	}
+	
+	public ArrayList<Item> getItemList(){
+		return this.selectedItems;
 	}
 
 }
