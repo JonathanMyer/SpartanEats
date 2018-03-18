@@ -32,7 +32,7 @@ public class OrderTest {
 		assertTrue(order1.getDelivery().equals(true));
 		assertTrue(order1.getPickup().equals(false));
 		assertTrue(order1.getOrderNumber() == 1);
-		assertTrue(order1.getItem(item1) == item1);
+		assertTrue(order1.getItem("Water") == item1);
 	}
 	
 	@Test
@@ -56,12 +56,12 @@ public class OrderTest {
 	@Test
 	public void testAddItem() {
 		order2.addItem(item2);
-		assertTrue(order2.getItem(item2) == item2);
+		assertTrue(order2.getItem(item2.getItemName()) == item2);
 	}
 	
 	public void testRemoveItem() {
 		order2.removeItem(item2);
-		assertTrue(order2.getItem(item2).equals(null));
+		assertTrue(order2.getItem(item2.getItemName()).equals(null));
 	}
 }
 
