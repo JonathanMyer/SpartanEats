@@ -4,15 +4,14 @@ import java.util.ArrayList;
 
 public class Order  {
 	private ArrayList<Item> selectedItems;
-	private Boolean Delivery;
-	private Boolean Pickup;
-	private int OrderNumber;
+	private Boolean Delivery = false;
+	private Boolean Pickup = false;
 	
 	public Order(ArrayList<Item> selectedItems, Boolean Delivery) {
 		this.selectedItems = selectedItems;
 		this.setDelivery(Delivery);
 	}
-	
+
 	//return the order
 	public ArrayList<Item> getOrder() {
 		return this.selectedItems;

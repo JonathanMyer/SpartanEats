@@ -3,6 +3,7 @@ package edu.ycp.cs320.spartaneats.model;
 public class Item {
 	private String MainItem;
 	private String Side;
+	private String drink;
 	private int count;
 	private double price;
 	
