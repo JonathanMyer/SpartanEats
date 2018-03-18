@@ -8,18 +8,16 @@ public class Order  {
 	private Boolean pickup = false;
 	private int orderNumber;
 	
-	public Order(ArrayList<Item> selectedItems, Boolean Delivery, Boolean pickup, int OrderNumber) {
-		this.selectedItems = selectedItems;
+	public Order(Boolean Delivery, Boolean pickup, int OrderNumber) {
+		selectedItems = new ArrayList<Item>();
 		this.delivery = Delivery;
 		this.pickup = pickup;
 		this.orderNumber = OrderNumber;
 	}
-
 	
 	//add an item from an order
 	public void addItem(Item Item) {
-		selectedItems.add(Item);
-		
+		selectedItems.add(Item);	
 	}
 	
 	//remove an item from an order
@@ -44,11 +42,11 @@ public class Order  {
 	}
 
 	public int getOrderNumber() {
-		return this.OrderNumber;
+		return this.orderNumber;
 	}
 
 	public void setOrderNumber(int orderNumber) {
-		this.OrderNumber = orderNumber;
+		this.orderNumber = orderNumber;
 	}
 	
 	
@@ -62,9 +60,5 @@ public class Order  {
 		}	
 		return null;
 				
-	}
-
-	public int getOrderNumber() {
-		return orderNumber;
 	}
 }
