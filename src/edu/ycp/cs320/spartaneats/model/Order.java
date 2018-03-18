@@ -43,6 +43,15 @@ public class Order  {
 	public void setPickup(Boolean pickup) {
 		Pickup = pickup;
 	}
+
+	public int getOrderNumber() {
+		return this.OrderNumber;
+	}
+
+	public void setOrderNumber(int orderNumber) {
+		this.OrderNumber = orderNumber;
+	}
+	
 	
 	
 }
