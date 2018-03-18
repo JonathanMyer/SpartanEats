@@ -15,7 +15,7 @@ public class ItemTest {
 	@Before
 	public void setUp() {
 		item = new Item("Caprese", 6.49, 1);
-		
+		item2 = new Item(null,0 , 0);
 	}
 	
 	@Test
