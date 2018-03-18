@@ -44,6 +44,16 @@ public class CreateOrderModel {
 	public void setError(String error) {
 		this.error = error;
 	}
+
+
+	public Inventory getInventory() {
+		return inventory;
+	}
+
+
+	public void setInventory(Inventory inventory) {
+		this.inventory = inventory;
+	}
 	
 	
 	

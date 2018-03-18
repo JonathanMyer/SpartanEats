@@ -44,27 +44,38 @@ public class Order  {
 	}
 
 	public int getOrderNumber() {
-		return this.OrderNumber;
+		return this.orderNumber;
 	}
 
 	public void setOrderNumber(int orderNumber) {
-		this.OrderNumber = orderNumber;
+		this.orderNumber = orderNumber;
 	}
 	
 	
 	// returns the account with given username
-	public Item getItem(Item item) {
-		for (Item selectedItems: selectedItems) {
-			if (item.getItemName().equals(selectedItems.getItemName())) {
+	public Item getItem(String item) {
+		for (Item i: selectedItems) {
+			if (i.getItemName().equals(item)) {
 				System.out.println("found Item");
-				return item;
+				return i;
 			}
 		}	
 		return null;
 				
 	}
-
-	public int getOrderNumber() {
-		return orderNumber;
+	
+	public ArrayList<Item> getItemList(){
+		return this.selectedItems;
 	}
+	
+	
+	public double getTotalPrice() {
+		double price = 0;
+		for(Item i: selectedItems) {
+			price += i.getPrice();
+		}
+		return price;
+	}
+
+	
 }
