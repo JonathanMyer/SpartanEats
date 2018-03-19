@@ -42,9 +42,14 @@ public class LoginServlet extends HttpServlet {
 		Account account1 = new Account("billybones","ImaPirate");
 		Account account2 = new Account("SwashBucket","ImaBucket");
 		Account account3 = new Account("DeckBroom","ImaBroom");
+		Account account4 = new Account("BreatheSmell", "0000000900");
+		Account account5 = new Account("TimJim", "asdfghjkl");
 		controller.addAccount(account1);
 		controller.addAccount(account2);
 		controller.addAccount(account3);
+		controller.addAccount(account4);
+		controller.addAccount(account5);
+		
 		
 		// decode POSTed form parameters and dispatch to controller
 		model.setAccountName(req.getParameter("userName"));

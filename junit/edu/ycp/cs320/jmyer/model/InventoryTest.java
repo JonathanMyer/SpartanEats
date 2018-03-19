@@ -22,11 +22,13 @@ public class InventoryTest {
 		item2 = new Item("Chicken Pesto", 6.49, 2);
 		item3 = new Item("Aggie Club", 6.49, 4);
 		inventory1.addItem(item1);
+		inventory1.addItem(item3);
 	}
 	
 	@Test
 	public void testGetItem() {
 		assertTrue(inventory1.getItem(item1.getItemName()).equals(item1));
+		assertTrue(inventory1.getItem(item3.getItemName()).equals(item3));
 	}
 	
 	@Test
