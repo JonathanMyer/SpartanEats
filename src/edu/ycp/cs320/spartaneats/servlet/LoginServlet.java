@@ -39,9 +39,9 @@ public class LoginServlet extends HttpServlet {
 		AccountController controller = new AccountController();
 		//new AccountControllerPopulate(controller);
 		LoginModel model = new LoginModel();
-		Account account1 = new Account("billybones","ImaPirate");
-		Account account2 = new Account("SwashBucket","ImaBucket");
-		Account account3 = new Account("DeckBroom","ImaBroom");
+		Account account1 = new Account(/*"billybones","ImaPirate"*/);
+		Account account2 = new Account(/*"SwashBucket","ImaBucket"*/);
+		Account account3 = new Account(/*"DeckBroom","ImaBroom"*/);
 		controller.addAccount(account1);
 		controller.addAccount(account2);
 		controller.addAccount(account3);
@@ -52,7 +52,7 @@ public class LoginServlet extends HttpServlet {
 		model.setSuccess(false);
 		
 		
-		if (!controller.doesAccountExist(model.getAccountName())) {
+		if (!controller.doesAccountExist(model.getAccount().getAccountId())) {
 			errorMessage = "Username does not exist";
 		}
 		else if (controller.getAccount(model.getAccountName()).isPasswordCorrect(model.getPassword()) == false) {

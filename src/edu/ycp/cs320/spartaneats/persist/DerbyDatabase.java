@@ -2,18 +2,19 @@ package edu.ycp.cs320.spartaneats.persist;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-import edu.ycp.cs320.booksdb.model.Author;
-import edu.ycp.cs320.booksdb.model.Book;
-import edu.ycp.cs320.booksdb.model.Pair;
+import edu.ycp.cs320.spartaneats.model.Account;
+import edu.ycp.cs320.spartaneats.model.Drink;
+import edu.ycp.cs320.spartaneats.model.Item;
+import edu.ycp.cs320.spartaneats.persist.DerbyDatabase.Transaction;
 
 public class DerbyDatabase {
 	static {
@@ -24,74 +25,12 @@ public class DerbyDatabase {
 		}
 	}
 	
-	private interface Transaction<ResultType> {
+	public interface Transaction<ResultType> {
 		public ResultType execute(Connection conn) throws SQLException;
 	}
 
 	private static final int MAX_ATTEMPTS = 10;
-
-	@Override
-	public List<Pair<Author, Book>> findAuthorAndBookByTitle(final String title) {
-		return executeTransaction(new Transaction<List<Pair<Author,Book>>>() {
-			@Override
-			public List<Pair<Author, Book>> execute(Connection conn) throws SQLException {
-				PreparedStatement stmt = null;
-				ResultSet resultSet = null;
-				
-				try {
-					// retreive all attributes from both Books and Authors tables
-					stmt = conn.prepareStatement(
-							"select authors.*, books.* " +
-							"  from authors, books " +
-							" where authors.author_id = books.author_id " +
-							"   and books.title = ?"
-					);
-					stmt.setString(1, title);
-					
-					List<Pair<Author, Book>> result = new ArrayList<Pair<Author,Book>>();
-					
-					resultSet = stmt.executeQuery();
-					
-					// for testing that a result was returned
-					Boolean found = false;
-					
-					while (resultSet.next()) {
-						found = true;
-						
-						// create new Author object
-						// retrieve attributes from resultSet starting with index 1
-						Author author = new Author();
-						loadAuthor(author, resultSet, 1);
-						
-						// create new Book object
-						// retrieve attributes from resultSet starting at index 4
-						Book book = new Book();
-						loadBook(book, resultSet, 4);
-						
-						result.add(new Pair<Author, Book>(author, book));
-					}
-					
-					// check if the title was found
-					if (!found) {
-						System.out.println("<" + title + "> was not found in the books table");
-					}
-					
-					return result;
-				} finally {
-					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt);
-				}
-			}
-		});
-	}
 	
-	public<ResultType> ResultType executeTransaction(Transaction<ResultType> txn) {
-		try {
-			return doExecuteTransaction(txn);
-		} catch (SQLException e) {
-			throw new PersistenceException("Transaction failed", e);
-		}
-	}
 	
 	public<ResultType> ResultType doExecuteTransaction(Transaction<ResultType> txn) throws SQLException {
 		Connection conn = connect();
@@ -138,137 +77,237 @@ public class DerbyDatabase {
 		return conn;
 	}
 	
-	private void loadAuthor(Author author, ResultSet resultSet, int index) throws SQLException {
-		author.setAuthorId(resultSet.getInt(index++));
-		author.setLastname(resultSet.getString(index++));
-		author.setFirstname(resultSet.getString(index++));
+	private void loadAccount(Account account, ResultSet resultSet, int index) throws SQLException {
+		account.setAccountId(resultSet.getInt(index++));
+		account.setUserName(resultSet.getString(index++));
+		account.setFirstName(resultSet.getString(index++));
+		account.setLastName(resultSet.getString(index++));
+		account.setStudentID(resultSet.getString(index++));
+		account.setPassword(resultSet.getString(index++));
+		account.setEmail(resultSet.getString(index++));
+		account.setPhoneNumber(resultSet.getString(index++));
+		account.setFlex(resultSet.getDouble(index++));
+		account.setDining(resultSet.getDouble(index++));
+		
 	}
 	
-	private void loadBook(Book book, ResultSet resultSet, int index) throws SQLException {
-		book.setBookId(resultSet.getInt(index++));
-		book.setAuthorId(resultSet.getInt(index++));
-		book.setTitle(resultSet.getString(index++));
-		book.setIsbn(resultSet.getString(index++));
-		book.setPublished(resultSet.getInt(index++));		
+	private void loadDrink(Drink drink, ResultSet resultSet, int index) throws SQLException {
+		drink.setItemId(resultSet.getInt(index++));
+		drink.setItemName(resultSet.getString(index++));
+		drink.setPrice(resultSet.getDouble(index++));	
 	}
 	
-	public void createTables() {
-		executeTransaction(new Transaction<Boolean>() {
+	private void loadItem(Item item, ResultSet resultSet, int index) throws SQLException {
+		item.setItemId(resultSet.getInt(index++));
+		item.setItemName(resultSet.getString(index++));
+		item.setPrice(resultSet.getDouble(index++));	
+	}
+	
+	public void dropTables() throws SQLException {
+		doExecuteTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmt1 = null;
 				PreparedStatement stmt2 = null;
+				PreparedStatement stmt3 = null;
+			try { 
+		        	 				
+			        stmt1 = conn.prepareStatement 
+			                ( "drop table accounts" ); 
+			        stmt1.execute(); 
+			        stmt1.close(); 
+			        
+			        stmt2 = conn.prepareStatement 
+			                ( "drop table drink" ); 
+			        stmt2.execute(); 
+			        stmt2.close(); 
+			        stmt3 = conn.prepareStatement 
+			                ( "drop table item" ); 
+			        stmt3.execute(); 
+			        stmt3.close(); 
+					return true;
+				} catch (Exception ex) {
+					return true;
+				} finally {
+					DBUtil.closeQuietly(stmt1);
+				}				
+
+			};
+		});
+	}
+	
+	public void createTables() throws SQLException {
+		doExecuteTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+				PreparedStatement stmt3 = null;
 				
 				try {
 					stmt1 = conn.prepareStatement(
-						"create table authors (" +
-						"	author_id integer primary key " +
+						"create table accounts (" +
+						"	account_id integer primary key " +
 						"		generated always as identity (start with 1, increment by 1), " +									
-						"	lastname varchar(40)," +
-						"	firstname varchar(40)" +
-						")"
+						"	userName varchar(40)," +
+						"	firstName varchar(40)," +
+						"	lastName varchar(40)," +
+						"   studentID varchar(40)," +
+						"   password varchar(40)," +
+						"   email varchar(40)," +
+						"   phoneNumber varchar(40)," +
+						"   flex float," +
+						"   dining float" +
+ 						")"
 					);	
 					stmt1.executeUpdate();
 					
 					stmt2 = conn.prepareStatement(
-							"create table books (" +
-							"	book_id integer primary key " +
+							"create table drink (" +
+							"	drink_id integer primary key " +
 							"		generated always as identity (start with 1, increment by 1), " +
-							"	author_id integer constraint author_id references authors, " +
-							"	title varchar(70)," +
-							"	isbn varchar(15)," +
-							"   published integer " +
+							"	itemName varchar(40)," +
+							"   price float " +
 							")"
 					);
 					stmt2.executeUpdate();
 					
+					stmt3 = conn.prepareStatement(
+							"create table item (" +
+							"	item_id integer primary key " +
+							"		generated always as identity (start with 1, increment by 1), " +
+							"	itemName varchar(40)," +
+							"   price float " +
+							")"
+					);
+					stmt3.executeUpdate(); 
 					return true;
 				} finally {
 					DBUtil.closeQuietly(stmt1);
 					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(stmt3);
 				}
 			}
 		});
 	}
 	
-	public void loadInitialData() {
-		executeTransaction(new Transaction<Boolean>() {
+	public void loadInitialData() throws SQLException {
+		doExecuteTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
-				List<Author> authorList;
-				List<Book> bookList;
+				List<Account> accountList;
+				List<Drink> drinkList;
+				List<Item> itemList;
 				
 				try {
-					authorList = InitialData.getAuthors();
-					bookList = InitialData.getBooks();
+					accountList = InitialData.getAccount();
+					drinkList = InitialData.getDrink();
+					itemList = InitialData.getItem();
 				} catch (IOException e) {
 					throw new SQLException("Couldn't read initial data", e);
 				}
 
-				PreparedStatement insertAuthor = null;
-				PreparedStatement insertBook   = null;
+				PreparedStatement insertAccount = null;
+				PreparedStatement insertDrink   = null;
+				PreparedStatement insertItem   = null;
+				PreparedStatement statement = null;
 
 				try {
-					// populate authors table (do authors first, since author_id is foreign key in books table)
-					insertAuthor = conn.prepareStatement("insert into authors (lastname, firstname) values (?, ?)");
-					for (Author author : authorList) {
-//						insertAuthor.setInt(1, author.getAuthorId());	// auto-generated primary key, don't insert this
-						insertAuthor.setString(1, author.getLastname());
-						insertAuthor.setString(2, author.getFirstname());
-						insertAuthor.addBatch();
-					}
-					insertAuthor.executeBatch();
+					// populate accounts table (do accounts first, since account_id is foreign key in drink table)
+					insertAccount = conn.prepareStatement("insert into accounts (userName, firstname, lastName, studentID, password, email, phoneNumber, flex, dining) values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					for (Account account : accountList) {
+						System.out.println(account.getUserName());
+						insertAccount.setInt(1, account.getAccountId());	// auto-generated primary key, don't insert this
+						insertAccount.setString(1, account.getUserName());
+						insertAccount.setString(2, account.getFirstName());
+						insertAccount.setString(3, account.getLastName());
+						insertAccount.setString(4, account.getStudentID());
+						insertAccount.setString(5, account.getPassword());
+						insertAccount.setString(6, account.getEmail());
+						insertAccount.setString(7, account.getPhoneNumber());
+						insertAccount.setDouble(8, account.getFlex());
+						insertAccount.setDouble(9, account.getDining());
 					
-					// populate books table (do this after authors table,
-					// since author_id must exist in authors table before inserting book)
-					insertBook = conn.prepareStatement("insert into books (author_id, title, isbn, published) values (?, ?, ?, ?)");
-					for (Book book : bookList) {
+						insertAccount.addBatch();
+					}
+					insertAccount.executeBatch();
+					/*
+					try {
+						String query = "SELECT count(*) FROM accounts";
+						statement = conn.prepareStatement(query);
+						ResultSet result = statement.executeQuery();
+						while (result.next()) {
+						System.out.println("table accounts has " + result.getInt(1) + " items" );
+						}
+						} catch (Exception SQLException) {
+						}
+					try {
+						String query = "SELECT * FROM accounts";
+						statement = conn.prepareStatement(query);
+						ResultSet result = statement.executeQuery();
+						while (result.next()) {
+							int id = result.getInt("account_id");
+							String name = result.getString("userName");
+						System.out.println( id + " " + name);
+						}
+						} catch (Exception SQLException) {
+						}
+						
+						*/
+					
+					DatabaseMetaData databaseMetaData = conn.getMetaData();
+					ResultSet set = databaseMetaData.getColumns(null, null,
+					        "ACCOUNTS", null);
+					
+					while(set.next()){
+						System.out.println(set.getString("COLUMN_NAME"));
+						}
+					
+					// populate drink table 
+					insertDrink = conn.prepareStatement("insert into drink (itemName, price) values (?, ?)");
+					for (Drink drink : drinkList) {
 //						insertBook.setInt(1, book.getBookId());		// auto-generated primary key, don't insert this
-						insertBook.setInt(1, book.getAuthorId());
-						insertBook.setString(2, book.getTitle());
-						insertBook.setString(3, book.getIsbn());
-						insertBook.setInt(4,  book.getPublished());
-						insertBook.addBatch();
+						insertDrink.setString(1, drink.getItemName());
+						insertDrink.setDouble(2, drink.getPrice());
+						insertDrink.addBatch();
 					}
-					insertBook.executeBatch();
+					insertDrink.executeBatch();
 					
-					return true;
+					// populate item table 
+					insertItem = conn.prepareStatement("insert into item (itemName, price) values (?, ?)");
+					for (Item item : itemList) {
+//						insertBook.setInt(1, book.getBookId());		// auto-generated primary key, don't insert this
+						insertDrink.setString(1, item.getItemName());
+						insertDrink.setDouble(2, item.getPrice());
+						insertDrink.addBatch();
+					}
+					insertDrink.executeBatch();
+
+					
+				return true;
 				} finally {
-					DBUtil.closeQuietly(insertBook);
-					DBUtil.closeQuietly(insertAuthor);
+					DBUtil.closeQuietly(insertAccount);
+					DBUtil.closeQuietly(insertDrink);
+					DBUtil.closeQuietly(insertItem);
 				}
 			}
 		});
 	}
 	
-	// The main method creates the database tables and loads the initial data.
-	public static void main(String[] args) throws IOException {
-		System.out.println("Creating tables...");
-		DerbyDatabase db = new DerbyDatabase();
-		db.createTables();
-		
-		System.out.println("Loading initial data...");
-		db.loadInitialData();
-		
-		System.out.println("Success!");
-	}
-
-	@Override
-	public List<Pair<Author, Book>> findAuthorandBookByAuthorLastName(String lastname) {
-		return executeTransaction(new Transaction<List<Pair<Author,Book>>>() {
-			public List<Pair<Author, Book>> execute(Connection conn) throws SQLException{
+	public List<Account> findAccountbyUserName(String userName) throws SQLException {
+		return doExecuteTransaction(new Transaction<List<Account>>() {
+			public List<Account> execute(Connection conn) throws SQLException{
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
 				try {
 					//retrieve all attributes from both Books and Authors tables
-					stmt = conn.prepareStatement(
-						"select authors.*"+
-						" from authors " +
-						"where authors.lastname = ?"
-					);
-					stmt.setString(1, lastname);
 					
-					List<Pair<Author, Book>> result = new ArrayList<Pair<Author,Book>>();
+					stmt = conn.prepareStatement(
+						"select accounts.* from accounts where accounts.userName = ?"
+					);
+					stmt.setString(1, userName);
+				
+					List<Account> result = new ArrayList<Account>();
 					resultSet = stmt.executeQuery();
 					
 					//for testing that a result was returned
@@ -278,44 +317,14 @@ public class DerbyDatabase {
 						found = true;
 						
 						//retrieve attributes from resultSet starting with index 1
-						Author author = new Author();
-						loadAuthor(author, resultSet, 1);
-						
-						//retrieve all attributes from both Books and Authors tables
-						stmt = conn.prepareStatement(
-							 "select books.*" +
-							 " from books " +
-							 " where books.author_id = ?"
-						);
-						stmt.setInt(1, author.getAuthorId());
-						ResultSet resultSet2 = stmt.executeQuery();
-						
-						while (resultSet2.next()) {
-							//create new Book object
-							//retrieve attributes from resultSet starting at index 4
-							Book book = new Book();
-							loadBook(book,resultSet2, 1);
-							
-							result.add(new Pair<Author, Book>(author, book));
-						
-						}
+						Account account = new Account();
+						loadAccount(account, resultSet, 1);
+						result.add(account);
 					}
-					//sort by title
-					//result.sort();
-					if(result.size() > 0) {
-						Collections.sort(result, new Comparator<Pair<Author, Book>>(){
-						public int compare(final Pair<Author,Book> o1, final Pair<Author, Book> o2) {
-							Book book1 = o1.getRight();
-							Book book2 = o2.getRight();
-							
-							return book1.getTitle().compareTo(book2.getTitle());
-						}
-					});
-				}
 					
 					//check if the title was found
 					if (!found) {
-						System.out.println("<" + lastname+ "> wasn't found in the authors table");
+						System.out.println("<" + userName+ "> wasn't found in the accounts table");
 					
 					}
 					return result;
@@ -327,109 +336,242 @@ public class DerbyDatabase {
 		});
 	}
 
-	@Override
-	public List<Pair<Author, Book>> insertNewBookByAuthor(String lastname, String firstname, String title, String isbn,
-			int published) {
-		return executeTransaction(new Transaction<List<Pair<Author, Book>>>(){
-			@SuppressWarnings({"resource"})
-			@Override
-			public List<Pair<Author, Book>> execute(Connection conn) throws SQLException{
+
+	public List<Account> findAccountbyStudentID(String ID) throws SQLException {
+		return doExecuteTransaction(new Transaction<List<Account>>() {
+			public List<Account> execute(Connection conn) throws SQLException{
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
-				
 				try {
-					int authorId = -1;
+					//retrieve all attributes from both Books and Authors tables
 					
-					//retrieve all attributes from both books and authors tables
 					stmt = conn.prepareStatement(
-						"select authors.*" +
-						" from authors "+
-						" where authors.lastname = ? and authors.firstname = ?"
+						"select accounts.* from accounts where accounts.studentID = ? "
 					);
-					stmt.setString(1, lastname);
-					stmt.setString(2, firstname);
-					
-					List<Pair<Author, Book>> result = new ArrayList<Pair<Author, Book>>();
+					stmt.setString(1, ID);
+				
+					List<Account> result = new ArrayList<Account>();
 					resultSet = stmt.executeQuery();
 					
-					if (resultSet.next() == false) {
-						//insert author into authors
-						stmt = conn.prepareStatement(
-							"insert into authors (lastname, firstname)"
-							+ " values(?,?)"
-					);
-					stmt.setString(1, lastname);
-					stmt.setString(2, firstname);
-					
-					stmt.executeUpdate();
-					
-					//a canned query to ind author name from author list
-					stmt = conn.prepareStatement(
-							"select authors.author_id"
-							+" from authors"
-							+" where authors.lastname = ? and authors.firstname = ?"
-					);
-					
-					//substitute the lastname entered by the user for the placeholder in the query
-					stmt.setString(1, lastname);
-					
-					//substitute the firstname entered by the user for the placeholder in the query
-					stmt.setString(2, firstname);
-					
-					//execute the query
-					resultSet = stmt.executeQuery();
-					
-					resultSet.next();
-					authorId = (int)resultSet.getInt(1);
-					
-	
-					}else {
-						authorId = (int)resultSet.getInt(1);
-					}
-					stmt = conn.prepareStatement(
-						"insert into books (author_id, title, ISBN, published)"
-						+"values(?,?,?,?)"
-					);
-					stmt.setInt(1, authorId);
-					stmt.setString(2, title);
-					stmt.setString(3, isbn);
-					stmt.setInt(4, published);
-					
-					stmt.executeUpdate();
-					
-					//retrieve all attribute from both books and authors tables
-					stmt = conn.prepareStatement(
-						"select authors.*, books.*"+
-						" from authors, books"+
-						" where authors.author_id = books.author_id" +
-						" and books.title = ?"
-					);
-					
-					stmt.setString(1, title);
-					
-					resultSet = stmt.executeQuery();
+					//for testing that a result was returned
+					Boolean found = false;
 					
 					while (resultSet.next()) {
-						//create new Author Object
+						found = true;
+						
 						//retrieve attributes from resultSet starting with index 1
-						Author author = new Author();
-						loadAuthor(author, resultSet, 1);
-						
-						//create new Book object
-						//retrieve attributes from resultSet starting with index 4
-						Book book = new Book();
-						loadBook(book, resultSet, 4);
-						
-						result.add(new Pair<Author, Book>(author, book));
+						Account account = new Account();
+						loadAccount(account, resultSet, 1);
+						result.add(account);
+					}
+					
+					//check if the title was found
+					if (!found) {
+						System.out.println("<" + ID + "> wasn't found in the accounts table");
+					
 					}
 					return result;
-					
-				}
-				finally {
+				}finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
 				}
 			}
 		});
 	}
+
+	public List<Account> findAccountbyName(String firstName, String lastName) throws SQLException {
+		return doExecuteTransaction(new Transaction<List<Account>>() {
+			public List<Account> execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes from both Books and Authors tables
+					
+					stmt = conn.prepareStatement(
+						"select accounts.* from accounts where accounts.firstName = ? and accounts.lastName = ?"
+					);
+					stmt.setString(1, firstName);
+					stmt.setString(2, lastName);
+				
+					List<Account> result = new ArrayList<Account>();
+					resultSet = stmt.executeQuery();
+					
+					//for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						//retrieve attributes from resultSet starting with index 1
+						Account account = new Account();
+						loadAccount(account, resultSet, 1);
+						result.add(account);
+					}
+					
+					//check if the title was found
+					if (!found) {
+						System.out.println("<" + firstName +" " + lastName + "> wasn't found in the accounts table");
+					
+					}
+					return result;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	public List<Account> findAccountbyAccountID(int iD) throws SQLException {
+		return doExecuteTransaction(new Transaction<List<Account>>() {
+			public List<Account> execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes from both Books and Authors tables
+					stmt = conn.prepareStatement(
+						"select accounts.*"+
+						" from accounts " +
+						"where accounts.account_id = ?"
+					);
+					stmt.setInt(1, iD);
+					System.out.println(iD);
+					
+					List<Account> result = new ArrayList<Account>();
+					resultSet = stmt.executeQuery();
+					
+					//for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						//retrieve attributes from resultSet starting with index 1
+						Account account = new Account();
+						loadAccount(account, resultSet, 1);
+						result.add(account);
+						
+					}
+					
+					//check if the title was found
+					if (!found) {
+						System.out.println("<" + iD+ "> wasn't found in the accounts table");
+					
+					}
+					return result;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	public List<Drink> findDrinkbyName(String name) throws SQLException {
+		return doExecuteTransaction(new Transaction<List<Drink>>() {
+			public List<Drink> execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+						"select drink.*"+
+						" from drink " +
+						"where drink.itemName = ?"
+					);
+					stmt.setString(1, name);
+					
+					
+					List<Drink> result = new ArrayList<Drink>();
+					resultSet = stmt.executeQuery();
+					
+					//for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						//retrieve attributes from resultSet starting with index 1
+						Drink drink = new Drink();
+						loadDrink(drink, resultSet, 1);
+						result.add(drink);
+						
+					}
+					
+					//check if the title was found
+					if (!found) {
+						System.out.println("<" + name+ "> wasn't found in the accounts table");
+					
+					}
+					return result;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+
+	public List<Item> findItembyName(String name) throws SQLException {
+		return doExecuteTransaction(new Transaction<List<Item>>() {
+			public List<Item> execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+						"select drink.*"+
+						" from drink " +
+						"where drink.itemName = ?"
+					);
+					stmt.setString(1, name);
+					
+					
+					List<Item> result = new ArrayList<Item>();
+					resultSet = stmt.executeQuery();
+					
+					//for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						//retrieve attributes from resultSet starting with index 1
+						Item item = new Item();
+						loadItem(item, resultSet, 1);
+						result.add(item);
+						
+					}
+					
+					//check if the title was found
+					if (!found) {
+						System.out.println("<" + name+ "> wasn't found in the accounts table");
+					
+					}
+					return result;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	// The main method creates the database tables and loads the initial data.
+	public static void main(String[] args) throws IOException, SQLException {
+		System.out.println("Creating tables...");
+		DerbyDatabase db = new DerbyDatabase();
+		db.dropTables();
+		System.out.println("after deop");
+		db.createTables();
+		
+		System.out.println("Loading initial data...");
+		db.loadInitialData();
+		
+		System.out.println("Success!");
+		
+		
+	}
+	
+	
 }

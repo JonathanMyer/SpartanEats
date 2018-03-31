@@ -3,8 +3,6 @@ package edu.ycp.cs320.spartaneats.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 import edu.ycp.cs320.spartaneats.model.Account;
 
 public class AccountController {
@@ -22,24 +20,18 @@ public class AccountController {
 	// returns the account with given username
 	public Account getAccount(String username) {
 		for (Account account: accountList) {
-			if (account.getAccountName().equals(username)) {
-				System.out.println("What is Happening");
+			String user = account.getUserName();
+			if (user == username) {
 				return account;
 			}
-		}
-		
+		}		
 		return null;
-		
 	}
 	
-	public boolean doesAccountExist(String username) {
-		for (Account account: accountList) {
-			if (account.getAccountName().equals(username)) {
-				return true;
-			}
-		}
+	
+	public boolean doesAccountExist(Integer integer) {
+		// TODO Auto-generated method stub
 		return false;
 	}
-	
 	
 }
