@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Fri Mar 30 20:44:43 EDT 2018:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0162-7983-7f8c-0000063641c8 
+on database directory /Users/samanthakiser/git/SpartanEat/test.db with class loader sun.misc.Launcher$AppClassLoader@4517d9a3 
+Loaded from file:/Users/samanthakiser/eclipse-workspace/CS320_Derby/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_141-b15
+user.dir=/Users/samanthakiser/git/SpartanEat
+os.name=Mac OS X
+os.arch=x86_64
+os.version=10.13.3
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

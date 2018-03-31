@@ -2,15 +2,26 @@ package edu.ycp.cs320.spartaneats.model;
 
 public class Item {
 	
+	private int itemId;
 	private String itemName;
 	private double price;
-	private int count;
 	
-	//item has a main item and side
-	public Item(String itemName, double price, int count) {
-		this.setItemName(itemName);
-		this.setPrice(price);
-		this.setCount(count);
+	public Item() {
+
+	}
+	
+	public Item(int itemID, String itemName, double price) {
+		this.itemId = itemID;
+		this.itemName = itemName;
+		this.price = price;
+	}
+	
+	public void setItemId(int itemId) {
+		this.itemId = itemId;
+	}
+	
+	public int getItemId() {
+		return itemId;
 	}
 
 	public String getItemName() {
@@ -28,13 +39,4 @@ public class Item {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-
-	public int getCount() {
-		return count;
-	}
-
-	public void setCount(int count) {
-		this.count = count;
-	}
-
 }

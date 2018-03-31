@@ -19,9 +19,9 @@ public class AccountControllerTest {
 	@Before
 	public void setUp() {
 		controller = new AccountController();
-		account2 = new Account("BillyBones","12345");
-		account1 = new Account("BigBob","1234");
-		account3 = new Account("BillyBones","123");
+	//	account2 = new Account("BillyBones","12345");
+	//	account1 = new Account("BigBob","1234");
+	//	account3 = new Account("BillyBones","123");
 		controller.addAccount(account2);
 		controller.addAccount(account1);
 		controller.addAccount(account3);
@@ -45,7 +45,7 @@ public class AccountControllerTest {
 	
 	@Test 
 	public void testDoesAccountExist() {
-		assertTrue(controller.doesAccountExist(account1.getAccountName()));
+		assertTrue(controller.doesAccountExist(account1.getAccountId()));
 	}
 	
 }

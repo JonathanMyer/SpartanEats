@@ -18,6 +18,10 @@
 	<servlet-name>CreateOrderServlet</servlet-name>
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.CreateOrderServlet</servlet-class>
   </servlet>
+  <servlet>
+	<servlet-name>PreferencesServlet</servlet-name>
+	<servlet-class>edu.ycp.cs320.spartaneats.servlet.CreateOrderServlet</servlet-class>
+  </servlet>
   
 
 
@@ -34,7 +38,10 @@
     <servlet-name>CreateOrderServlet</servlet-name>
     <url-pattern>/createorder</url-pattern>
   </servlet-mapping>
-  
+   <servlet-mapping>
+    <servlet-name>PreferencesServlet</servlet-name>
+    <url-pattern>/preferences</url-pattern>
+  </servlet-mapping>
 
 
   <welcome-file-list>

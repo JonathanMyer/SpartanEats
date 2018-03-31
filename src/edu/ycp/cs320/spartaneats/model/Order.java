@@ -62,11 +62,9 @@ public class Order  {
 				
 	}
 
-	
 	public ArrayList<Item> getItemList(){
 		return this.selectedItems;
 	}
-	
 	
 	public double getTotalPrice() {
 		double price = 0;
@@ -75,7 +73,6 @@ public class Order  {
 		}
 		return price;
 	}
-
 	
-
+	
 }

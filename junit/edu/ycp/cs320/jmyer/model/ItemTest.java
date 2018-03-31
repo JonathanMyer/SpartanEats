@@ -9,37 +9,36 @@ import edu.ycp.cs320.spartaneats.model.Item;
 
 public class ItemTest {
 
-	private Item item;
+	private Item item1;
 	private Item item2;
 	
 	@Before
 	public void setUp() {
-		item = new Item("Caprese", 6.49, 1);
-		item2 = new Item(null,0 , 0);
+		item1 = new Item(1, "Caprese", 6.49);
 	}
 	
 	@Test
-	public void testgets() {
-		assertTrue(item.getItemName().equals("Caprese"));
-		assertTrue(item.getPrice() == 6.49);
-		assertTrue(item.getCount() == 1);
+	public void testGets() {
+		assertTrue(item1.getItemName().equals("Caprese"));
+		assertTrue(item1.getPrice() == 6.49);
+		assertTrue(item1.getItemId() == 1);
 	}
 	
 	@Test
-	public void testsetItemName() {
+	public void testSetItemName() {
 		item2.setItemName("Turkey Bacon");
 		assertTrue(item2.getItemName().equals("Turkey Bacon"));
 	}
 	
 	@Test
-	public void testsetPrice() {
+	public void testSetPrice() {
 		item2.setPrice(6.49);
 		assertTrue(item2.getPrice() == 6.49);
 	}
-	
+
 	@Test
-	public void testSetCount() {
-		item2.setCount(1);
-		assertTrue(item2.getCount() == 1);
+	public void testSetItemId() {
+		item2.setItemId(1);
+		assertTrue(item2.getItemId() == 1);
 	}
 }
