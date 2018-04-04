@@ -277,11 +277,11 @@ public class DerbyDatabase {
 					insertItem = conn.prepareStatement("insert into item (itemName, price) values (?, ?)");
 					for (Item item : itemList) {
 //						insertBook.setInt(1, book.getBookId());		// auto-generated primary key, don't insert this
-						insertDrink.setString(1, item.getItemName());
-						insertDrink.setDouble(2, item.getPrice());
-						insertDrink.addBatch();
+						insertItem.setString(1, item.getItemName());
+						insertItem.setDouble(2, item.getPrice());
+						insertItem.addBatch();
 					}
-					insertDrink.executeBatch();
+					insertItem.executeBatch();
 
 					
 				return true;
@@ -511,6 +511,46 @@ public class DerbyDatabase {
 			}
 		});
 	}
+	
+	public List<Drink> findAllDrinks() throws SQLException {
+		return doExecuteTransaction(new Transaction<List<Drink>>() {
+			public List<Drink> execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+						"select drink.*"+
+						" from drink "
+					);
+					
+					
+					
+					List<Drink> result = new ArrayList<Drink>();
+					resultSet = stmt.executeQuery();
+					
+					//for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						//retrieve attributes from resultSet starting with index 1
+						Drink drink = new Drink();
+						loadDrink(drink, resultSet, 1);
+						result.add(drink);
+						
+					}
+					
+					
+					return result;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
 
 	public List<Item> findItembyName(String name) throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Item>>() {
@@ -520,9 +560,9 @@ public class DerbyDatabase {
 				try {
 					//retrieve all attributes 
 					stmt = conn.prepareStatement(
-						"select drink.*"+
-						" from drink " +
-						"where drink.itemName = ?"
+						"select item.*"+
+						" from item " +
+						"where item.itemName = ?"
 					);
 					stmt.setString(1, name);
 					
@@ -548,6 +588,47 @@ public class DerbyDatabase {
 						System.out.println("<" + name+ "> wasn't found in the accounts table");
 					
 					}
+					return result;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	public List<Item> findAllItems() throws SQLException {
+		return doExecuteTransaction(new Transaction<List<Item>>() {
+			public List<Item> execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+						"select item.*"+
+						" from item "
+					);
+					
+					
+					
+					List<Item> result = new ArrayList<Item>();
+					resultSet = stmt.executeQuery();
+					
+					//for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						//retrieve attributes from resultSet starting with index 1
+						Item item = new Item();
+						loadItem(item, resultSet, 1);
+						result.add(item);
+						
+					}
+					
+
+
 					return result;
 				}finally {
 					DBUtil.closeQuietly(resultSet);

@@ -1,6 +1,8 @@
 package edu.ycp.cs320.spartaneats.servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -8,10 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import edu.ycp.cs320.spartaneats.controller.AccountController;
 import edu.ycp.cs320.spartaneats.model.Account;
-import edu.ycp.cs320.spartaneats.model.AccountControllerPopulate;
 import edu.ycp.cs320.spartaneats.model.LoginModel;
+import edu.ycp.cs320.spartaneats.persist.DerbyDatabase;
 
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -35,33 +36,36 @@ public class LoginServlet extends HttpServlet {
 		// holds the error message text, if there is any
 		String errorMessage = null;
 
-		// result of calculation goes here
-		AccountController controller = new AccountController();
-		//new AccountControllerPopulate(controller);
-		LoginModel model = new LoginModel();
-		Account account1 = new Account(/*"billybones","ImaPirate"*/);
-		Account account2 = new Account(/*"SwashBucket","ImaBucket"*/);
-		Account account3 = new Account(/*"DeckBroom","ImaBroom"*/);
-		controller.addAccount(account1);
-		controller.addAccount(account2);
-		controller.addAccount(account3);
 		
+		
+		List<Account> accountList = null;
+		DerbyDatabase db = new DerbyDatabase();
+		LoginModel model = new LoginModel();
 		// decode POSTed form parameters and dispatch to controller
 		model.setAccountName(req.getParameter("userName"));
 		model.setPassword(req.getParameter("password"));
 		model.setSuccess(false);
+		try {
+			accountList = db.findAccountbyUserName(model.getAccountName());
+		} catch (SQLException e) {
+			errorMessage = "Issue Finding Account";
+		}
+		 
 		
-		
-		if (!controller.doesAccountExist(model.getAccount().getAccountId())) {
+		if (accountList.size() == 0) {
 			errorMessage = "Username does not exist";
 		}
-		else if (controller.getAccount(model.getAccountName()).isPasswordCorrect(model.getPassword()) == false) {
-			errorMessage = "Password is not correct";
+		else if (accountList.size() == 1) {
+			if (accountList.get(0).isPasswordCorrect(model.getPassword())) {
+				model.setSuccess(true);
+			} else {
+				errorMessage = "Password is Incorect";
+			}
+		} else {
+			errorMessage = "More than one account with that Username";
 		}
 		
-		else {
-			model.setSuccess(true);
-		}
+		
 		
 		
 		model.setError(errorMessage);

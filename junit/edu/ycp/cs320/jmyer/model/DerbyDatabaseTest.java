@@ -131,6 +131,16 @@ public class DerbyDatabaseTest {
 		assertTrue(item.getItemName().equals("Caprese"));
 		assertTrue(item.getPrice() == 6.49);
 	}
+	
+	@Test
+	public void testFindAllItems() throws SQLException {
+		assertTrue(db.findAllItems().size() > 1);
+	}
+	
+	@Test
+	public void testFindAllDrinks() throws SQLException {
+		assertTrue(db.findAllDrinks().size() > 1);
+	}
 
 
 }
