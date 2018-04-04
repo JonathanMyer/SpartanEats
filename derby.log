@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Wed Apr 04 15:08:19 EDT 2018:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0162-920f-4dbf-0000006f0be8 
-on database directory C:\Users\Jon\eclipse-workspace\SpartanEats\test.db with class loader sun.misc.Launcher$AppClassLoader@139a55 
-Loaded from file:/C:/Users/Jon/eclipse-workspace/CS320_Derby/lib/derby.jar
+Wed Apr 04 16:12:20 EDT 2018:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0162-9249-e9a8-0000062beb58 
+on database directory /Users/samanthakiser/git/SpartanEats/test.db with class loader sun.misc.Launcher$AppClassLoader@4517d9a3 
+Loaded from file:/Users/samanthakiser/eclipse-workspace/CS320_Derby/lib/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_151-b12
-user.dir=C:\Users\Jon\eclipse-workspace\SpartanEats
-os.name=Windows 10
-os.arch=x86
-os.version=10.0
+java.runtime.version=1.8.0_141-b15
+user.dir=/Users/samanthakiser/git/SpartanEats
+os.name=Mac OS X
+os.arch=x86_64
+os.version=10.13.4
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
