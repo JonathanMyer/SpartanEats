@@ -18,9 +18,10 @@ public class InventoryTest {
 	@Before
 	public void SetUp() {
 		inventory1 = new Inventory();
-		item1 = new Item("Baja Chicken", 6.49, 1);
-		item2 = new Item("Chicken Pesto", 6.49, 2);
-		item3 = new Item("Aggie Club", 6.49, 4);
+		item1 = new Item(1, "Baja Chicken", 6.49);
+		item2 = new Item(2, "Chicken Pesto", 6.49);
+		item3 = new Item(3, "Aggie Club", 6.49);
+
 		inventory1.addItem(item1);
 	}
 	

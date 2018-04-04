@@ -137,7 +137,7 @@ h1{
   </form>
 </div>
 <div class="footer">
-  <p>Chase Teichmann</p>
+  	<p>Chase Teichmann</p>
 	<p>Samantha Kiser</p>
 	<p>Johnathan Myer</p>
 	<a href="https://imgur.com/O7SkjrK"><img src="https://i.imgur.com/O7SkjrK.png" title="source: imgur.com" id="Eclipse"/></a>

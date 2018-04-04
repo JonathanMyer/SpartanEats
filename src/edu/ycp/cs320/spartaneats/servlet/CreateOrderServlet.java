@@ -15,7 +15,7 @@ import edu.ycp.cs320.spartaneats.controller.OrderController;
 import edu.ycp.cs320.spartaneats.controller.AccountController;
 import edu.ycp.cs320.spartaneats.controller.OrderController;
 import edu.ycp.cs320.spartaneats.model.Account;
-import edu.ycp.cs320.spartaneats.model.AccountControllerPopulate;
+//import edu.ycp.cs320.spartaneats.model.AccountControllerPopulate;
 
 import edu.ycp.cs320.spartaneats.model.CreateOrderModel;
 import edu.ycp.cs320.spartaneats.model.Inventory;
@@ -51,13 +51,13 @@ public class CreateOrderServlet extends HttpServlet {
 	 		model.setInventory(inventory);
 	 		
 	 		// decode POSTed form parameters and dispatch to controller
-	 		inventory.addItem(new Item("Water",1.00,3));
-			inventory.addItem(new Item("Soda",3.09, 4));
-			inventory.addItem(new Item("Sandwich", 4.49, 8));
-			inventory.addItem(new Item("Pizza", 4.49, 8));
-			inventory.addItem(new Item("Chips", 4.49, 8));
-			inventory.addItem(new Item("Candy", 4.49, 8));
-			inventory.addItem(new Item("Nuts", 4.49, 8));
+	 		inventory.addItem(new Item(3,"Water",1.00));
+			inventory.addItem(new Item(4,"Soda",3.09));
+			inventory.addItem(new Item(5, "Sandwich", 4.49));
+			inventory.addItem(new Item(6, "Pizza", 4.49));
+			inventory.addItem(new Item(7, "Chips", 4.49));
+			inventory.addItem(new Item(8, "Candy", 4.49));
+			inventory.addItem(new Item(9, "Nuts", 4.49));
 	 		
 	 		
 	 		errorMessage = "hello";
