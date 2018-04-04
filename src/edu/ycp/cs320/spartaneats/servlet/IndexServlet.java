@@ -19,12 +19,12 @@ public class IndexServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		System.out.println("Login Success Servlet: doGet");
+		System.out.println("Index Servlet: doGet");
 		
 		
 		HttpSession session = req.getSession(false);    // fetch the session and handle 
         
-	    if (session == null) {    // no session exists, redirect to error page with error message
+	    if (session == null) {    // no session exists, redirect to login page
 	    	resp.sendRedirect(req.getContextPath()+"/login");
 	        } 
 	    

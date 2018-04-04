@@ -16,7 +16,7 @@ public class AccountTest {
 	@Before
 	public void setUp() {
 		account1 = new Account(1, "cTeich", "Chase", "Teichmann", "903-202-533", "sKFpeVhc", "cteichmann@ycp.edu", "235-256-2783", 141.71, 175.0);
-		
+		account2 = new Account();
 	}
 	
 	@Test
