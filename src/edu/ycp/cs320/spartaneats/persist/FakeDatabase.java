@@ -37,6 +37,49 @@ public class FakeDatabase implements IDatabase {
 			throw new IllegalStateException("Couldn't read initial data", e);
 		}
 	}
+<<<<<<< HEAD
+	
+	@Override
+	public List<Pair<Author, Book>> findAuthorAndBookByTitle(String title) {
+		List<Pair<Author, Book>> result = new ArrayList<Pair<Author,Book>>();
+		for (Book book : bookList) {
+			if (book.getTitle().equals(title)) {
+				Author author = findAuthorByAuthorId(book.getAuthorId());
+				result.add(new Pair<Author, Book>(author, book));
+			}
+		}
+		return result;
+	}
+
+	private Author findAuthorByAuthorId(int authorId) {
+		for (Author author : authorList) {
+			if (author.getAuthorId() == authorId) {
+				return author;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public List<Pair<Author, Book>> findAuthorandBookByAuthorLastName(String lastname) {
+		int authorId = -1;
+		List<Pair<Author,Book>> result = new ArrayList<Pair<Author, Book>>();
+		for (Author author : authorList) {
+			if (author.getLastname().equals(lastname)) {
+				authorId = author.getAuthorId();
+				for (Book book : bookList) {
+					if(book.getAuthorId() == authorId) {
+						result.add(new Pair<Author, Book>(author, book));
+					}
+				}
+				
+			}
+		}
+		return result;
+
+	}
+=======
+>>>>>>> c8eb05c3dd8ed0a6579c337c115e26dca3e75d4d
 
 	@Override
 	public List<Account> findAccountbyUserName(String userName) {
