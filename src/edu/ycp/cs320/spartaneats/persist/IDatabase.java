@@ -23,6 +23,11 @@ public interface IDatabase {
 	public List<Item> findItembyName(String name);
 	
 	public List<Item> findAllItems();
+<<<<<<< HEAD
 	
 	
 }
+=======
+		
+}
+>>>>>>> c8eb05c3dd8ed0a6579c337c115e26dca3e75d4d

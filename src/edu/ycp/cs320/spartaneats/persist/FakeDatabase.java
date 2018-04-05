@@ -37,6 +37,7 @@ public class FakeDatabase implements IDatabase {
 			throw new IllegalStateException("Couldn't read initial data", e);
 		}
 	}
+<<<<<<< HEAD
 	
 	@Override
 	public List<Pair<Author, Book>> findAuthorAndBookByTitle(String title) {
@@ -77,6 +78,8 @@ public class FakeDatabase implements IDatabase {
 		return result;
 
 	}
+=======
+>>>>>>> c8eb05c3dd8ed0a6579c337c115e26dca3e75d4d
 
 	@Override
 	public List<Account> findAccountbyUserName(String userName) {
