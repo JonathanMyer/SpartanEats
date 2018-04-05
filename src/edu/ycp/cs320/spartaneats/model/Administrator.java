@@ -2,7 +2,7 @@ package edu.ycp.cs320.spartaneats.model;
 
 import java.util.ArrayList;
 
-public class Administrator {
+public class Administrator extends Account{
 	public ArrayList<Order> currentOrders;
 	
 	public void addOrder(Order order) {

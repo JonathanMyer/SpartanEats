@@ -11,6 +11,7 @@ public class Account {
 	private String phoneNumber;
 	private Double flex;
 	private Double dining;
+	private String accountType;
 
 	
 	public Account() {
@@ -132,6 +133,14 @@ public class Account {
 
 	public void setStudentID(String string) {
 		this.studentID = string;
+	}
+
+	public String getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
 	}
 
 }
