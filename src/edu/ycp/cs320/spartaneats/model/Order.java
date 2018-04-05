@@ -1,39 +1,28 @@
 package edu.ycp.cs320.spartaneats.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Order  {
-	private List<Item> selectedItems;
-	private List<Drink> selectedDrinks;
+	private ArrayList<Item> selectedItems;
 	private Boolean delivery = false;
 	private Boolean pickup = false;
 	private int orderNumber;
 	
 	public Order(Boolean Delivery, Boolean pickup, int OrderNumber) {
 		selectedItems = new ArrayList<Item>();
-		selectedDrinks = new ArrayList<Drink>();
 		this.delivery = Delivery;
 		this.pickup = pickup;
 		this.orderNumber = OrderNumber;
 	}
 	
 	//add an item from an order
-	public void addItem(Item item) {
-		selectedItems.add(item);	
+	public void addItem(Item Item) {
+		selectedItems.add(Item);	
 	}
 	
 	//remove an item from an order
-	public void removeItem(Item item) {
-		selectedItems.remove(item);
-	}
-	
-	public void addDrink(Drink drink) {
-		selectedDrinks.add(drink);
-	}
-	
-	public void removeDrink(Drink drink) {
-		selectedDrinks.remove(drink);
+	public void removeItem(Item Item) {
+		selectedItems.remove(Item);
 	}
 
 	public Boolean getDelivery() {
@@ -72,23 +61,9 @@ public class Order  {
 		return null;
 				
 	}
-	
-	public Drink getDrink(String drink) {
-		for (Drink i: selectedDrinks) {
-			if (i.getItemName().equals(drink)) {
-				System.out.println("found Drink");
-				return i;
-			}
-		}	
-		return null;
-	}
 
-	public List<Item> getItemList(){
+	public ArrayList<Item> getItemList(){
 		return this.selectedItems;
-	}
-	
-	public List<Drink> getDrinkList(){
-		return this.selectedDrinks;
 	}
 	
 	public double getTotalPrice() {

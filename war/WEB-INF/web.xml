@@ -15,21 +15,14 @@
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.IndexServlet</servlet-class>
   </servlet>
   <servlet>
-	<servlet-name>AddItemsServlet</servlet-name>
-	<servlet-class>edu.ycp.cs320.spartaneats.servlet.AddItemsServlet</servlet-class>
-  </servlet>
-  <servlet>
-	<servlet-name>AddDrinksServlet</servlet-name>
-	<servlet-class>edu.ycp.cs320.spartaneats.servlet.AddDrinksServlet</servlet-class>
+	<servlet-name>CreateOrderServlet</servlet-name>
+	<servlet-class>edu.ycp.cs320.spartaneats.servlet.CreateOrderServlet</servlet-class>
   </servlet>
   <servlet>
 	<servlet-name>PreferencesServlet</servlet-name>
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.CreateOrderServlet</servlet-class>
   </servlet>
-  <servlet>
-	<servlet-name>CreateOrderServlet</servlet-name>
-	<servlet-class>edu.ycp.cs320.spartaneats.servlet.CreateOrderServlet</servlet-class>
-  </servlet>
+  
 
 
   <!-- Servlet mappings -->
@@ -42,20 +35,12 @@
     <url-pattern>/index</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>AddItemsServlet</servlet-name>
-    <url-pattern>/additems</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>AddDrinksServlet</servlet-name>
-    <url-pattern>/adddrinks</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>PreferencesServlet</servlet-name>
-    <url-pattern>/preferences</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
     <servlet-name>CreateOrderServlet</servlet-name>
     <url-pattern>/createorder</url-pattern>
+  </servlet-mapping>
+   <servlet-mapping>
+    <servlet-name>PreferencesServlet</servlet-name>
+    <url-pattern>/preferences</url-pattern>
   </servlet-mapping>
 
 
