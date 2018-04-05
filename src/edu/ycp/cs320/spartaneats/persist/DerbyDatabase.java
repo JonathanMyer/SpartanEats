@@ -88,7 +88,6 @@ public class DerbyDatabase {
 		account.setPhoneNumber(resultSet.getString(index++));
 		account.setFlex(resultSet.getDouble(index++));
 		account.setDining(resultSet.getDouble(index++));
-		account.setAccountType(resultSet.getString(index++));
 		
 	}
 	
@@ -158,9 +157,8 @@ public class DerbyDatabase {
 						"   email varchar(40)," +
 						"   phoneNumber varchar(40)," +
 						"   flex float," +
-						"   dining float, " +
-						"   accountType varchar(40), "+
-						")"
+						"   dining float" +
+ 						")"
 					);	
 					stmt1.executeUpdate();
 					
@@ -216,7 +214,7 @@ public class DerbyDatabase {
 
 				try {
 					// populate accounts table (do accounts first, since account_id is foreign key in drink table)
-					insertAccount = conn.prepareStatement("insert into accounts (userName, firstname, lastName, studentID, password, email, phoneNumber, flex, dining, accountType) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					insertAccount = conn.prepareStatement("insert into accounts (userName, firstname, lastName, studentID, password, email, phoneNumber, flex, dining) values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 					for (Account account : accountList) {
 						System.out.println(account.getUserName());
 						insertAccount.setInt(1, account.getAccountId());	// auto-generated primary key, don't insert this
@@ -229,7 +227,6 @@ public class DerbyDatabase {
 						insertAccount.setString(7, account.getPhoneNumber());
 						insertAccount.setDouble(8, account.getFlex());
 						insertAccount.setDouble(9, account.getDining());
-						insertAccount.setString(10, account.getAccountType());
 					
 						insertAccount.addBatch();
 					}
