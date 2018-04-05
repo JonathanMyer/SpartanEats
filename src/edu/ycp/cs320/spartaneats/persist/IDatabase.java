@@ -23,6 +23,5 @@ public interface IDatabase {
 	public List<Item> findItembyName(String name);
 	
 	public List<Item> findAllItems();
-	
-	
+		
 }
