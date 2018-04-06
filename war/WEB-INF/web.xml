@@ -15,17 +15,14 @@
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.IndexServlet</servlet-class>
   </servlet>
   <servlet>
-	<servlet-name>AddItemsServlet</servlet-name>
-	<servlet-class>edu.ycp.cs320.spartaneats.servlet.AddItemsServlet</servlet-class>
-  </servlet>
-  <servlet>
-	<servlet-name>AddDrinksServlet</servlet-name>
-	<servlet-class>edu.ycp.cs320.spartaneats.servlet.AddDrinksServlet</servlet-class>
+	<servlet-name>CreateOrderServlet</servlet-name>
+	<servlet-class>edu.ycp.cs320.spartaneats.servlet.CreateOrderServlet</servlet-class>
   </servlet>
   <servlet>
 	<servlet-name>PreferencesServlet</servlet-name>
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.CreateOrderServlet</servlet-class>
   </servlet>
+<<<<<<< HEAD
   <servlet>
 	<servlet-name>CreateOrderServlet</servlet-name>
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.CreateOrderServlet</servlet-class>
@@ -34,6 +31,9 @@
 	<servlet-name>ViewOrderServlet</servlet-name>
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.ViewOrderServlet</servlet-class>
   </servlet>
+=======
+  
+>>>>>>> refs/remotes/origin/jmyer
 
 
   <!-- Servlet mappings -->
@@ -46,24 +46,18 @@
     <url-pattern>/index</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>AddItemsServlet</servlet-name>
-    <url-pattern>/additems</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>AddDrinksServlet</servlet-name>
-    <url-pattern>/adddrinks</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>PreferencesServlet</servlet-name>
-    <url-pattern>/preferences</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
     <servlet-name>CreateOrderServlet</servlet-name>
     <url-pattern>/createorder</url-pattern>
   </servlet-mapping>
+<<<<<<< HEAD
   <servlet-mapping>
     <servlet-name>ViewOrderServlet</servlet-name>
     <url-pattern>/vieworder</url-pattern>
+=======
+   <servlet-mapping>
+    <servlet-name>PreferencesServlet</servlet-name>
+    <url-pattern>/preferences</url-pattern>
+>>>>>>> refs/remotes/origin/jmyer
   </servlet-mapping>
 
 
