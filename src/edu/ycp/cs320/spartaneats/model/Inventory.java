@@ -1,13 +1,25 @@
 package edu.ycp.cs320.spartaneats.model;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
-//Inventory Class
+import java.util.List;
+
+import edu.ycp.cs320.spartaneats.persist.DerbyDatabase;
 
 public class Inventory {
-	private ArrayList<Item> selectedItems;
+	private List<Item> selectedItems;
+	private List<Drink> selectedDrinks;
+	private DerbyDatabase db = null;
 	
 	public Inventory() {
-		selectedItems = new ArrayList<Item>();
+		db = new DerbyDatabase();
+		try {
+			selectedItems = db.findAllItems();
+			selectedDrinks = db.findAllDrinks();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	
@@ -21,8 +33,17 @@ public class Inventory {
 		selectedItems.remove(Item);
 	}
 	
+	public void addDrink(Drink drink) {
+		selectedDrinks.add(drink);
+	}
+	
+	public void removeItem(Drink drink) {
+		selectedDrinks.remove(drink);
+	}
+	
+	
 	// returns the item with given itemname
-	public Item getItemNameMethod(String item) {
+	public Item getItem(String item) {
 		for (Item i: selectedItems) {
 			if (i.getItemName().equals(item)) {
 				System.out.println("found Item");
@@ -31,27 +52,27 @@ public class Inventory {
 		}	
 		return null;
 	}
-	// returns the item with given itemPrice
-	public double getItemPriceMethod(double price) {
-		for (Item i: selectedItems) {
-			if (i.getPrice() == price) {
-				System.out.println("Found Price: " + price);
-				return price;
+	
+	public Drink getDrink(String drink) {
+		for (Drink i: selectedDrinks) {
+			if (i.getItemName().equals(drink)) {
+				System.out.println("found Drink");
+				return i;
 			}
-		}	
-		return 0.00;
+		}
+		return null;
 	}
-	// returns the item with given itemPrice
-	public int getItemIDMethod(int ID) {
-		for (Item i: selectedItems) {
-			if (i.getItemId() == ID) {
-				System.out.println("Found ID: " + ID);
-				return ID;
-			}
-		}	
-		return 0;
-	}
-	public ArrayList<Item> getItemList(){
+	
+	public List<Item> getItemList(){
 		return this.selectedItems;
 	}
+
+
+	public List<Drink> getDrinkList() {
+		return selectedDrinks;
+	}
+
+
+
+
 }

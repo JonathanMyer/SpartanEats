@@ -8,12 +8,10 @@ public class LoginModel {
 	private String password;
 	private String error;
 	private Account account;
-	private String adminStatus;
-	private boolean successUser;
-	private boolean successAdmin;
+	private boolean success;
 	
 	
-	// create an account with given name and password
+	// create an account with given nanme and password
 	public LoginModel() {
 		
 	}
@@ -50,25 +48,11 @@ public class LoginModel {
 		return this.account;
 	}
 	
-	public boolean getSuccessForUser() {
-		return this.successUser;
+	public boolean getSuccess() {
+		return this.success;
 	}
 	
-	public void setSuccessForUser(boolean successUser) {
-		this.successUser = successUser;
-	}
-	public boolean getSuccessForAdmin() {
-		return this.successAdmin;
-	}
-	
-	public void setSuccessForAdmin(boolean successAdmin) {
-		this.successAdmin = successAdmin;
-	}
-	public String getAdminStatus() {
-		return this.adminStatus;
-	}
-	
-	public void setAdminStatus(String adminStatus) {
-		this.adminStatus = adminStatus;
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
 }
