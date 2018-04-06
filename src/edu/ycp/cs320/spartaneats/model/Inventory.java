@@ -1,7 +1,7 @@
 package edu.ycp.cs320.spartaneats.model;
 
 import java.util.ArrayList;
-//Inventory Class Check
+//Inventory Class
 
 public class Inventory {
 	private ArrayList<Item> selectedItems;

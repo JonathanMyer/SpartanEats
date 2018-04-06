@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import edu.ycp.cs320.spartaneats.model.Inventory;
 import edu.ycp.cs320.spartaneats.model.Item;
-//Inventory Test Check
+//Inventory Test 
 public class InventoryTest {
 	private Inventory inventory;
 	private Item BajaChicken;
