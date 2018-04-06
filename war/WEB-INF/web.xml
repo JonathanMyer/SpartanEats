@@ -30,6 +30,10 @@
 	<servlet-name>CreateOrderServlet</servlet-name>
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.CreateOrderServlet</servlet-class>
   </servlet>
+  <servlet>
+	<servlet-name>ViewOrderServlet</servlet-name>
+	<servlet-class>edu.ycp.cs320.spartaneats.servlet.ViewOrderServlet</servlet-class>
+  </servlet>
 
 
   <!-- Servlet mappings -->
@@ -56,6 +60,10 @@
   <servlet-mapping>
     <servlet-name>CreateOrderServlet</servlet-name>
     <url-pattern>/createorder</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ViewOrderServlet</servlet-name>
+    <url-pattern>/vieworder</url-pattern>
   </servlet-mapping>
 
 

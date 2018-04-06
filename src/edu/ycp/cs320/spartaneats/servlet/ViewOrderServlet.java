@@ -19,12 +19,13 @@ import edu.ycp.cs320.spartaneats.model.Account;
 //import edu.ycp.cs320.spartaneats.model.AccountControllerPopulate;
 
 import edu.ycp.cs320.spartaneats.model.CreateOrderModel;
+import edu.ycp.cs320.spartaneats.model.Drink;
 import edu.ycp.cs320.spartaneats.model.Inventory;
 import edu.ycp.cs320.spartaneats.model.Item;
 import edu.ycp.cs320.spartaneats.model.Order;
 
 
-public class AddItemsServlet extends HttpServlet {
+public class ViewOrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Override
@@ -34,13 +35,14 @@ public class AddItemsServlet extends HttpServlet {
 		System.out.println("Create Order Servlet: doGet");
 		
 		HttpSession session = req.getSession(false);    // fetch the session and handle 
-        
-		
+        Inventory inventory = new Inventory();
+        Order order = new Order(false, false, 1);
 	    if (session == null) {    // no session exists, redirect to error page with error message
 	    	resp.sendRedirect(req.getContextPath()+"/login");
 	        } 
-	    
-	    req.getRequestDispatcher("/_view/additems.jsp").forward(req, resp);
+	    session.setAttribute("inventory", inventory);
+	    session.setAttribute("order", order);
+	    req.getRequestDispatcher("/_view/vieworder.jsp").forward(req, resp);
 		
 	
 	}
@@ -63,17 +65,24 @@ public class AddItemsServlet extends HttpServlet {
 		model.setOrder(order);
 		model.setInventory(inventory);
 		
+		Drink removeDrink = null;
+		Item removeItem = null;
+		Boolean continueOrder = false;
 		
-		Item add = null;
-		add = inventory.getItem(req.getParameter("additem"));
-		
-		if (add != null) {
-			order.addItem(add);
-			System.out.println("adding " + add);
-			req.getRequestDispatcher("/_view/vieworder.jsp").forward(req, resp);
+		continueOrder =  Boolean.valueOf(req.getParameter("continueOrder"));
+		removeDrink = inventory.getDrink(req.getParameter("removedrink"));
+		removeItem = inventory.getItem(req.getParameter("removeitem"));
+		if (removeDrink != null) {
+			order.removeDrink(removeDrink);
+			System.out.println("removing " + removeDrink);
 		}
-		
-		
+		if (removeItem != null) {
+			order.removeItem(removeItem);
+			System.out.println("removing " + removeItem);
+		}
+		if (continueOrder) {
+			req.getRequestDispatcher("/_view/createorder.jsp").forward(req, resp);
+		}
 		
 		errorMessage = "hello";
 		
@@ -85,7 +94,7 @@ public class AddItemsServlet extends HttpServlet {
 		session.setAttribute("order", order);
 		session.setAttribute("inventory", inventory);
 		
-		req.getRequestDispatcher("/_view/additems.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/vieworder.jsp").forward(req, resp);
 		
 	}
 

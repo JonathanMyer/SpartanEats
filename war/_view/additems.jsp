@@ -33,23 +33,7 @@
       			 	<td><button type = "Submit" value="${item.itemName}" name  = "additem">add</button></td>
       			 </tr>
    			</c:forEach>
-		</table>
-			
-			<div>Currently Selected Items:</div>
-			<table>
-				<c:forEach items="${order.itemList}" var="item">
-					<tr>
-						<td class = "Label">${item.itemName}</td>
-      			 		<td>${item.price}</td>          
-      			 		<td><button type = "Submit" value="${item.itemName}" name  = "removeitem">remove</button></td>
-      			 	</tr>
-   				</c:forEach>
-   				<tr>
-   					<td class = "Label">Total:</td>
-   					<td> ${order.totalPrice}</td>
-   				</tr>
-   				
-			</table>
+		
 
 		
 		</form>

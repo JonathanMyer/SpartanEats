@@ -35,13 +35,7 @@ public class AddDrinksServlet extends HttpServlet {
 		System.out.println("Create Order Servlet: doGet");
 		
 		HttpSession session = req.getSession(false);    // fetch the session and handle 
-        Inventory inventory = new Inventory();
-        Order order = new Order(false, false, 1);
-	    if (session == null) {    // no session exists, redirect to error page with error message
-	    	resp.sendRedirect(req.getContextPath()+"/login");
-	        } 
-	    session.setAttribute("inventory", inventory);
-	    session.setAttribute("order", order);
+        
 	    req.getRequestDispatcher("/_view/adddrinks.jsp").forward(req, resp);
 		
 	
@@ -65,17 +59,12 @@ public class AddDrinksServlet extends HttpServlet {
 		model.setOrder(order);
 		model.setInventory(inventory);
 		
-		Drink remove = null;
 		Drink add = null;
 		add = inventory.getDrink(req.getParameter("adddrink"));
-		remove = inventory.getDrink(req.getParameter("removedrink"));
 		if (add != null) {
 			order.addDrink(add);
 			System.out.println("adding " + add);
-		}
-		if (remove != null) {
-			order.removeDrink(remove);
-			System.out.println("removing " + remove);
+			req.getRequestDispatcher("/_view/vieworder.jsp").forward(req, resp);
 		}
 		
 		

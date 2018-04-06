@@ -96,6 +96,9 @@ public class Order  {
 		for(Item i: selectedItems) {
 			price += i.getPrice();
 		}
+		for(Drink d: selectedDrinks) {
+			price += d.getPrice();
+		}
 		return price;
 	}
 	

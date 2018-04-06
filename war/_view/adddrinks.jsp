@@ -33,23 +33,7 @@
       			 	<td><button type = "Submit" value="${drink.itemName}" name  = "adddrink">add</button></td>
       			 </tr>
    			</c:forEach>
-		</table>
-			
-			<div>Currently Selected Drinks:</div>
-			<table>
-				<c:forEach items="${order.drinkList}" var="drink">
-					<tr>
-						<td class = "Label">${drink.itemName}</td>
-      			 		<td>${drink.price}</td>          
-      			 		<td><button type = "Submit" value="${drink.itemName}" name  = "removedrink">remove</button></td>
-      			 	</tr>
-   				</c:forEach>
-   				<tr>
-   					<td class = "Label">Total:</td>
-   					<td> ${order.totalPrice}</td>
-   				</tr>
-   				
-			</table>
+		
 
 		
 		</form>
