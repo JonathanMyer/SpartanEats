@@ -1,7 +1,7 @@
 package edu.ycp.cs320.spartaneats.model;
-
+//Item class check
 public class Item {
-	
+
 	private int itemId;
 	private String itemName;
 	private double price;
