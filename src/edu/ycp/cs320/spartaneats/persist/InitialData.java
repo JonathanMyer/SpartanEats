@@ -14,8 +14,6 @@ public class InitialData {
 		List<Item> ItemList = new ArrayList<Item>();
 		ReadCSV readItems = new ReadCSV("items.csv");
 		try {
-			// auto-generated primary key for authors table
-			Integer ItemId = 1;
 			while (true) {
 				List<String> tuple = readItems.next();
 				if (tuple == null) {
@@ -23,7 +21,7 @@ public class InitialData {
 				}
 				Iterator<String> i = tuple.iterator();
 				Item item = new Item();
-				item.setItemId(ItemId++);				
+				item.setItemId(Integer.parseInt(i.next()));				
 				item.setItemName(i.next());
 				item.setPrice(Double.parseDouble(i.next()));
 				
@@ -39,8 +37,6 @@ public class InitialData {
 		List<Drink> drinkList = new ArrayList<Drink>();
 		ReadCSV readDrinks = new ReadCSV("drinks.csv");
 		try {
-			// auto-generated primary key for books table
-			Integer drinkId = 1;
 			while (true) {
 				List<String> tuple = readDrinks.next();
 				if (tuple == null) {
@@ -48,7 +44,7 @@ public class InitialData {
 				}
 				Iterator<String> i = tuple.iterator();
 				Drink drink = new Drink();
-				drink.setItemId(drinkId++);
+				drink.setItemId(Integer.parseInt(i.next()));
 				drink.setItemName(i.next());
 				drink.setPrice(Double.parseDouble(i.next()));
 				
@@ -72,7 +68,6 @@ public class InitialData {
 				}
 				Iterator<String> i = tuple.iterator();
 				Account account = new Account();
-				account.setAccountId(accountId++);
 				account.setUserName(i.next());
 				account.setFirstName(i.next());
 				account.setLastName(i.next());
@@ -80,9 +75,12 @@ public class InitialData {
 				account.setPassword(i.next());
 				account.setEmail(i.next());
 				account.setPhoneNumber(i.next());
+				account.setAdminStatus(i.next());
+				//String.valueOf(i.next()); gives 
+				account.setAccountId(Integer.parseInt(i.next()));
 				account.setFlex(Double.parseDouble(i.next()));
 				account.setDining(Double.parseDouble(i.next()));
-				
+				//Add Account
 				accountList.add(account);
 			}
 			return accountList;

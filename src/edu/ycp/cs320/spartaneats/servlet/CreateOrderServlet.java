@@ -92,8 +92,8 @@ public class CreateOrderServlet extends HttpServlet {
 		
 		Item remove = null;
 		Item add = null;
-		add = inventory.getItem(req.getParameter("additem"));
-		remove = inventory.getItem(req.getParameter("removeitem"));
+		add = inventory.getItemNameMethod(req.getParameter("additem"));
+		remove = inventory.getItemNameMethod(req.getParameter("removeitem"));
 		if (add != null) {
 			order.addItem(add);
 		}

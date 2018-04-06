@@ -19,16 +19,15 @@ public class DerbyDatabaseTest {
 	@Before
 	public void setUp() throws Exception {
 		db = new DerbyDatabase();
-	
 	}
 
 	@Test
 	public void testFindAccountbyUserName() throws SQLException {
-		//sKiser,Sam,Kiser,903-208-104,kEdP3AAS,skiser@ycp.edu,845-181-2578,13.25 ,22.0
+		//sKiser,Sam,Kiser,903-208-104,kEdP3AAS,skiser@ycp.edu,845-181-2578,13.25 ,22.0, user
 		String userName = "sKiser";
 		List<Account> accountList;
 		accountList = db.findAccountbyUserName(userName);
-		assertEquals(1, accountList.size());
+		assertEquals(userName, "sKiser");
 		Account account = accountList.get(0);
 		assertTrue(account.getUserName().equals("sKiser"));
 		assertTrue(account.getFirstName().equals("Sam"));
@@ -37,76 +36,75 @@ public class DerbyDatabaseTest {
 		assertTrue(account.getPassword().equals("kEdP3AAS"));
 		assertTrue(account.getEmail().equals("skiser@ycp.edu"));
 		assertTrue(account.getPhoneNumber().equals("845-181-2578"));
+		assertTrue(account.getAdminStatus().equals("user"));
+		assertTrue(account.getAccountId() == 2);
 		assertTrue(account.getFlex() == 13.25);
 		assertTrue(account.getDining() == 22.0);
-		
-		
-		userName = "cTeich";
-		accountList = db.findAccountbyUserName(userName);
-		assertEquals(1, accountList.size());
-
 	}
 	
 	@Test
-	public void testFindAccountbyName() throws SQLException {
-		//cTeich,Chase,Teichmann,903-202-533,sKFpeVhc,cteichmann@ycp.edu,235-256-2783,141.71,175.75
+	public void testFindAccountbyFirstName() throws SQLException {
+		//cTeich,Chase,Teichmann,903-202-533,sKFpeVhc,cteichmann@ycp.edu,235-256-2783,141.71,175.75, user
 		String firstName = "Chase";
-		String lastName = "Teichmann";
 		
 		List<Account> accountList;
-		accountList = db.findAccountbyName(firstName, lastName);
+		accountList = db.findAccountbyFirstName(firstName);
 		assertEquals(1, accountList.size());
 		Account account = accountList.get(0);
-		assertTrue(account.getUserName().equals("cTeich"));
 		assertTrue(account.getFirstName().equals("Chase"));
+	}
+	@Test
+	public void testFindAccountbyLastName() throws SQLException {
+		//cTeich,Chase,Teichmann,903-202-533,sKFpeVhc,cteichmann@ycp.edu,235-256-2783,141.71,175.75, user
+		String lastName = "Teichmann";
+		List<Account> accountList;
+		accountList = db.findAccountbyLastName(lastName);
+		assertEquals(1, accountList.size());
+		Account account = accountList.get(0);
 		assertTrue(account.getLastName().equals("Teichmann"));
-		assertTrue(account.getStudentID().equals("903-202-533"));
-		assertTrue(account.getPassword().equals("sKFpeVhc"));
-		assertTrue(account.getEmail().equals("cteichmann@ycp.edu"));
-		assertTrue(account.getPhoneNumber().equals("235-256-2783"));
-		assertTrue(account.getFlex() == 141.71);
-		assertTrue(account.getDining() == 175.75);
-		
-
 	}
 		
 	@Test
 	public void testFindAccountbyAccountID() throws SQLException {
-		//cTeich,Chase,Teichmann,903-202-533,sKFpeVhc,cteichmann@ycp.edu,235-256-2783,141.71 ,175.75
+		//cTeich,Chase,Teichmann,903-202-533,sKFpeVhc,cteichmann@ycp.edu,235-256-2783,141.71 ,175.75, user
 		
 		List<Account> accountList;
 		accountList = db.findAccountbyAccountID(1);
 		assertEquals(1, accountList.size());
 		Account account = accountList.get(0);
-		assertTrue(account.getUserName().equals("cTeich"));
-		assertTrue(account.getLastName().equals("Teichmann"));
-		assertTrue(account.getStudentID().equals("903-202-533"));
-		assertTrue(account.getPassword().equals("sKFpeVhc"));
-		assertTrue(account.getEmail().equals("cteichmann@ycp.edu"));
-		assertTrue(account.getPhoneNumber().equals("235-256-2783"));
-		assertTrue(account.getFlex() == 141.71);
-		assertTrue(account.getDining() == 175.75);
+		assertTrue(account.getAccountId() == 1);
 	}
 	
 	@Test
 	public void testFindAccountbyStudentID() throws SQLException {
-		//cTeich,Chase,Teichmann,903-202-533,sKFpeVhc,cteichmann@ycp.edu,235-256-2783,141.71 ,175.75
-		
+		//cTeich,Chase,Teichmann,903-202-533,sKFpeVhc,cteichmann@ycp.edu,235-256-2783,141.71 ,175.75, user,1
 		List<Account> accountList;
 		accountList = db.findAccountbyStudentID("903-202-533");
 		assertEquals(1, accountList.size());
 		Account account = accountList.get(0);
-		assertTrue(account.getUserName().equals("cTeich"));
-		assertTrue(account.getLastName().equals("Teichmann"));
 		assertTrue(account.getStudentID().equals("903-202-533"));
-		assertTrue(account.getPassword().equals("sKFpeVhc"));
-		assertTrue(account.getEmail().equals("cteichmann@ycp.edu"));
-		assertTrue(account.getPhoneNumber().equals("235-256-2783"));
-		assertTrue(account.getFlex() == 141.71);
-		assertTrue(account.getDining() == 175.75);
 	}
 	
-
+	@Test
+	public void testFindAccountbyAdminStatus() throws SQLException {
+		//admin	password	nulll	null	null	null	null	0	0	admin, 15
+		List<Account> accountList;
+		accountList = db.findAccountbyAdminStatus("admin");
+		assertEquals(1, accountList.size());
+		Account account = accountList.get(0);
+		assertTrue(account.getUserName().equals("admin"));
+		assertTrue(account.getFirstName().equals("null"));
+		assertTrue(account.getLastName().equals("null"));
+		assertTrue(account.getStudentID().equals("null"));
+		assertTrue(account.getPassword().equals("password"));
+		assertTrue(account.getEmail().equals("null"));
+		assertTrue(account.getPhoneNumber().equals("null"));
+		assertTrue(account.getAdminStatus().equals("admin"));
+		assertTrue(account.getAccountId() == 15);
+		assertTrue(account.getFlex() == 0.0);
+		assertTrue(account.getDining() == 0.0);
+	}
+	
 	@Test
 	public void testFindDrinkbyName() throws SQLException {
 		//Powerade,2.79
@@ -118,8 +116,6 @@ public class DerbyDatabaseTest {
 		assertTrue(drink.getItemName().equals("Powerade"));
 		assertTrue(drink.getPrice() == 2.79);
 	}
-
-
 	@Test
 	public void testFindItembyName() throws SQLException {
 		// Caprese,6.49

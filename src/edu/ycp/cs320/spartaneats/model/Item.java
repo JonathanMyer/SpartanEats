@@ -1,8 +1,8 @@
 package edu.ycp.cs320.spartaneats.model;
-
+//Item class check
 public class Item {
-	
-	private int itemId;
+
+	private int item_id;
 	private String itemName;
 	private double price;
 	
@@ -10,18 +10,18 @@ public class Item {
 
 	}
 	
-	public Item(int itemID, String itemName, double price) {
-		this.itemId = itemID;
+	public Item(int item_id, String itemName, double price) {
+		this.item_id = item_id;
 		this.itemName = itemName;
 		this.price = price;
 	}
 	
-	public void setItemId(int itemId) {
-		this.itemId = itemId;
+	public void setItemId(int item_id) {
+		this.item_id = item_id;
 	}
 	
 	public int getItemId() {
-		return itemId;
+		return item_id;
 	}
 
 	public String getItemName() {
