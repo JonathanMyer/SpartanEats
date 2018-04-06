@@ -9,88 +9,106 @@ import org.junit.Test;
 import edu.ycp.cs320.spartaneats.model.Account;
 
 public class AccountTest {
-	private Account account1;
-	private Account account2;
+	private Account AccountUserChase;
+	private Account AccountNull;
+	private Account AccountUserAdmin;
 	
 	
 	@Before
 	public void setUp() {
-		account1 = new Account(1, "cTeich", "Chase", "Teichmann", "903-202-533", "sKFpeVhc", "cteichmann@ycp.edu", "235-256-2783", 141.71, 175.0);
-		account2 = new Account();
+		//cTeich,Chase,Teichmann,903-202-533,sKFpeVhc,cteichmann@ycp.edu,235-256-2783,141.71 ,175.75, user, 1
+		AccountUserChase = new Account("cTeich", "Chase", "Teichmann", "903-202-533", "sKFpeVhc", "cteichmann@ycp.edu", "235-256-2783","user", 1, 141.71, 175.0);
+		//admin	password	null	null	null	null	null	0	0	admin 15
+		AccountUserAdmin = new Account("admin", "null", "null", "null", "password", "null", "null", "admin", 15, 0.0, 0.0);
+		AccountNull = new Account();
 	}
 	
 	@Test
 	public void testGets() {
-		assertTrue(account1.getAccountId() == 1);
-		assertTrue(account1.getUserName().equals("cTeich"));
-		assertTrue(account1.getFirstName().equals("Chase"));
-		assertTrue(account1.getLastName().equals("Teichmann"));
-		assertTrue(account1.getStudentID().equals("903-202-533"));
-		assertTrue(account1.getPassword().equals("sKFpeVhc"));
-		assertTrue(account1.getEmail().equals("cteichmann@ycp.edu"));
-		assertTrue(account1.getPhoneNumber().equals("235-256-2783"));
-		assertTrue(account1.getFlex() == 141.71);
-		assertTrue(account1.getDining() == 175.0);
+		//Assert for User: Chase
+		assertTrue(AccountUserChase.getUserName().equals("cTeich"));
+		assertTrue(AccountUserChase.getFirstName().equals("Chase"));
+		assertTrue(AccountUserChase.getLastName().equals("Teichmann"));
+		assertTrue(AccountUserChase.getStudentID().equals("903-202-533"));
+		assertTrue(AccountUserChase.getPassword().equals("sKFpeVhc"));
+		assertTrue(AccountUserChase.getEmail().equals("cteichmann@ycp.edu"));
+		assertTrue(AccountUserChase.getPhoneNumber().equals("235-256-2783"));
+		assertTrue(AccountUserChase.getFlex() == 141.71);
+		assertTrue(AccountUserChase.getDining() == 175.0);
+		assertTrue(AccountUserChase.getAdminStatus().equals("user"));
+		assertTrue(AccountUserChase.getAccountId() == 1);
+		
+		//Tests for User Admin
+		assertTrue(AccountUserAdmin.getUserName().equals("admin"));
+		assertTrue(AccountUserAdmin.getFirstName().equals("null"));
+		assertTrue(AccountUserAdmin.getLastName().equals("null"));
+		assertTrue(AccountUserAdmin.getStudentID().equals("null"));
+		assertTrue(AccountUserAdmin.getPassword().equals("password"));
+		assertTrue(AccountUserAdmin.getEmail().equals("null"));
+		assertTrue(AccountUserAdmin.getPhoneNumber().equals("null"));
+		assertTrue(AccountUserAdmin.getFlex() == 0.0);
+		assertTrue(AccountUserAdmin.getDining() == 0.0);
+		assertTrue(AccountUserAdmin.getAdminStatus().equals("admin"));
+		assertTrue(AccountUserAdmin.getAccountId() == 15);
 	}
 	
 	@Test
 	public void testSetUserName() {
-		account2.setUserName("skiser");
-		assertTrue(account2.getUserName().equals("skiser"));
+		AccountNull.setUserName("skiser");
+		assertTrue(AccountNull.getUserName().equals("skiser"));
 	}
 	
 	@Test
 	public void testSetFirstName() {
-		account2.setFirstName("Sam");
-		assertTrue(account2.getFirstName().equals("Sam"));
+		AccountNull.setFirstName("Sam");
+		assertTrue(AccountNull.getFirstName().equals("Sam"));
 	}
 	
 	@Test
 	public void testSetLastName() {
-		account2.setFirstName("Kiser");
-		assertTrue(account2.getFirstName().equals("Kiser"));
+		AccountNull.setFirstName("Kiser");
+		assertTrue(AccountNull.getFirstName().equals("Kiser"));
 	}
 	
 	@Test
 	public void testSetStudentID() {
-		account2.setStudentID("903-208-104");
-		assertTrue(account2.getStudentID().equals("903-208-104"));
+		AccountNull.setStudentID("903-208-104");
+		assertTrue(AccountNull.getStudentID().equals("903-208-104"));
 	}
 	
 	@Test
 	public void testSetPassword() {
-		account2.setPassword("kEdP3AAS");
-		assertTrue(account2.getPassword().equals("kEdP3AAS"));
+		AccountNull.setPassword("kEdP3AAS");
+		assertTrue(AccountNull.getPassword().equals("kEdP3AAS"));
 	}
 	
 	@Test
 	public void testSetEmail() {
-		account2.setEmail("skiser@ycp.edu");
-		assertTrue(account2.getEmail().equals("skiser@ycp.edu"));
+		AccountNull.setEmail("skiser@ycp.edu");
+		assertTrue(AccountNull.getEmail().equals("skiser@ycp.edu"));
 	}
 	
 	@Test
 	public void testSetPhoneNumber() {
-		account2.setPhoneNumber("845-181-2578");
-		assertTrue(account2.getPhoneNumber().equals("845-181-2578"));
+		AccountNull.setPhoneNumber("845-181-2578");
+		assertTrue(AccountNull.getPhoneNumber().equals("845-181-2578"));
 	}
 	
 	@Test 
 	public void testSetFlex() {
-		account2.setFlex(13.25);
-		assertTrue(account2.getFlex() == 13.25);
+		AccountNull.setFlex(13.25);
+		assertTrue(AccountNull.getFlex() == 13.25);
 	}
 	
 	@Test 
 	public void testSetDining() {
-		account2.setDining(22.0);
-		assertTrue(account2.getDining() == 22.0);
-	}
-	@Test
-	public void testIsPasswordCorrect() {
-		assertTrue(account1.isPasswordCorrect("sKFpeVhc"));
-		assertFalse(account1.isPasswordCorrect("kEdP3AAS"));
+		AccountNull.setDining(22.0);
+		assertTrue(AccountNull.getDining() == 22.0);
 	}
 
-	
+	@Test
+	public void testIsPasswordCorrect() {
+		assertTrue(AccountUserChase.isPasswordCorrect("sKFpeVhc"));
+		assertFalse(AccountUserChase.isPasswordCorrect("kEdP3AAS"));
+	}
 }

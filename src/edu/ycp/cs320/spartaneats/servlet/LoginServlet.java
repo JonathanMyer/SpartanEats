@@ -44,20 +44,19 @@ public class LoginServlet extends HttpServlet {
 		// decode POSTed form parameters and dispatch to controller
 		model.setAccountName(req.getParameter("userName"));
 		model.setPassword(req.getParameter("password"));
-		model.setSuccess(false);
+		model.setSuccessForUser(false);
+		model.setSuccessForAdmin(false);
 		try {
 			accountList = db.findAccountbyUserName(model.getAccountName());
 		} catch (SQLException e) {
-			errorMessage = "Issue Finding Account";
+			errorMessage = "Issue Finding Account User Name";
 		}
-		 
-		
 		if (accountList.size() == 0) {
 			errorMessage = "Username does not exist";
 		}
 		else if (accountList.size() == 1) {
 			if (accountList.get(0).isPasswordCorrect(model.getPassword())) {
-				model.setSuccess(true);
+				model.setSuccessForUser(true);
 			} else {
 				errorMessage = "Password is Incorect";
 			}
@@ -66,6 +65,24 @@ public class LoginServlet extends HttpServlet {
 		}
 		
 		
+		try {
+			accountList = db.findAccountbyAdminStatus(model.getAdminStatus());
+		} catch (SQLException e) {
+			errorMessage = "Issue Finding Account Admin Status";
+		}
+		if (accountList.size() == 0) {
+			errorMessage = "Account Status could not be found";
+		}
+		else if (accountList.size() == 1) {
+			if (accountList.get(0).isAdminValidated(model.getAdminStatus())) {
+				model.setSuccessForAdmin(true);
+			} else {
+				errorMessage = "Attention Something Went Wrong with Admin Status";
+			}
+		} else {
+			errorMessage = "Attention Something Went Wrong with Admin Status";
+		}
+		
 		
 		
 		model.setError(errorMessage);
@@ -73,9 +90,13 @@ public class LoginServlet extends HttpServlet {
 		req.setAttribute("model", model);
 		
 		// Forward to view to render the result HTML document
-		if (model.getSuccess()) {
+		if (model.getSuccessForUser() == true && model.getSuccessForAdmin() == false) {
 			HttpSession session = req.getSession(true);    // create the session
 			resp.sendRedirect(req.getContextPath()+"/index");
+		}
+		else if (model.getSuccessForAdmin() == true) {
+			HttpSession session = req.getSession(true);    // create the session
+			resp.sendRedirect(req.getContextPath()+"/admin");
 		}
 		else {
 			req.getRequestDispatcher("/_view/login.jsp").forward(req, resp);
