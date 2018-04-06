@@ -1,6 +1,7 @@
 package edu.ycp.cs320.spartaneats.model;
 
 import java.util.ArrayList;
+//Inventory Class Check
 
 public class Inventory {
 	private ArrayList<Item> selectedItems;
@@ -21,7 +22,7 @@ public class Inventory {
 	}
 	
 	// returns the item with given itemname
-	public Item getItem(String item) {
+	public Item getItemNameMethod(String item) {
 		for (Item i: selectedItems) {
 			if (i.getItemName().equals(item)) {
 				System.out.println("found Item");
@@ -30,9 +31,27 @@ public class Inventory {
 		}	
 		return null;
 	}
-	
+	// returns the item with given itemPrice
+	public double getItemPriceMethod(double price) {
+		for (Item i: selectedItems) {
+			if (i.getPrice() == price) {
+				System.out.println("Found Price: " + price);
+				return price;
+			}
+		}	
+		return 0.00;
+	}
+	// returns the item with given itemPrice
+	public int getItemIDMethod(int ID) {
+		for (Item i: selectedItems) {
+			if (i.getItemId() == ID) {
+				System.out.println("Found ID: " + ID);
+				return ID;
+			}
+		}	
+		return 0;
+	}
 	public ArrayList<Item> getItemList(){
 		return this.selectedItems;
 	}
-
 }
