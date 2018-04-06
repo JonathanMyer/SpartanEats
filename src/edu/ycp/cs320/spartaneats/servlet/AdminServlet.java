@@ -12,14 +12,14 @@ import javax.servlet.http.HttpSession;
 
 
 
-public class IndexServlet extends HttpServlet {
+public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		System.out.println("Index Servlet: doGet");
+		System.out.println("Admin Servlet: doGet");
 		
 		
 		HttpSession session = req.getSession(false);    // fetch the session and handle 
@@ -27,10 +27,6 @@ public class IndexServlet extends HttpServlet {
 	    if (session == null) {    // no session exists, redirect to login page
 	    	resp.sendRedirect(req.getContextPath()+"/login");
 	        } 
-	    
-	    
-		req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/admin.jsp").forward(req, resp);
 	}
-	
-	
 }
