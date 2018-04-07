@@ -52,7 +52,7 @@ public class LoginServlet extends HttpServlet {
 		}
 		 
 		
-		if (accountList.size() == 0) {
+		if (accountList.size() <= 0) {
 			errorMessage = "Username does not exist";
 		}
 		else if (accountList.size() == 1) {
