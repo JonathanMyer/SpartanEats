@@ -47,7 +47,7 @@ h1{
   border: none;
   color: #4CAF50;
   text-align: center;
-  font-size: 80px;
+  
 	letter-spacing: 6px;
 	text-transform: uppercase;
   padding: 10px;
@@ -104,7 +104,7 @@ h1{
 }
 
 .h2{
-font-size: 100 px;
+font-size: 200px;
 color: #4CAF50;
 }
 </style>
@@ -119,19 +119,27 @@ color: #4CAF50;
 <div class="error">${model.error}</div>
 </c:if>
 <form action="${pageContext.servletContext.contextPath}/vieworder" method="post">
-<div class= "Continue">
-<button type="Submit" value="true" name="continueOrder"style="vertical-align:middle"><h2>Continue Ordering</h2></button>
-</div>
-<div>Currently Selected Items:</div>
+
+<button class="Continue" type="Submit" value="true" name="continueOrder" style="vertical-align:middle"><h2>Continue Ordering</h2></button>
+
+<div> Currently Selected Items:</div>
 <table>
 	<c:forEach items="${order.itemList}" var="item">
-	<tr>
-	<td class = "Items">${item.itemName}     ${item.price}<button type = "Submit" value="${item.itemName}" name  = "removeitem"><h2>Remove</h2></button></td>
-	</tr>
+	
+	<button class = "Items" type = "Submit" value="${item.itemName}"name  = "removeitem">${item.itemName}    ${item.price}</button>
+	
+	</c:forEach>
+</table>
+
+<div> Currently Selected Sandwich Extras:</div>
+<table>
+	<c:forEach items="${order.extraList}" var="extras">
+	<button class = "Items" type = "Submit" value="${extras.itemName}"name  = "removeextra">${extras.itemName}    ${extras.price}</button>
+	
 	</c:forEach>
 </table>
 			
-<div>Currently Selected Drinks:</div>
+<div> Currently Selected Drinks:</div>
 <table>
 	<c:forEach items="${order.drinkList}" var="drink">
 	<tr>

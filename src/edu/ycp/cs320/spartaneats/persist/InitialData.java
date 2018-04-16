@@ -7,6 +7,7 @@ import java.util.List;
 
 import edu.ycp.cs320.spartaneats.model.Account;
 import edu.ycp.cs320.spartaneats.model.Drink;
+import edu.ycp.cs320.spartaneats.model.Extras;
 import edu.ycp.cs320.spartaneats.model.Item;
 
 public class InitialData {
@@ -89,4 +90,27 @@ public class InitialData {
 			readAccounts.close();
 		}
 	}
+	public static List<Extras> getExtras() throws IOException {
+		List<Extras> ExtraList = new ArrayList<Extras>();
+		ReadCSV readExtras = new ReadCSV("extras.csv");
+		try {
+			while (true) {
+				List<String> tuple = readExtras.next();
+				if (tuple == null) {
+					break;
+				}
+				Iterator<String> i = tuple.iterator();
+				Extras extra = new Extras();
+				extra.setItemId(Integer.parseInt(i.next()));				
+				extra.setItemName(i.next());
+				extra.setPrice(Double.parseDouble(i.next()));
+				
+				ExtraList.add(extra);
+			}
+			return ExtraList;
+		} finally {
+			readExtras.close();
+		}
+	}
+	
 }
