@@ -69,7 +69,7 @@ public class AddItemsServlet extends HttpServlet {
 		System.out.println("go to extras");
 		if (add != null) {
 			order.addItem(add);
-			req.getRequestDispatcher("/_view/addExtras.jsp").forward(req, resp);
+			req.getRequestDispatcher("/_view/addextras.jsp").forward(req, resp);
 		}
 		
 		

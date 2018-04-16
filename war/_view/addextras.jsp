@@ -1,6 +1,7 @@
 <!DOCTYPE html> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <html>
 <style>
 
@@ -27,7 +28,7 @@ body{
 }
 .foreground {
   position: absolute;
-  height: 1720px;
+  height: 1820px;
   width: 965px;
   background: radial-gradient(#77F97D 5%, #68DE6D 25%, #4CAF50 70%);
   z-index: -1;
@@ -36,35 +37,35 @@ h1{
 	text-align: center;
 	color: white;
 	text-shadow: 4px 4px 8px #377A3A;
-	padding-bottom: 15px;
+	padding-bottom: 5px;
 }
-.Items {
+.Extras {
   display: inline-block;
   border-radius: 80px;
   background-color: #f2f2f2;
   border: none;
   color: #4CAF50;
   text-align: center;
-  font-size: 35px;
+  font-size: 30px;
 	letter-spacing: 6px;
 	text-transform: uppercase;
   padding: 10px;
-  width: 85%;
-	height: 80px;	`
+  width: 90%;
+	height: 40px;	`
   transition: all 0.5s;
   cursor: pointer;
-	margin-left: 85px;
+	margin-left: 75px;
 	margin-bottom: 20px;
 }
 
-.Items span {
+.Extras span {
   cursor: pointer;
   display: inline-block;
   position: relative;
   transition: 0.5s;
 }
 
-.Items span:after {
+.Extras span:after {
   content: '\00bb';
   position: absolute;
   opacity: 0;
@@ -73,31 +74,31 @@ h1{
   transition: 0.5s;
 }
 
-.Items:hover span {
+.Extras:hover span {
   padding-right: 25px;
 }
 
-.Items:hover span:after {
+.Extras:hover span:after {
   opacity: 1;
   right: 0;
 }
 
-.Continue {
+.Add {
   display: inline-block;
   border-radius: 80px;
   background-color: #f2f2f2;
   border: none;
   color: #4CAF50;
   text-align: center;
-  font-size: 80px;
+  font-size: 30px;
 	letter-spacing: 6px;
 	text-transform: uppercase;
-  padding: 10px;
-  width: 45px;
-	height: 60px;	`
+  padding: 20px;
+  width: 15%;
+	height: 80px;	`
   transition: all 0.5s;
   cursor: pointer;
-	margin-left: 10px;
+	margin-left: 75px;
 	margin-bottom: 20px;
 }
 
@@ -107,13 +108,13 @@ color: #4CAF50;
 }
 
 </style>
-<title>Items</title>
+<title>Extras</title>
 
 <body>
 <div class="foreground"></div>
 <div class="head">
 <h1><b>Extras</b></h1>
-</div>	 
+</div>	
 <c:if test="${! empty model.error}">
 <div class="error">${model.error}</div>
 </c:if>
@@ -123,7 +124,8 @@ color: #4CAF50;
 <table>
 	<c:forEach items="${inventory.extraList}" var="extras">                      
       	<tr>
-      	<td class = "Items">${Extras.itemName}     ${Extras.price}<button type = "Submit" value="${Extras.itemName}" name  = "addextras"><h2>Add</h2></button></td>
+      	<td class = "Extras">${extras.itemName}     ${extras.price}<button type = "Submit" value="${extras.itemName}" name  = "addextras"><h2>Add</h2></button></td>
+      	
       	</tr>
    	</c:forEach>
 </table>
