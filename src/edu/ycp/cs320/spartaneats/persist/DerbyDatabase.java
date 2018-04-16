@@ -801,8 +801,8 @@ public class DerbyDatabase {
 				try {
 					//retrieve all attributes 
 					stmt = conn.prepareStatement(
-							"select extras.*"+
-									" from extras "
+							"select extra.*"+
+									" from extra "
 							);
 
 
