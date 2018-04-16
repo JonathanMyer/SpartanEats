@@ -104,8 +104,8 @@ public class Account {
 			return false;
 		}
 	}
-	public Boolean isAdminValidated(String adminStatus) {
-		if (this.adminStatus.equals(adminStatus)) {
+	public Boolean isAdminValidated() {
+		if (this.adminStatus.equals("admin")) {
 			return true;
 		} else {
 			return false;
