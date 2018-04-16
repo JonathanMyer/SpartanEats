@@ -62,8 +62,6 @@ public class LoginServlet extends HttpServlet {
 			}
 			if (accountList.get(0).isAdminValidated()) {
 				model.setAdmin(true);
-			} else {
-				errorMessage = "Admin not set to admin";
 			}
 		} else {
 			errorMessage = "More than one account with that Username";

@@ -94,9 +94,9 @@ public class InitialData {
 		}
 	}
 
-	public static List<Extras> getExtras() throws IOException {
+	public static List<Extras> getExtra() throws IOException {
 		List<Extras> ExtraList = new ArrayList<Extras>();
-		ReadCSV readExtras = new ReadCSV("extras.csv");
+		ReadCSV readExtras = new ReadCSV("extra.csv");
 		try {
 			while (true) {
 				List<String> tuple = readExtras.next();

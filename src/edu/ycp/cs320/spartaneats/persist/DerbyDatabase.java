@@ -241,7 +241,6 @@ public class DerbyDatabase {
 				List<Account> accountList;
 				List<Drink> drinkList;
 				List<Item> itemList;
-
 				List<Extras> extrasList;
 
 
@@ -249,8 +248,7 @@ public class DerbyDatabase {
 					accountList = InitialData.getAccount();
 					drinkList = InitialData.getDrink();
 					itemList = InitialData.getItem();
-
-					extrasList = InitialData.getExtras();
+					extrasList = InitialData.getExtra();
 					
 
 				} catch (IOException e) {
@@ -260,7 +258,6 @@ public class DerbyDatabase {
 				PreparedStatement insertAccount = null;
 				PreparedStatement insertDrink   = null;
 				PreparedStatement insertItem   = null;
-
 				PreparedStatement insertExtra = null;
 
 
@@ -322,7 +319,7 @@ public class DerbyDatabase {
 
 					
 					// populate item table 
-					insertExtra = conn.prepareStatement("insert into extras (extra_id, itemName, price) values (?, ?, ?)");
+					insertExtra = conn.prepareStatement("insert into extra (extra_id, itemName, price) values (?, ?, ?)");
 					for (Extras extra: extrasList) {
 						insertExtra.setInt(1, extra.getItemId());		// removed auto-primary key insert this
 						insertExtra.setString(2, extra.getItemName());
@@ -337,7 +334,6 @@ public class DerbyDatabase {
 					DBUtil.closeQuietly(insertAccount);
 					DBUtil.closeQuietly(insertDrink);
 					DBUtil.closeQuietly(insertItem);
-
 					DBUtil.closeQuietly(insertExtra);
 
 				}
