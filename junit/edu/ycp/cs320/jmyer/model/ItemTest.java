@@ -25,7 +25,7 @@ public class ItemTest {
 	@Test
 	public void testGets() {
 		assertTrue(Water.getItemName().equals("Dasani Water"));
-		assertTrue(Soda.getItemName().equals("Soda"));
+		assertTrue(Soda.getItemName().equals("Mug Root Beer"));
 		//Same Statements Different assertion types
 		assertTrue(Water.getPrice() == 1.49);
 		assertEquals(Water.getPrice(), 1.49, 0.0000001);
