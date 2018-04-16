@@ -108,7 +108,7 @@ color: #4CAF50;
 }
 
 </style>
-<title>Drinks</title>
+<title>Extras</title>
 
 <body>
 <div class="foreground"></div>
