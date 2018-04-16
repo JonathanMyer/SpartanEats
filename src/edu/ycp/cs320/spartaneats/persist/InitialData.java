@@ -75,8 +75,7 @@ public class InitialData {
 				account.setPassword(i.next());
 				account.setEmail(i.next());
 				account.setPhoneNumber(i.next());
-				account.setAdminStatus(i.next());
-				//String.valueOf(i.next()); gives 
+				account.setAdminStatus(i.next()); 
 				account.setAccountId(Integer.parseInt(i.next()));
 				account.setFlex(Double.parseDouble(i.next()));
 				account.setDining(Double.parseDouble(i.next()));

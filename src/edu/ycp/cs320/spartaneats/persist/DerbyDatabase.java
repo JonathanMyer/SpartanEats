@@ -215,7 +215,7 @@ public class DerbyDatabase {
 					// populate accounts table (do accounts first, since account_id is foreign key in drink table)
 					insertAccount = conn.prepareStatement("insert into accounts (userName, firstname, lastName, studentID, password, email, phoneNumber, adminStatus, account_Id, flex, dining) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 					for (Account account : accountList) {
-						System.out.println(account.getUserName());
+						//System.out.println(account.getAdminStatus());
 						insertAccount.setString(1, account.getUserName());
 						insertAccount.setString(2, account.getFirstName());
 						insertAccount.setString(3, account.getLastName());
@@ -237,7 +237,8 @@ public class DerbyDatabase {
 					ResultSet set = databaseMetaData.getColumns(null, null,"ACCOUNTS", null);
 
 					while(set.next()){
-						System.out.println(set.getString("COLUMN_NAME"));
+						System.out.printf(set.getString("COLUMN_NAME"));
+						System.out.printf(", ");
 					}
 
 					// populate drink table 
@@ -477,12 +478,12 @@ public class DerbyDatabase {
 				try {
 					//retrieve all attributes from both Books and Authors tables
 					stmt = conn.prepareStatement(
-							"select accounts.*"+
-									" from accounts " +
-									"where accounts.adminStatus = ?"
+							"select accounts*"+
+									"from accounts"
+									+ "where admin = ?" 
 							);
 					stmt.setString(1, status);
-
+	
 					List<Account> result = new ArrayList<Account>();
 					resultSet = stmt.executeQuery();
 
@@ -497,10 +498,10 @@ public class DerbyDatabase {
 						loadAccount(account, resultSet, 1);
 						result.add(account);
 					}
-
+					System.out.printf("Testing Admin output:", status);
 					//check if the title was found
 					if (!found) {
-						System.out.println("<" +status+ "> wasn't found in the accounts table");
+						System.out.println("<" +status+ "> - AdminStatus wasn't found in the accounts table");
 
 					}
 					return result;
@@ -731,5 +732,6 @@ public class DerbyDatabase {
 		db.loadInitialData();
 		System.out.println("Data Loaded");
 		System.out.println("Derby Database Main Complete");
+
 	}
 }
