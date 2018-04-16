@@ -123,7 +123,7 @@ color: #4CAF50;
 <table>
 	<c:forEach items="${inventory.extraList}" var="extras">                      
       	<tr>
-      	<td class = "Items">${extras.itemName}     ${extras.price}<button type = "Submit" value="${extras.itemName}" name  = "addextras"><h2>Add</h2></button></td>
+      	<td class = "Items">${Extras.itemName}     ${Extras.price}<button type = "Submit" value="${Extras.itemName}" name  = "addextras"><h2>Add</h2></button></td>
       	</tr>
    	</c:forEach>
 </table>
