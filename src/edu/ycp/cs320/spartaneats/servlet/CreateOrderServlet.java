@@ -22,7 +22,7 @@ public class CreateOrderServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		System.out.println("Index Servlet: doGet");
+		System.out.println("CreateOrder Servlet: doGet");
 		
 		
 		HttpSession session = req.getSession(false);    // fetch the session and handle 

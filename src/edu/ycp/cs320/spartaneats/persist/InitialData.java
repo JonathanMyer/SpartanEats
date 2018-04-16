@@ -7,6 +7,9 @@ import java.util.List;
 
 import edu.ycp.cs320.spartaneats.model.Account;
 import edu.ycp.cs320.spartaneats.model.Drink;
+
+import edu.ycp.cs320.spartaneats.model.Extras;
+
 import edu.ycp.cs320.spartaneats.model.Item;
 
 public class InitialData {
@@ -75,8 +78,9 @@ public class InitialData {
 				account.setPassword(i.next());
 				account.setEmail(i.next());
 				account.setPhoneNumber(i.next());
-				account.setAdminStatus(i.next());
-				//String.valueOf(i.next()); gives 
+
+				account.setAdminStatus(i.next()); 
+
 				account.setAccountId(Integer.parseInt(i.next()));
 				account.setFlex(Double.parseDouble(i.next()));
 				account.setDining(Double.parseDouble(i.next()));
@@ -89,4 +93,29 @@ public class InitialData {
 			readAccounts.close();
 		}
 	}
+
+	public static List<Extras> getExtra() throws IOException {
+		List<Extras> ExtraList = new ArrayList<Extras>();
+		ReadCSV readExtras = new ReadCSV("extra.csv");
+		try {
+			while (true) {
+				List<String> tuple = readExtras.next();
+				if (tuple == null) {
+					break;
+				}
+				Iterator<String> i = tuple.iterator();
+				Extras extra = new Extras();
+				extra.setItemId(Integer.parseInt(i.next()));				
+				extra.setItemName(i.next());
+				extra.setPrice(Double.parseDouble(i.next()));
+				
+				ExtraList.add(extra);
+			}
+			return ExtraList;
+		} finally {
+			readExtras.close();
+		}
+	}
+	
+
 }

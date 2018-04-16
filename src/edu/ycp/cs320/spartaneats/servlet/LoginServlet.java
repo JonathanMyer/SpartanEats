@@ -50,7 +50,6 @@ public class LoginServlet extends HttpServlet {
 		} catch (SQLException e) {
 			errorMessage = "Issue Finding Account";
 		}
-		 
 		
 		if (accountList.size() <= 0) {
 			errorMessage = "Username does not exist";
@@ -59,28 +58,42 @@ public class LoginServlet extends HttpServlet {
 			if (accountList.get(0).isPasswordCorrect(model.getPassword())) {
 				model.setSuccess(true);
 			} else {
-				errorMessage = "Password is Incorect";
+				errorMessage = "Password is Incorrect";
+			}
+			if (accountList.get(0).isAdminValidated()) {
+				model.setAdmin(true);
 			}
 		} else {
 			errorMessage = "More than one account with that Username";
-		}
-		
-		
-		
-		
+		}		
 		model.setError(errorMessage);
 		
 		req.setAttribute("model", model);
+
+		model.setAdmin(accountList.get(0).isAdminValidated());
 		
 		// Forward to view to render the result HTML document
 		if (model.getSuccess()) {
+			if(model.getAdmin()==true) {
+				System.out.println("Admin Status was found as admin");
+				HttpSession session = req.getSession(true);    // create the session
+				resp.sendRedirect(req.getContextPath()+"/admin");
+			}
+			else if(model.getAdmin()==false) {
+			//Admin Status found to be false
+			System.out.println("Admin Status was found as user or null");
 			HttpSession session = req.getSession(true);    // create the session
 			resp.sendRedirect(req.getContextPath()+"/index");
+			}
+			else {
+				//Trial
+				System.out.println("Else statement achieved in login servlet");
+				HttpSession session = req.getSession(true);    // create the session
+				resp.sendRedirect(req.getContextPath()+"/index");
+			}
 		}
 		else {
 			req.getRequestDispatcher("/_view/login.jsp").forward(req, resp);
 		}
-	}
-
-	
+	}	
 }

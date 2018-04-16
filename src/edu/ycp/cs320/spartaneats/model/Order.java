@@ -6,6 +6,7 @@ import java.util.List;
 public class Order  {
 	private List<Item> selectedItems;
 	private List<Drink> selectedDrinks;
+	private List<Extras> selectedExtras;
 	private Boolean delivery = false;
 	private Boolean pickup = false;
 	private int orderNumber;
@@ -13,6 +14,7 @@ public class Order  {
 	public Order(Boolean Delivery, Boolean pickup, int OrderNumber) {
 		selectedItems = new ArrayList<Item>();
 		selectedDrinks = new ArrayList<Drink>();
+		selectedExtras = new ArrayList<Extras>();
 		this.delivery = Delivery;
 		this.pickup = pickup;
 		this.orderNumber = OrderNumber;
@@ -34,6 +36,14 @@ public class Order  {
 	
 	public void removeDrink(Drink drink) {
 		selectedDrinks.remove(drink);
+	}
+	
+	public void addExtra(Extras extra) {
+		selectedExtras.add(extra);
+	}
+	
+	public void removeExtra(Extras extra) {
+		selectedExtras.remove(extra);
 	}
 
 	public Boolean getDelivery() {
@@ -82,6 +92,16 @@ public class Order  {
 		}	
 		return null;
 	}
+	
+	public Extras getExtra(String extra) {
+		for (Extras i: selectedExtras) {
+			if (i.getItemName().equals(extra)) {
+				System.out.println("found extra");
+				return i;
+			}
+		}	
+		return null;
+	}
 
 	public List<Item> getItemList(){
 		return this.selectedItems;
@@ -89,6 +109,10 @@ public class Order  {
 	
 	public List<Drink> getDrinkList(){
 		return this.selectedDrinks;
+	}
+	
+	public List<Extras> getExtraList(){
+		return this.selectedExtras;
 	}
 	
 	public double getTotalPrice() {
@@ -101,6 +125,7 @@ public class Order  {
 		}
 		return price;
 	}
+
 	
 	
 }

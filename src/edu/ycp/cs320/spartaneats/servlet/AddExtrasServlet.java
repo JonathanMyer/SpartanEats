@@ -1,8 +1,6 @@
 package edu.ycp.cs320.spartaneats.servlet;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,28 +8,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
-import edu.ycp.cs320.spartaneats.controller.OrderController;
-
-
-import edu.ycp.cs320.spartaneats.controller.OrderController;
-import edu.ycp.cs320.spartaneats.model.Account;
-//import edu.ycp.cs320.spartaneats.model.AccountControllerPopulate;
-
 import edu.ycp.cs320.spartaneats.model.CreateOrderModel;
+import edu.ycp.cs320.spartaneats.model.Extras;
 import edu.ycp.cs320.spartaneats.model.Inventory;
 import edu.ycp.cs320.spartaneats.model.Item;
 import edu.ycp.cs320.spartaneats.model.Order;
 
-
-public class AddItemsServlet extends HttpServlet {
+public class AddExtrasServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		System.out.println("Create Items Servlet: doGet");
+		System.out.println("Create Extras Servlet: doGet");
 		
 		HttpSession session = req.getSession(false);    // fetch the session and handle 
         
@@ -40,7 +30,7 @@ public class AddItemsServlet extends HttpServlet {
 	    	resp.sendRedirect(req.getContextPath()+"/login");
 	        } 
 	    
-	    req.getRequestDispatcher("/_view/additems.jsp").forward(req, resp);
+	    req.getRequestDispatcher("/_view/addextras.jsp").forward(req, resp);
 		
 	
 	}
@@ -49,7 +39,7 @@ public class AddItemsServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		System.out.println("Create Items Servlet: doPost");
+		System.out.println("Create Extras Servlet: doPost");
 		HttpSession session = req.getSession(false); 
 
 		// holds the error message text, if there is any
@@ -64,12 +54,13 @@ public class AddItemsServlet extends HttpServlet {
 		model.setInventory(inventory);
 		
 		
-		Item add = null;
-		add = inventory.getItem(req.getParameter("additem"));
-		System.out.println("go to extras");
+		Extras add = null;
+		add = inventory.getExtras(req.getParameter("addextras"));
 		if (add != null) {
-			order.addItem(add);
-			req.getRequestDispatcher("/_view/addExtras.jsp").forward(req, resp);
+			System.out.println("add extras " + add);
+			order.addExtra(add);
+			System.out.println("adding " + add);
+			req.getRequestDispatcher("/_view/vieworder.jsp").forward(req, resp);
 		}
 		
 		
@@ -90,3 +81,4 @@ public class AddItemsServlet extends HttpServlet {
 
 	
 }
+
