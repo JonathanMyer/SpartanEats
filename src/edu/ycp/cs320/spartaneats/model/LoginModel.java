@@ -7,11 +7,13 @@ public class LoginModel {
 	private String accountName;
 	private String password;
 	private String error;
+	private String adminStatus;
 	private Account account;
+	private boolean admin;
 	private boolean success;
 	
 	
-	// create an account with given nanme and password
+	// create an account with given name and password
 	public LoginModel() {
 		
 	}
@@ -27,7 +29,9 @@ public class LoginModel {
 	public String getError() {
 		return this.error;
 	}
-	
+	public String getAdminStatus() {
+		return this.adminStatus;
+	}
 	public void setAccountName(String accountName) {
 		this.accountName = accountName;
 	}
@@ -39,7 +43,9 @@ public class LoginModel {
 	public void setError(String error) {
 		this.error = error;
 	}
-	
+	public void setAdminStatus(String adminStatus) {
+		this.adminStatus = adminStatus;
+	}
 	public void setAccount(Account account) {
 		this.account = account;
 	}
@@ -54,5 +60,13 @@ public class LoginModel {
 	
 	public void setSuccess(boolean success) {
 		this.success = success;
+	}
+	//Addition for Admin Status
+	public boolean getAdmin() {
+		return this.admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
 	}
 }

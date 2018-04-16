@@ -7,7 +7,9 @@ import java.util.List;
 
 import edu.ycp.cs320.spartaneats.model.Account;
 import edu.ycp.cs320.spartaneats.model.Drink;
+
 import edu.ycp.cs320.spartaneats.model.Extras;
+
 import edu.ycp.cs320.spartaneats.model.Item;
 
 public class InitialData {
@@ -76,8 +78,9 @@ public class InitialData {
 				account.setPassword(i.next());
 				account.setEmail(i.next());
 				account.setPhoneNumber(i.next());
-				account.setAdminStatus(i.next());
-				//String.valueOf(i.next()); gives 
+
+				account.setAdminStatus(i.next()); 
+
 				account.setAccountId(Integer.parseInt(i.next()));
 				account.setFlex(Double.parseDouble(i.next()));
 				account.setDining(Double.parseDouble(i.next()));
@@ -90,6 +93,7 @@ public class InitialData {
 			readAccounts.close();
 		}
 	}
+
 	public static List<Extras> getExtras() throws IOException {
 		List<Extras> ExtraList = new ArrayList<Extras>();
 		ReadCSV readExtras = new ReadCSV("extras.csv");
@@ -113,4 +117,5 @@ public class InitialData {
 		}
 	}
 	
+
 }

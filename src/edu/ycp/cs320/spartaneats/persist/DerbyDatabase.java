@@ -13,7 +13,9 @@ import java.util.List;
 
 import edu.ycp.cs320.spartaneats.model.Account;
 import edu.ycp.cs320.spartaneats.model.Drink;
+
 import edu.ycp.cs320.spartaneats.model.Extras;
+
 import edu.ycp.cs320.spartaneats.model.Item;
 import edu.ycp.cs320.spartaneats.persist.DerbyDatabase.Transaction;
 
@@ -104,12 +106,14 @@ public class DerbyDatabase {
 		item.setItemName(resultSet.getString(index++));
 		item.setPrice(resultSet.getDouble(index++));	
 	}
+
 	
 	private void loadExtra(Extras extra, ResultSet resultSet, int index) throws SQLException {
 		extra.setItemId(resultSet.getInt(index++));
 		extra.setItemName(resultSet.getString(index++));
 		extra.setPrice(resultSet.getDouble(index++));	
 	}
+
 
 	public void dropTables() throws SQLException {
 		doExecuteTransaction(new Transaction<Boolean>() {
@@ -118,7 +122,9 @@ public class DerbyDatabase {
 				PreparedStatement dropAccounts = null;
 				PreparedStatement dropDrinks = null;
 				PreparedStatement dropItems = null;
+
 				PreparedStatement dropExtras = null;
+
 				try { 
 
 					dropAccounts = conn.prepareStatement 
@@ -133,11 +139,13 @@ public class DerbyDatabase {
 							( "drop table item" ); 
 					dropItems.execute(); 
 					dropItems.close(); 
+
 					System.out.println("dropping extras table");
 					dropExtras = conn.prepareStatement
 							( "drop table extra" );
 					dropExtras.execute();
 					dropExtras.close();
+
 					return true;
 				} catch (Exception ex) {
 					return true;
@@ -145,7 +153,9 @@ public class DerbyDatabase {
 					DBUtil.closeQuietly(dropAccounts);
 					DBUtil.closeQuietly(dropDrinks);
 					DBUtil.closeQuietly(dropItems);
+
 					DBUtil.closeQuietly(dropExtras);
+
 				}				
 
 			};
@@ -159,7 +169,9 @@ public class DerbyDatabase {
 				PreparedStatement createAccountTable = null;
 				PreparedStatement createDrinkTable = null;
 				PreparedStatement createItemTable = null;
+
 				PreparedStatement createExtrasTable = null;
+
 
 				try {
 					createAccountTable = conn.prepareStatement(
@@ -195,6 +207,7 @@ public class DerbyDatabase {
 									"   price float " +
 									")"
 							);
+
 					
 					createItemTable.executeUpdate(); 
 					
@@ -207,12 +220,15 @@ public class DerbyDatabase {
 							);
 					createExtrasTable.executeUpdate();
 					
+
 					return true;
 				} finally {
 					DBUtil.closeQuietly(createAccountTable);
 					DBUtil.closeQuietly(createDrinkTable);
 					DBUtil.closeQuietly(createItemTable);
+
 					DBUtil.closeQuietly(createExtrasTable);
+
 				}
 			}
 		});
@@ -225,14 +241,18 @@ public class DerbyDatabase {
 				List<Account> accountList;
 				List<Drink> drinkList;
 				List<Item> itemList;
+
 				List<Extras> extrasList;
+
 
 				try {
 					accountList = InitialData.getAccount();
 					drinkList = InitialData.getDrink();
 					itemList = InitialData.getItem();
+
 					extrasList = InitialData.getExtras();
 					
+
 				} catch (IOException e) {
 					throw new SQLException("Couldn't read initial data", e);
 				}
@@ -240,13 +260,17 @@ public class DerbyDatabase {
 				PreparedStatement insertAccount = null;
 				PreparedStatement insertDrink   = null;
 				PreparedStatement insertItem   = null;
+
 				PreparedStatement insertExtra = null;
+
 
 				try {
 					// populate accounts table (do accounts first, since account_id is foreign key in drink table)
 					insertAccount = conn.prepareStatement("insert into accounts (userName, firstname, lastName, studentID, password, email, phoneNumber, adminStatus, account_Id, flex, dining) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 					for (Account account : accountList) {
+
 						System.out.println(account.getUserName());
+
 						insertAccount.setString(1, account.getUserName());
 						insertAccount.setString(2, account.getFirstName());
 						insertAccount.setString(3, account.getLastName());
@@ -268,7 +292,12 @@ public class DerbyDatabase {
 					ResultSet set = databaseMetaData.getColumns(null, null,"ACCOUNTS", null);
 
 					while(set.next()){
+
+						
+
 						System.out.println(set.getString("COLUMN_NAME"));
+            System.out.printf(", ");
+
 					}
 
 					// populate drink table 
@@ -290,6 +319,7 @@ public class DerbyDatabase {
 						insertItem.addBatch();
 					}
 					insertItem.executeBatch();
+
 					
 					// populate item table 
 					insertExtra = conn.prepareStatement("insert into extras (extra_id, itemName, price) values (?, ?, ?)");
@@ -301,12 +331,15 @@ public class DerbyDatabase {
 					}
 					insertExtra.executeBatch();
 
+
 					return true;
 				} finally {
 					DBUtil.closeQuietly(insertAccount);
 					DBUtil.closeQuietly(insertDrink);
 					DBUtil.closeQuietly(insertItem);
+
 					DBUtil.closeQuietly(insertExtra);
+
 				}
 			}
 		});
@@ -518,11 +551,13 @@ public class DerbyDatabase {
 				try {
 					//retrieve all attributes from both Books and Authors tables
 					stmt = conn.prepareStatement(
+
 							"select accounts.*"+
 									" from accounts " +
 									"where accounts.adminStatus = ?"
 							);
 					stmt.setString(1, status);
+
 
 					List<Account> result = new ArrayList<Account>();
 					resultSet = stmt.executeQuery();
@@ -539,9 +574,12 @@ public class DerbyDatabase {
 						result.add(account);
 					}
 
+					System.out.printf("Testing Admin output:", status);
 					//check if the title was found
 					if (!found) {
-						System.out.println("<" +status+ "> wasn't found in the accounts table");
+						System.out.println("<" +status+ "> - AdminStatus wasn't found in the accounts table");
+
+
 
 					}
 					return result;
@@ -757,6 +795,7 @@ public class DerbyDatabase {
 			}
 		});
 	}
+
 	
 	public List<Extras> findAllExtras() throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Extras>>() {
@@ -794,6 +833,7 @@ public class DerbyDatabase {
 			}
 		});
 	}
+
 	// The main method creates the database tables and loads the initial data.
 	public static void main(String[] args) throws IOException, SQLException {
 		DerbyDatabase db = new DerbyDatabase();
@@ -809,5 +849,6 @@ public class DerbyDatabase {
 		db.loadInitialData();
 		System.out.println("Data Loaded");
 		System.out.println("Derby Database Main Complete");
+
 	}
 }
