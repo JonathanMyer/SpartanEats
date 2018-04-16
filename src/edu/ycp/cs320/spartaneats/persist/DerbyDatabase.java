@@ -17,6 +17,7 @@ import edu.ycp.cs320.spartaneats.model.Drink;
 import edu.ycp.cs320.spartaneats.model.Extras;
 
 import edu.ycp.cs320.spartaneats.model.Item;
+import edu.ycp.cs320.spartaneats.model.Sandwich;
 import edu.ycp.cs320.spartaneats.persist.DerbyDatabase.Transaction;
 
 public class DerbyDatabase {
@@ -113,6 +114,11 @@ public class DerbyDatabase {
 		extra.setItemName(resultSet.getString(index++));
 		extra.setPrice(resultSet.getDouble(index++));	
 	}
+	
+	private void loadSandwich(Sandwich sandwich, ResultSet resultSet, int index) throws SQLException {
+		sandwich.setItemName(resultSet.getString(index++));
+	}
+
 
 
 	public void dropTables() throws SQLException {
@@ -122,8 +128,8 @@ public class DerbyDatabase {
 				PreparedStatement dropAccounts = null;
 				PreparedStatement dropDrinks = null;
 				PreparedStatement dropItems = null;
-
 				PreparedStatement dropExtras = null;
+				PreparedStatement dropSandwiches = null;
 
 				try { 
 
@@ -145,6 +151,13 @@ public class DerbyDatabase {
 							( "drop table extra" );
 					dropExtras.execute();
 					dropExtras.close();
+					
+					System.out.println("dropping sandwiches table");
+					dropSandwiches = conn.prepareStatement
+							( "drop table sandwiches" );
+					dropSandwiches.execute();
+					dropSandwiches.close();
+
 
 					return true;
 				} catch (Exception ex) {
@@ -153,9 +166,8 @@ public class DerbyDatabase {
 					DBUtil.closeQuietly(dropAccounts);
 					DBUtil.closeQuietly(dropDrinks);
 					DBUtil.closeQuietly(dropItems);
-
 					DBUtil.closeQuietly(dropExtras);
-
+					DBUtil.closeQuietly(dropSandwiches);
 				}				
 
 			};
@@ -171,6 +183,7 @@ public class DerbyDatabase {
 				PreparedStatement createItemTable = null;
 
 				PreparedStatement createExtrasTable = null;
+				PreparedStatement createSandwichesTable = null;
 
 
 				try {
@@ -220,6 +233,12 @@ public class DerbyDatabase {
 							);
 					createExtrasTable.executeUpdate();
 					
+					createSandwichesTable = conn.prepareStatement(
+							"create table Sandwich (" +
+									"   itemName varChar(40) " +
+									")"
+							);
+					createSandwichesTable.executeUpdate();
 
 					return true;
 				} finally {
@@ -228,6 +247,7 @@ public class DerbyDatabase {
 					DBUtil.closeQuietly(createItemTable);
 
 					DBUtil.closeQuietly(createExtrasTable);
+					DBUtil.closeQuietly(createSandwichesTable);
 
 				}
 			}
@@ -242,6 +262,7 @@ public class DerbyDatabase {
 				List<Drink> drinkList;
 				List<Item> itemList;
 				List<Extras> extrasList;
+				List<Sandwich> sandwichesList;
 
 
 				try {
@@ -249,6 +270,7 @@ public class DerbyDatabase {
 					drinkList = InitialData.getDrink();
 					itemList = InitialData.getItem();
 					extrasList = InitialData.getExtra();
+					sandwichesList = InitialData.getSandwich();
 					
 
 				} catch (IOException e) {
@@ -259,6 +281,7 @@ public class DerbyDatabase {
 				PreparedStatement insertDrink   = null;
 				PreparedStatement insertItem   = null;
 				PreparedStatement insertExtra = null;
+				PreparedStatement insertSandwich = null;
 
 
 				try {
@@ -289,11 +312,8 @@ public class DerbyDatabase {
 					ResultSet set = databaseMetaData.getColumns(null, null,"ACCOUNTS", null);
 
 					while(set.next()){
-
-						
-
 						System.out.println(set.getString("COLUMN_NAME"));
-            System.out.printf(", ");
+						System.out.printf(", ");
 
 					}
 
@@ -327,6 +347,14 @@ public class DerbyDatabase {
 						insertExtra.addBatch();
 					}
 					insertExtra.executeBatch();
+					
+					// populate item table 
+					insertSandwich = conn.prepareStatement("insert into Sandwich (itemName) values (?)");
+					for (Sandwich sandwiches: sandwichesList) {
+						insertSandwich.setString(1, sandwiches.getItemName());
+						insertSandwich.addBatch();
+					}
+					insertSandwich.executeBatch();
 
 
 					return true;
@@ -335,6 +363,7 @@ public class DerbyDatabase {
 					DBUtil.closeQuietly(insertDrink);
 					DBUtil.closeQuietly(insertItem);
 					DBUtil.closeQuietly(insertExtra);
+					DBUtil.closeQuietly(insertSandwich);
 
 				}
 			}
@@ -820,6 +849,43 @@ public class DerbyDatabase {
 						Extras extra = new Extras();
 						loadExtra(extra, resultSet, 1);
 						result.add(extra);
+					}
+					return result;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	public List<Sandwich> findAllSandwiches() throws SQLException {
+		return doExecuteTransaction(new Transaction<List<Sandwich>>() {
+			public List<Sandwich> execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"select Sandwich.*"+
+									" from sandwich "
+							);
+
+
+
+					List<Sandwich> result = new ArrayList<Sandwich>();
+					resultSet = stmt.executeQuery();
+
+					//for testing that a result was returned
+					Boolean found = false;
+
+					while (resultSet.next()) {
+						found = true;
+
+						//retrieve attributes from resultSet starting with index 1
+						Sandwich sandwich = new Sandwich();
+						loadSandwich(sandwich, resultSet, 1);
+						result.add(sandwich);
 					}
 					return result;
 				}finally {

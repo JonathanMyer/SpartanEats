@@ -11,6 +11,7 @@ import edu.ycp.cs320.spartaneats.model.Drink;
 import edu.ycp.cs320.spartaneats.model.Extras;
 
 import edu.ycp.cs320.spartaneats.model.Item;
+import edu.ycp.cs320.spartaneats.model.Sandwich;
 
 public class InitialData {
 	public static List<Item> getItem() throws IOException {
@@ -114,6 +115,27 @@ public class InitialData {
 			return ExtraList;
 		} finally {
 			readExtras.close();
+		}
+	}
+	
+	public static List<Sandwich> getSandwich() throws IOException {
+		List<Sandwich> SandwichList = new ArrayList<Sandwich>();
+		ReadCSV readSandwich = new ReadCSV("Sandwich.csv");
+		try {
+			while (true) {
+				List<String> tuple = readSandwich.next();
+				if (tuple == null) {
+					break;
+				}
+				Iterator<String> i = tuple.iterator();
+				Sandwich sandwich = new Sandwich();				
+				sandwich.setItemName(i.next());
+				
+				SandwichList.add(sandwich);
+			}
+			return SandwichList;
+		} finally {
+			readSandwich.close();
 		}
 	}
 	
