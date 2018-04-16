@@ -93,7 +93,7 @@ h1{
 	letter-spacing: 6px;
 	text-transform: uppercase;
   padding: 10px;
-  width: 45%;
+  width: 45px;
 	height: 60px;	`
   transition: all 0.5s;
   cursor: pointer;
@@ -123,7 +123,7 @@ color: #4CAF50;
 <table>
 	<c:forEach items="${inventory.itemList}" var="item">                      
       	<tr>
-      	<td class = "Items">${item.itemName}     ${item.price}<button type = "Submit" value="${drink.itemName}" name  = "additem"><h2>Add</h2></button></td>
+      	<td class = "Items">${item.itemName}     ${item.price}<button type = "Submit" value="${item.itemName}" name  = "additem"><h2>Add</h2></button></td>
       	</tr>
    	</c:forEach>
 </table>

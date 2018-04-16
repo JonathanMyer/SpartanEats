@@ -1,7 +1,6 @@
 <!DOCTYPE html> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-
 <html>
 <style>
 
@@ -28,7 +27,7 @@ body{
 }
 .foreground {
   position: absolute;
-  height: 1820px;
+  height: 1720px;
   width: 965px;
   background: radial-gradient(#77F97D 5%, #68DE6D 25%, #4CAF50 70%);
   z-index: -1;
@@ -37,35 +36,35 @@ h1{
 	text-align: center;
 	color: white;
 	text-shadow: 4px 4px 8px #377A3A;
-	padding-bottom: 5px;
+	padding-bottom: 15px;
 }
-.Drinks {
+.Items {
   display: inline-block;
   border-radius: 80px;
   background-color: #f2f2f2;
   border: none;
   color: #4CAF50;
   text-align: center;
-  font-size: 30px;
+  font-size: 35px;
 	letter-spacing: 6px;
 	text-transform: uppercase;
   padding: 10px;
-  width: 90%;
-	height: 40px;	`
+  width: 85%;
+	height: 80px;	`
   transition: all 0.5s;
   cursor: pointer;
-	margin-left: 75px;
+	margin-left: 85px;
 	margin-bottom: 20px;
 }
 
-.Drinks span {
+.Items span {
   cursor: pointer;
   display: inline-block;
   position: relative;
   transition: 0.5s;
 }
 
-.Drinks span:after {
+.Items span:after {
   content: '\00bb';
   position: absolute;
   opacity: 0;
@@ -74,31 +73,31 @@ h1{
   transition: 0.5s;
 }
 
-.Drinks:hover span {
+.Items:hover span {
   padding-right: 25px;
 }
 
-.Drinks:hover span:after {
+.Items:hover span:after {
   opacity: 1;
   right: 0;
 }
 
-.Add {
+.Continue {
   display: inline-block;
   border-radius: 80px;
   background-color: #f2f2f2;
   border: none;
   color: #4CAF50;
   text-align: center;
-  font-size: 30px;
+  font-size: 80px;
 	letter-spacing: 6px;
 	text-transform: uppercase;
-  padding: 20px;
-  width: 15%;
-	height: 80px;	`
+  padding: 10px;
+  width: 45px;
+	height: 60px;	`
   transition: all 0.5s;
   cursor: pointer;
-	margin-left: 75px;
+	margin-left: 10px;
 	margin-bottom: 20px;
 }
 
@@ -108,24 +107,23 @@ color: #4CAF50;
 }
 
 </style>
-<title>Drinks</title>
+<title>Items</title>
 
 <body>
 <div class="foreground"></div>
 <div class="head">
-<h1><b>Drinks</b></h1>
-</div>	
+<h1><b>Extras</b></h1>
+</div>	 
 <c:if test="${! empty model.error}">
 <div class="error">${model.error}</div>
 </c:if>
 		
-<form action="${pageContext.servletContext.contextPath}/adddrinks" method="post">
+<form action="${pageContext.servletContext.contextPath}/addextras" method="post">
 			
 <table>
-	<c:forEach items="${inventory.drinkList}" var="drink">                      
+	<c:forEach items="${inventory.extraList}" var="extras">                      
       	<tr>
-      	<td class = "Drinks">${drink.itemName}     ${drink.price}<button type = "Submit" value="${drink.itemName}" name  = "adddrink"><h2>Add</h2></button></td>
-      	
+      	<td class = "Items">${extras.itemName}     ${extras.price}<button type = "Submit" value="${extras.itemName}" name  = "addextras"><h2>Add</h2></button></td>
       	</tr>
    	</c:forEach>
 </table>

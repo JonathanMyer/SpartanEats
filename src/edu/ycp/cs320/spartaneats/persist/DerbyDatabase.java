@@ -13,6 +13,7 @@ import java.util.List;
 
 import edu.ycp.cs320.spartaneats.model.Account;
 import edu.ycp.cs320.spartaneats.model.Drink;
+import edu.ycp.cs320.spartaneats.model.Extras;
 import edu.ycp.cs320.spartaneats.model.Item;
 import edu.ycp.cs320.spartaneats.persist.DerbyDatabase.Transaction;
 
@@ -103,6 +104,12 @@ public class DerbyDatabase {
 		item.setItemName(resultSet.getString(index++));
 		item.setPrice(resultSet.getDouble(index++));	
 	}
+	
+	private void loadExtra(Extras extra, ResultSet resultSet, int index) throws SQLException {
+		extra.setItemId(resultSet.getInt(index++));
+		extra.setItemName(resultSet.getString(index++));
+		extra.setPrice(resultSet.getDouble(index++));	
+	}
 
 	public void dropTables() throws SQLException {
 		doExecuteTransaction(new Transaction<Boolean>() {
@@ -111,6 +118,7 @@ public class DerbyDatabase {
 				PreparedStatement dropAccounts = null;
 				PreparedStatement dropDrinks = null;
 				PreparedStatement dropItems = null;
+				PreparedStatement dropExtras = null;
 				try { 
 
 					dropAccounts = conn.prepareStatement 
@@ -125,6 +133,11 @@ public class DerbyDatabase {
 							( "drop table item" ); 
 					dropItems.execute(); 
 					dropItems.close(); 
+					System.out.println("dropping extras table");
+					dropExtras = conn.prepareStatement
+							( "drop table extra" );
+					dropExtras.execute();
+					dropExtras.close();
 					return true;
 				} catch (Exception ex) {
 					return true;
@@ -132,6 +145,7 @@ public class DerbyDatabase {
 					DBUtil.closeQuietly(dropAccounts);
 					DBUtil.closeQuietly(dropDrinks);
 					DBUtil.closeQuietly(dropItems);
+					DBUtil.closeQuietly(dropExtras);
 				}				
 
 			};
@@ -145,6 +159,7 @@ public class DerbyDatabase {
 				PreparedStatement createAccountTable = null;
 				PreparedStatement createDrinkTable = null;
 				PreparedStatement createItemTable = null;
+				PreparedStatement createExtrasTable = null;
 
 				try {
 					createAccountTable = conn.prepareStatement(
@@ -180,12 +195,24 @@ public class DerbyDatabase {
 									"   price float " +
 									")"
 							);
+					
 					createItemTable.executeUpdate(); 
+					
+					createExtrasTable = conn.prepareStatement(
+							"create table extra (" +
+									"   extra_id integer, " +
+									"   itemName varChar(40), " +
+									"   price float " +
+									")"
+							);
+					createExtrasTable.executeUpdate();
+					
 					return true;
 				} finally {
 					DBUtil.closeQuietly(createAccountTable);
 					DBUtil.closeQuietly(createDrinkTable);
 					DBUtil.closeQuietly(createItemTable);
+					DBUtil.closeQuietly(createExtrasTable);
 				}
 			}
 		});
@@ -198,11 +225,14 @@ public class DerbyDatabase {
 				List<Account> accountList;
 				List<Drink> drinkList;
 				List<Item> itemList;
+				List<Extras> extrasList;
 
 				try {
 					accountList = InitialData.getAccount();
 					drinkList = InitialData.getDrink();
 					itemList = InitialData.getItem();
+					extrasList = InitialData.getExtras();
+					
 				} catch (IOException e) {
 					throw new SQLException("Couldn't read initial data", e);
 				}
@@ -210,6 +240,7 @@ public class DerbyDatabase {
 				PreparedStatement insertAccount = null;
 				PreparedStatement insertDrink   = null;
 				PreparedStatement insertItem   = null;
+				PreparedStatement insertExtra = null;
 
 				try {
 					// populate accounts table (do accounts first, since account_id is foreign key in drink table)
@@ -259,13 +290,23 @@ public class DerbyDatabase {
 						insertItem.addBatch();
 					}
 					insertItem.executeBatch();
-
+					
+					// populate item table 
+					insertExtra = conn.prepareStatement("insert into extras (extra_id, itemName, price) values (?, ?, ?)");
+					for (Extras extra: extrasList) {
+						insertExtra.setInt(1, extra.getItemId());		// removed auto-primary key insert this
+						insertExtra.setString(2, extra.getItemName());
+						insertExtra.setDouble(3, extra.getPrice());
+						insertExtra.addBatch();
+					}
+					insertExtra.executeBatch();
 
 					return true;
 				} finally {
 					DBUtil.closeQuietly(insertAccount);
 					DBUtil.closeQuietly(insertDrink);
 					DBUtil.closeQuietly(insertItem);
+					DBUtil.closeQuietly(insertExtra);
 				}
 			}
 		});
@@ -707,6 +748,43 @@ public class DerbyDatabase {
 						loadItem(item, resultSet, 1);
 						result.add(item);
 
+					}
+					return result;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	public List<Extras> findAllExtras() throws SQLException {
+		return doExecuteTransaction(new Transaction<List<Extras>>() {
+			public List<Extras> execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"select extras.*"+
+									" from extras "
+							);
+
+
+
+					List<Extras> result = new ArrayList<Extras>();
+					resultSet = stmt.executeQuery();
+
+					//for testing that a result was returned
+					Boolean found = false;
+
+					while (resultSet.next()) {
+						found = true;
+
+						//retrieve attributes from resultSet starting with index 1
+						Extras extra = new Extras();
+						loadExtra(extra, resultSet, 1);
+						result.add(extra);
 					}
 					return result;
 				}finally {

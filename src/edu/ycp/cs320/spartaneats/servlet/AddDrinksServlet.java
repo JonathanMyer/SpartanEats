@@ -32,7 +32,7 @@ public class AddDrinksServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		System.out.println("Create Order Servlet: doGet");
+		System.out.println("Create Drinks Servlet: doGet");
 		
 		HttpSession session = req.getSession(false);    // fetch the session and handle 
         
@@ -45,7 +45,7 @@ public class AddDrinksServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		System.out.println("Create Order Servlet: doPost");
+		System.out.println("Create Drinks Servlet: doPost");
 		HttpSession session = req.getSession(false); 
 
 		// holds the error message text, if there is any
@@ -68,9 +68,9 @@ public class AddDrinksServlet extends HttpServlet {
 		}
 		
 		
-		errorMessage = "hello";
+		//errorMessage = "hello";
 		
-		model.setError(errorMessage);
+		//model.setError(errorMessage);
 		
 		req.setAttribute("model", model);
 		req.setAttribute("inventory", inventory);
