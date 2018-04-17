@@ -24,7 +24,6 @@ import edu.ycp.cs320.spartaneats.model.Extras;
 import edu.ycp.cs320.spartaneats.model.Inventory;
 import edu.ycp.cs320.spartaneats.model.Item;
 import edu.ycp.cs320.spartaneats.model.Order;
-import edu.ycp.cs320.spartaneats.model.Sandwich;
 
 
 public class ViewOrderServlet extends HttpServlet {
@@ -69,7 +68,7 @@ public class ViewOrderServlet extends HttpServlet {
 		
 		Drink removeDrink = null;
 		Item removeItem = null;
-		Sandwich removeSandwich = null;
+		Extras removeExtra = null;
 		Boolean continueOrder = false;
 		
 		continueOrder =  Boolean.valueOf(req.getParameter("continueOrder"));
@@ -84,9 +83,9 @@ public class ViewOrderServlet extends HttpServlet {
 			order.removeItem(removeItem);
 			System.out.println("removing " + removeItem);
 		}
-		if (removeSandwich != null) {
-			order.removeSandwich(removeSandwich);
-			System.out.println("removing " + removeSandwich);
+		if (removeExtra != null) {
+			order.removeExtra(removeExtra);
+			System.out.println("removing " + removeExtra);
 		}
 		if (continueOrder) {
 			req.getRequestDispatcher("/_view/createorder.jsp").forward(req, resp);

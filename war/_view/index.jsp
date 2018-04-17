@@ -113,6 +113,22 @@ h1{
 	margin-left: 150px;
 	margin-bottom: 50px;
 }
+.setOrder {
+  display: inline-block;
+  border-radius: 80px;
+  background-color: #f2f2f2;
+  border: none;
+  color: #4CAF50;
+  text-align: center;
+  font-size: 40px;
+	letter-spacing: 4px;
+  padding: 20px;
+  width: 70%;
+	height: 100px;
+  transition: all 0.5s;
+  cursor: pointer;
+	margin-left: 150px;
+}
 
 </style>
 <title>Spartan Eats</title>
@@ -127,5 +143,8 @@ h1{
 </form>
 <button class="trackOrder">Track Current Order</button>
 <button class="savedOrder">View Saved Orders</button>
+<button class="setOrder">Set Order Preferrences</button>
+</div>
+</div>
 </body>
 </html>

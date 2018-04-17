@@ -18,11 +18,7 @@ import edu.ycp.cs320.spartaneats.model.Drink;
 import edu.ycp.cs320.spartaneats.model.Extras;
 
 import edu.ycp.cs320.spartaneats.model.Item;
-<<<<<<< HEAD
 import edu.ycp.cs320.spartaneats.model.Order;
-=======
-import edu.ycp.cs320.spartaneats.model.Sandwich;
->>>>>>> origin/master
 import edu.ycp.cs320.spartaneats.persist.DerbyDatabase.Transaction;
 import edu.ycp.cs320.sqldemo.DBUtil;
 
@@ -121,18 +117,11 @@ public class DerbyDatabase {
 		extra.setPrice(resultSet.getDouble(index++));	
 	}
 	
-<<<<<<< HEAD
 	private void loadOrder(Order order, ResultSet resultSet, int index) throws SQLException {
 		order.setOrderId(resultSet.getInt(index++));
 		order.setDelivery(Boolean.valueOf(resultSet.getString(index++)));
 		order.setAccount_id(resultSet.getInt(index++));
 	}
-=======
-	private void loadSandwich(Sandwich sandwich, ResultSet resultSet, int index) throws SQLException {
-		sandwich.setItemName(resultSet.getString(index++));
-	}
-
->>>>>>> origin/master
 
 
 	public void dropTables() throws SQLException {
@@ -143,13 +132,9 @@ public class DerbyDatabase {
 				PreparedStatement dropDrinks = null;
 				PreparedStatement dropItems = null;
 				PreparedStatement dropExtras = null;
-<<<<<<< HEAD
 				PreparedStatement dropOrders = null;
 				PreparedStatement dropOrderItems = null;
 				PreparedStatement dropOrderAccounts = null;
-=======
-				PreparedStatement dropSandwiches = null;
->>>>>>> origin/master
 
 				try { 
 
@@ -171,7 +156,6 @@ public class DerbyDatabase {
 							( "drop table extra" );
 					dropExtras.execute();
 					dropExtras.close();
-<<<<<<< HEAD
 					System.out.println("dropping orders table" );
 					dropOrders = conn.prepareStatement
 							( "drop table orders" );
@@ -184,15 +168,6 @@ public class DerbyDatabase {
 					dropOrderItems.close();
 					
 				
-=======
-					
-					System.out.println("dropping sandwiches table");
-					dropSandwiches = conn.prepareStatement
-							( "drop table sandwiches" );
-					dropSandwiches.execute();
-					dropSandwiches.close();
-
->>>>>>> origin/master
 
 					return true;
 				} catch (Exception ex) {
@@ -202,14 +177,10 @@ public class DerbyDatabase {
 					DBUtil.closeQuietly(dropDrinks);
 					DBUtil.closeQuietly(dropItems);
 					DBUtil.closeQuietly(dropExtras);
-<<<<<<< HEAD
 					DBUtil.closeQuietly(dropOrders);
 					DBUtil.closeQuietly(dropOrderAccounts);
 					DBUtil.closeQuietly(dropOrderItems);
 
-=======
-					DBUtil.closeQuietly(dropSandwiches);
->>>>>>> origin/master
 				}				
 
 			};
@@ -224,14 +195,9 @@ public class DerbyDatabase {
 				PreparedStatement createDrinkTable = null;
 				PreparedStatement createItemTable = null;
 				PreparedStatement createExtrasTable = null;
-<<<<<<< HEAD
 				PreparedStatement createOrdersTable = null;
 				PreparedStatement createOrderItemTable = null;
 				PreparedStatement createOrderAccountTable = null;
-=======
-				PreparedStatement createSandwichesTable = null;
-
->>>>>>> origin/master
 
 				try {
 					createAccountTable = conn.prepareStatement(
@@ -280,7 +246,6 @@ public class DerbyDatabase {
 							);
 					createExtrasTable.executeUpdate();
 					
-<<<<<<< HEAD
 					createOrdersTable = conn.prepareStatement(
 							"create table orders (" +
 									" order_id integer primary key "  + 
@@ -303,28 +268,15 @@ public class DerbyDatabase {
 					
 					
 					
-=======
-					createSandwichesTable = conn.prepareStatement(
-							"create table Sandwich (" +
-									"   itemName varChar(40) " +
-									")"
-							);
-					createSandwichesTable.executeUpdate();
-
->>>>>>> origin/master
 					return true;
 				} finally {
 					DBUtil.closeQuietly(createAccountTable);
 					DBUtil.closeQuietly(createDrinkTable);
 					DBUtil.closeQuietly(createItemTable);
 					DBUtil.closeQuietly(createExtrasTable);
-<<<<<<< HEAD
 					DBUtil.closeQuietly(createOrdersTable);
 					DBUtil.closeQuietly(createOrderItemTable);
 					DBUtil.closeQuietly(createOrderAccountTable);
-=======
-					DBUtil.closeQuietly(createSandwichesTable);
->>>>>>> origin/master
 
 				}
 			}
@@ -339,7 +291,6 @@ public class DerbyDatabase {
 				List<Drink> drinkList;
 				List<Item> itemList;
 				List<Extras> extrasList;
-				List<Sandwich> sandwichesList;
 
 
 				try {
@@ -347,7 +298,6 @@ public class DerbyDatabase {
 					drinkList = InitialData.getDrink();
 					itemList = InitialData.getItem();
 					extrasList = InitialData.getExtra();
-					sandwichesList = InitialData.getSandwich();
 					
 
 				} catch (IOException e) {
@@ -358,7 +308,6 @@ public class DerbyDatabase {
 				PreparedStatement insertDrink   = null;
 				PreparedStatement insertItem   = null;
 				PreparedStatement insertExtra = null;
-				PreparedStatement insertSandwich = null;
 
 
 				try {
@@ -389,8 +338,11 @@ public class DerbyDatabase {
 					ResultSet set = databaseMetaData.getColumns(null, null,"ACCOUNTS", null);
 
 					while(set.next()){
+
+						
+
 						System.out.println(set.getString("COLUMN_NAME"));
-						System.out.printf(", ");
+            System.out.printf(", ");
 
 					}
 
@@ -424,14 +376,6 @@ public class DerbyDatabase {
 						insertExtra.addBatch();
 					}
 					insertExtra.executeBatch();
-					
-					// populate item table 
-					insertSandwich = conn.prepareStatement("insert into Sandwich (itemName) values (?)");
-					for (Sandwich sandwiches: sandwichesList) {
-						insertSandwich.setString(1, sandwiches.getItemName());
-						insertSandwich.addBatch();
-					}
-					insertSandwich.executeBatch();
 
 
 					return true;
@@ -440,7 +384,6 @@ public class DerbyDatabase {
 					DBUtil.closeQuietly(insertDrink);
 					DBUtil.closeQuietly(insertItem);
 					DBUtil.closeQuietly(insertExtra);
-					DBUtil.closeQuietly(insertSandwich);
 
 				}
 			}
@@ -907,8 +850,8 @@ public class DerbyDatabase {
 				try {
 					//retrieve all attributes 
 					stmt = conn.prepareStatement(
-							"select extra.*"+
-									" from extra "
+							"select extras.*"+
+									" from extras "
 							);
 
 
@@ -936,21 +879,14 @@ public class DerbyDatabase {
 		});
 	}
 	
-<<<<<<< HEAD
 	public List<Order> createOrder(int account_id, String delivery) throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Order>>() {
 			public List<Order> execute(Connection conn) throws SQLException{
-=======
-	public List<Sandwich> findAllSandwiches() throws SQLException {
-		return doExecuteTransaction(new Transaction<List<Sandwich>>() {
-			public List<Sandwich> execute(Connection conn) throws SQLException{
->>>>>>> origin/master
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
 				try {
 					//retrieve all attributes 
 					stmt = conn.prepareStatement(
-<<<<<<< HEAD
 							"insert into orders (delivery, account_id)" +
 									"values (?, ?)" 
 							);
@@ -992,36 +928,15 @@ public class DerbyDatabase {
 					//for testing that a result was returned
 					Boolean found = false;
 					
-=======
-							"select Sandwich.*"+
-									" from sandwich "
-							);
-
-
-
-					List<Sandwich> result = new ArrayList<Sandwich>();
-					resultSet = stmt.executeQuery();
-
-					//for testing that a result was returned
-					Boolean found = false;
-
->>>>>>> origin/master
 					while (resultSet.next()) {
 						found = true;
 
 						//retrieve attributes from resultSet starting with index 1
-<<<<<<< HEAD
 						Order order = new Order(false, 0);
 						loadOrder(order, resultSet, 1);
 						result.add(order);
 					}
 					
-=======
-						Sandwich sandwich = new Sandwich();
-						loadSandwich(sandwich, resultSet, 1);
-						result.add(sandwich);
-					}
->>>>>>> origin/master
 					return result;
 				}finally {
 					DBUtil.closeQuietly(resultSet);
@@ -1030,7 +945,6 @@ public class DerbyDatabase {
 			}
 		});
 	}
-<<<<<<< HEAD
 	
 	/*public List<Order> addItemToOrder(int order_id, Item item) throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Order>>() {
@@ -1060,8 +974,6 @@ public class DerbyDatabase {
 	}
 	*/
 	
-=======
->>>>>>> origin/master
 
 	// The main method creates the database tables and loads the initial data.
 	public static void main(String[] args) throws IOException, SQLException {
