@@ -5,8 +5,6 @@ import java.util.List;
 
 public class Order  {
 	private List<Item> selectedItems;
-	private List<Drink> selectedDrinks;
-	private List<Extras> selectedExtras;
 	private List<Sandwich> selectedSandwich;
 	private Boolean delivery = false;
 	private Boolean pickup = false;
@@ -14,8 +12,6 @@ public class Order  {
 	
 	public Order(Boolean Delivery, Boolean pickup, int OrderNumber) {
 		selectedItems = new ArrayList<Item>();
-		selectedDrinks = new ArrayList<Drink>();
-		selectedExtras = new ArrayList<Extras>();
 		selectedSandwich = new ArrayList<Sandwich>();
 		this.delivery = Delivery;
 		this.pickup = pickup;
@@ -31,23 +27,7 @@ public class Order  {
 	public void removeItem(Item item) {
 		selectedItems.remove(item);
 	}
-	
-	public void addDrink(Drink drink) {
-		selectedDrinks.add(drink);
-	}
-	
-	public void removeDrink(Drink drink) {
-		selectedDrinks.remove(drink);
-	}
-	
-	public void addExtra(Extras extra) {
-		selectedExtras.add(extra);
-	}
-	
-	public void removeExtra(Extras extra) {
-		selectedExtras.remove(extra);
-	}
-	
+
 	public void addSandwich(Sandwich sandwich) {
 		selectedSandwich.add(sandwich);
 	}
@@ -92,26 +72,7 @@ public class Order  {
 		return null;
 				
 	}
-	
-	public Drink getDrink(String drink) {
-		for (Drink i: selectedDrinks) {
-			if (i.getItemName().equals(drink)) {
-				System.out.println("found Drink");
-				return i;
-			}
-		}	
-		return null;
-	}
-	
-	public Extras getExtra(String extra) {
-		for (Extras i: selectedExtras) {
-			if (i.getItemName().equals(extra)) {
-				System.out.println("found extra");
-				return i;
-			}
-		}	
-		return null;
-	}
+
 	
 	public Sandwich getSandwich(String sandwich) {
 		for (Sandwich i: selectedSandwich) {
@@ -127,14 +88,6 @@ public class Order  {
 		return this.selectedItems;
 	}
 	
-	public List<Drink> getDrinkList(){
-		return this.selectedDrinks;
-	}
-	
-	public List<Extras> getExtraList(){
-		return this.selectedExtras;
-	}
-	
 	public List<Sandwich> getSandwichList(){
 		return this.selectedSandwich;
 	}
@@ -144,10 +97,12 @@ public class Order  {
 		for(Item i: selectedItems) {
 			price += i.getPrice();
 		}
-		for(Drink d: selectedDrinks) {
-			price += d.getPrice();
-		}
 		return price;
+	}
+
+	public void addPizza(Pizza add) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	
