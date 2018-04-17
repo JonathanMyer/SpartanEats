@@ -9,7 +9,7 @@ input[type="image"]{
   padding-top: 30px;
 }
 </style>
-<title>Choose a Shop</title>
+<title>Spartan Eats</title>
 <body>
 <form action="${pageContext.servletContext.contextPath}/additems" method="get">
     <input type="image" class="startOrder"value="Pizza" name="type" src="https://i.imgur.com/gLlYsi8.png" alt="Pizza">
