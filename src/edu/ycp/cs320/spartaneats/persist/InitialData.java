@@ -6,16 +6,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import edu.ycp.cs320.spartaneats.model.Account;
-import edu.ycp.cs320.spartaneats.model.Drink;
-
-import edu.ycp.cs320.spartaneats.model.Extras;
-
 import edu.ycp.cs320.spartaneats.model.Item;
 
 public class InitialData {
 	public static List<Item> getItem() throws IOException {
 		List<Item> ItemList = new ArrayList<Item>();
-		ReadCSV readItems = new ReadCSV("items.csv");
+		ReadCSV readItems = new ReadCSV("Items.csv");
 		try {
 			while (true) {
 				List<String> tuple = readItems.next();
@@ -24,9 +20,12 @@ public class InitialData {
 				}
 				Iterator<String> i = tuple.iterator();
 				Item item = new Item();
-				item.setItemId(Integer.parseInt(i.next()));				
+	
+				item.setItemType(i.next());
 				item.setItemName(i.next());
 				item.setPrice(Double.parseDouble(i.next()));
+				item.setCondiments(i.next());
+				item.setItemId(Double.parseDouble(i.next()));
 				
 				ItemList.add(item);
 			}
@@ -35,29 +34,7 @@ public class InitialData {
 			readItems.close();
 		}
 	}
-	
-	public static List<Drink> getDrink() throws IOException {
-		List<Drink> drinkList = new ArrayList<Drink>();
-		ReadCSV readDrinks = new ReadCSV("drinks.csv");
-		try {
-			while (true) {
-				List<String> tuple = readDrinks.next();
-				if (tuple == null) {
-					break;
-				}
-				Iterator<String> i = tuple.iterator();
-				Drink drink = new Drink();
-				drink.setItemId(Integer.parseInt(i.next()));
-				drink.setItemName(i.next());
-				drink.setPrice(Double.parseDouble(i.next()));
-				
-				drinkList.add(drink);
-			}
-			return drinkList;
-		} finally {
-			readDrinks.close();
-		}
-	}
+
 	public static List<Account> getAccount() throws IOException{
 		List <Account> accountList = new ArrayList<Account>();
 		ReadCSV readAccounts = new ReadCSV("accounts.csv");
@@ -93,29 +70,5 @@ public class InitialData {
 			readAccounts.close();
 		}
 	}
-
-	public static List<Extras> getExtra() throws IOException {
-		List<Extras> ExtraList = new ArrayList<Extras>();
-		ReadCSV readExtras = new ReadCSV("extra.csv");
-		try {
-			while (true) {
-				List<String> tuple = readExtras.next();
-				if (tuple == null) {
-					break;
-				}
-				Iterator<String> i = tuple.iterator();
-				Extras extra = new Extras();
-				extra.setItemId(Integer.parseInt(i.next()));				
-				extra.setItemName(i.next());
-				extra.setPrice(Double.parseDouble(i.next()));
-				
-				ExtraList.add(extra);
-			}
-			return ExtraList;
-		} finally {
-			readExtras.close();
-		}
-	}
-	
 
 }

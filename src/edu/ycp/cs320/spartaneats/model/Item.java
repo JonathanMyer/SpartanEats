@@ -2,25 +2,29 @@ package edu.ycp.cs320.spartaneats.model;
 
 public class Item {
 	
-	private int itemId;
+	private Double itemId;
+	private String itemType;
 	private String itemName;
 	private double price;
+	private String condiments;
 	
 	public Item() {
 
 	}
 	
-	public Item(int itemID, String itemName, double price) {
+	public Item(Double itemID, String itemType, String itemName, double price, String condiments) {
 		this.itemId = itemID;
+		this.itemType = itemType;
 		this.itemName = itemName;
 		this.price = price;
+		this.condiments = condiments;
 	}
 	
-	public void setItemId(int itemId) {
+	public void setItemId(Double itemId) {
 		this.itemId = itemId;
 	}
 	
-	public int getItemId() {
+	public Double getItemId() {
 		return itemId;
 	}
 
@@ -38,5 +42,21 @@ public class Item {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public String getItemType() {
+		return itemType;
+	}
+
+	public void setItemType(String itemType) {
+		this.itemType = itemType;
+	}
+
+	public String getCondiments() {
+		return condiments;
+	}
+
+	public void setCondiments(String condiments) {
+		this.condiments = condiments;
 	}
 }
