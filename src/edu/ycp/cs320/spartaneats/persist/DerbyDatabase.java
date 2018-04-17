@@ -11,14 +11,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import edu.ycp.cs320.spartaneats.model.Account;
 import edu.ycp.cs320.spartaneats.model.Drink;
 
 import edu.ycp.cs320.spartaneats.model.Extras;
 
 import edu.ycp.cs320.spartaneats.model.Item;
+<<<<<<< HEAD
+import edu.ycp.cs320.spartaneats.model.Order;
+=======
 import edu.ycp.cs320.spartaneats.model.Sandwich;
+>>>>>>> origin/master
 import edu.ycp.cs320.spartaneats.persist.DerbyDatabase.Transaction;
+import edu.ycp.cs320.sqldemo.DBUtil;
 
 public class DerbyDatabase {
 	static {
@@ -115,10 +121,18 @@ public class DerbyDatabase {
 		extra.setPrice(resultSet.getDouble(index++));	
 	}
 	
+<<<<<<< HEAD
+	private void loadOrder(Order order, ResultSet resultSet, int index) throws SQLException {
+		order.setOrderId(resultSet.getInt(index++));
+		order.setDelivery(Boolean.valueOf(resultSet.getString(index++)));
+		order.setAccount_id(resultSet.getInt(index++));
+	}
+=======
 	private void loadSandwich(Sandwich sandwich, ResultSet resultSet, int index) throws SQLException {
 		sandwich.setItemName(resultSet.getString(index++));
 	}
 
+>>>>>>> origin/master
 
 
 	public void dropTables() throws SQLException {
@@ -129,7 +143,13 @@ public class DerbyDatabase {
 				PreparedStatement dropDrinks = null;
 				PreparedStatement dropItems = null;
 				PreparedStatement dropExtras = null;
+<<<<<<< HEAD
+				PreparedStatement dropOrders = null;
+				PreparedStatement dropOrderItems = null;
+				PreparedStatement dropOrderAccounts = null;
+=======
 				PreparedStatement dropSandwiches = null;
+>>>>>>> origin/master
 
 				try { 
 
@@ -151,6 +171,20 @@ public class DerbyDatabase {
 							( "drop table extra" );
 					dropExtras.execute();
 					dropExtras.close();
+<<<<<<< HEAD
+					System.out.println("dropping orders table" );
+					dropOrders = conn.prepareStatement
+							( "drop table orders" );
+					dropOrders.execute();
+					dropOrders.close();
+					System.out.println("dropping orderitems table" );
+					dropOrderItems = conn.prepareStatement
+							( "drop table orderitem");
+					dropOrderItems.execute();
+					dropOrderItems.close();
+					
+				
+=======
 					
 					System.out.println("dropping sandwiches table");
 					dropSandwiches = conn.prepareStatement
@@ -158,6 +192,7 @@ public class DerbyDatabase {
 					dropSandwiches.execute();
 					dropSandwiches.close();
 
+>>>>>>> origin/master
 
 					return true;
 				} catch (Exception ex) {
@@ -167,7 +202,14 @@ public class DerbyDatabase {
 					DBUtil.closeQuietly(dropDrinks);
 					DBUtil.closeQuietly(dropItems);
 					DBUtil.closeQuietly(dropExtras);
+<<<<<<< HEAD
+					DBUtil.closeQuietly(dropOrders);
+					DBUtil.closeQuietly(dropOrderAccounts);
+					DBUtil.closeQuietly(dropOrderItems);
+
+=======
 					DBUtil.closeQuietly(dropSandwiches);
+>>>>>>> origin/master
 				}				
 
 			};
@@ -181,10 +223,15 @@ public class DerbyDatabase {
 				PreparedStatement createAccountTable = null;
 				PreparedStatement createDrinkTable = null;
 				PreparedStatement createItemTable = null;
-
 				PreparedStatement createExtrasTable = null;
+<<<<<<< HEAD
+				PreparedStatement createOrdersTable = null;
+				PreparedStatement createOrderItemTable = null;
+				PreparedStatement createOrderAccountTable = null;
+=======
 				PreparedStatement createSandwichesTable = null;
 
+>>>>>>> origin/master
 
 				try {
 					createAccountTable = conn.prepareStatement(
@@ -233,6 +280,30 @@ public class DerbyDatabase {
 							);
 					createExtrasTable.executeUpdate();
 					
+<<<<<<< HEAD
+					createOrdersTable = conn.prepareStatement(
+							"create table orders (" +
+									" order_id integer primary key "  + 
+									"		generated always as identity (start with 1, increment by 1), " +
+									
+									" delivery varChar(40)," +
+									" account_id integer " +
+									")"
+							);
+					createOrdersTable.executeUpdate();
+					
+					createOrderItemTable = conn.prepareStatement(
+							"create table orderitem ("+
+									" order_id int, " +
+									" item_id int, " +
+									" amount int" + 
+									")"
+							);
+					createOrderItemTable.executeUpdate();
+					
+					
+					
+=======
 					createSandwichesTable = conn.prepareStatement(
 							"create table Sandwich (" +
 									"   itemName varChar(40) " +
@@ -240,14 +311,20 @@ public class DerbyDatabase {
 							);
 					createSandwichesTable.executeUpdate();
 
+>>>>>>> origin/master
 					return true;
 				} finally {
 					DBUtil.closeQuietly(createAccountTable);
 					DBUtil.closeQuietly(createDrinkTable);
 					DBUtil.closeQuietly(createItemTable);
-
 					DBUtil.closeQuietly(createExtrasTable);
+<<<<<<< HEAD
+					DBUtil.closeQuietly(createOrdersTable);
+					DBUtil.closeQuietly(createOrderItemTable);
+					DBUtil.closeQuietly(createOrderAccountTable);
+=======
 					DBUtil.closeQuietly(createSandwichesTable);
+>>>>>>> origin/master
 
 				}
 			}
@@ -859,14 +936,63 @@ public class DerbyDatabase {
 		});
 	}
 	
+<<<<<<< HEAD
+	public List<Order> createOrder(int account_id, String delivery) throws SQLException {
+		return doExecuteTransaction(new Transaction<List<Order>>() {
+			public List<Order> execute(Connection conn) throws SQLException{
+=======
 	public List<Sandwich> findAllSandwiches() throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Sandwich>>() {
 			public List<Sandwich> execute(Connection conn) throws SQLException{
+>>>>>>> origin/master
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
 				try {
 					//retrieve all attributes 
 					stmt = conn.prepareStatement(
+<<<<<<< HEAD
+							"insert into orders (delivery, account_id)" +
+									"values (?, ?)" 
+							);
+					stmt.setString(1, delivery);
+					stmt.setInt(2, account_id);
+
+
+
+					stmt.executeUpdate();
+
+					return null;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	public List<Order> findOrdersFromUsername(String userName) throws SQLException {
+		return doExecuteTransaction(new Transaction<List<Order>>() {
+			public List<Order> execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"select orders.* " +
+									"from accounts, orders " +
+									"where orders.account_id = accounts.account_id and " +
+									"accounts.Username = ?"
+							);
+					stmt.setString(1, userName);
+					
+
+
+					List<Order> result = new ArrayList<Order>();
+					resultSet = stmt.executeQuery();
+					//for testing that a result was returned
+					Boolean found = false;
+					
+=======
 							"select Sandwich.*"+
 									" from sandwich "
 							);
@@ -879,14 +1005,23 @@ public class DerbyDatabase {
 					//for testing that a result was returned
 					Boolean found = false;
 
+>>>>>>> origin/master
 					while (resultSet.next()) {
 						found = true;
 
 						//retrieve attributes from resultSet starting with index 1
+<<<<<<< HEAD
+						Order order = new Order(false, 0);
+						loadOrder(order, resultSet, 1);
+						result.add(order);
+					}
+					
+=======
 						Sandwich sandwich = new Sandwich();
 						loadSandwich(sandwich, resultSet, 1);
 						result.add(sandwich);
 					}
+>>>>>>> origin/master
 					return result;
 				}finally {
 					DBUtil.closeQuietly(resultSet);
@@ -895,6 +1030,38 @@ public class DerbyDatabase {
 			}
 		});
 	}
+<<<<<<< HEAD
+	
+	/*public List<Order> addItemToOrder(int order_id, Item item) throws SQLException {
+		return doExecuteTransaction(new Transaction<List<Order>>() {
+			public List<Order> execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"insert into orders (delivery, account_id)" +
+									"values (?, ?)" 
+							);
+					stmt.setString(1, delivery);
+					stmt.setInt(2, account_id);
+
+
+
+					stmt.executeUpdate();
+
+					return null;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	*/
+	
+=======
+>>>>>>> origin/master
 
 	// The main method creates the database tables and loads the initial data.
 	public static void main(String[] args) throws IOException, SQLException {
