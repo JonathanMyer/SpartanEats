@@ -7,6 +7,7 @@ public class Order  {
 	private List<Item> selectedItems;
 	private List<Drink> selectedDrinks;
 	private List<Extras> selectedExtras;
+	private List<Sandwich> selectedSandwich;
 	private Boolean delivery = false;
 	private Boolean pickup = false;
 	private int orderNumber;
@@ -15,6 +16,7 @@ public class Order  {
 		selectedItems = new ArrayList<Item>();
 		selectedDrinks = new ArrayList<Drink>();
 		selectedExtras = new ArrayList<Extras>();
+		selectedSandwich = new ArrayList<Sandwich>();
 		this.delivery = Delivery;
 		this.pickup = pickup;
 		this.orderNumber = OrderNumber;
@@ -44,6 +46,14 @@ public class Order  {
 	
 	public void removeExtra(Extras extra) {
 		selectedExtras.remove(extra);
+	}
+	
+	public void addSandwich(Sandwich sandwich) {
+		selectedSandwich.add(sandwich);
+	}
+	
+	public void removeSandwich(Sandwich sandwich) {
+		selectedSandwich.remove(sandwich);
 	}
 
 	public Boolean getDelivery() {
@@ -102,6 +112,16 @@ public class Order  {
 		}	
 		return null;
 	}
+	
+	public Sandwich getSandwich(String sandwich) {
+		for (Sandwich i: selectedSandwich) {
+			if (i.getItemName().equals(sandwich)) {
+				System.out.println("found sandwich");
+				return i;
+			}
+		}	
+		return null;
+	}
 
 	public List<Item> getItemList(){
 		return this.selectedItems;
@@ -113,6 +133,10 @@ public class Order  {
 	
 	public List<Extras> getExtraList(){
 		return this.selectedExtras;
+	}
+	
+	public List<Sandwich> getSandwichList(){
+		return this.selectedSandwich;
 	}
 	
 	public double getTotalPrice() {
