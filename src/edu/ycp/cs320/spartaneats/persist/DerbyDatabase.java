@@ -11,14 +11,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import edu.ycp.cs320.spartaneats.model.Account;
 import edu.ycp.cs320.spartaneats.model.Drink;
 
 import edu.ycp.cs320.spartaneats.model.Extras;
 
 import edu.ycp.cs320.spartaneats.model.Item;
-import edu.ycp.cs320.spartaneats.model.Sandwich;
+import edu.ycp.cs320.spartaneats.model.Order;
 import edu.ycp.cs320.spartaneats.persist.DerbyDatabase.Transaction;
+import edu.ycp.cs320.sqldemo.DBUtil;
 
 public class DerbyDatabase {
 	static {
@@ -115,10 +117,11 @@ public class DerbyDatabase {
 		extra.setPrice(resultSet.getDouble(index++));	
 	}
 	
-	private void loadSandwich(Sandwich sandwich, ResultSet resultSet, int index) throws SQLException {
-		sandwich.setItemName(resultSet.getString(index++));
+	private void loadOrder(Order order, ResultSet resultSet, int index) throws SQLException {
+		order.setOrderId(resultSet.getInt(index++));
+		order.setDelivery(Boolean.valueOf(resultSet.getString(index++)));
+		order.setAccount_id(resultSet.getInt(index++));
 	}
-
 
 
 	public void dropTables() throws SQLException {
@@ -129,7 +132,9 @@ public class DerbyDatabase {
 				PreparedStatement dropDrinks = null;
 				PreparedStatement dropItems = null;
 				PreparedStatement dropExtras = null;
-				PreparedStatement dropSandwiches = null;
+				PreparedStatement dropOrders = null;
+				PreparedStatement dropOrderItems = null;
+				PreparedStatement dropOrderAccounts = null;
 
 				try { 
 
@@ -151,13 +156,18 @@ public class DerbyDatabase {
 							( "drop table extra" );
 					dropExtras.execute();
 					dropExtras.close();
+					System.out.println("dropping orders table" );
+					dropOrders = conn.prepareStatement
+							( "drop table orders" );
+					dropOrders.execute();
+					dropOrders.close();
+					System.out.println("dropping orderitems table" );
+					dropOrderItems = conn.prepareStatement
+							( "drop table orderitem");
+					dropOrderItems.execute();
+					dropOrderItems.close();
 					
-					System.out.println("dropping sandwiches table");
-					dropSandwiches = conn.prepareStatement
-							( "drop table sandwiches" );
-					dropSandwiches.execute();
-					dropSandwiches.close();
-
+				
 
 					return true;
 				} catch (Exception ex) {
@@ -167,7 +177,10 @@ public class DerbyDatabase {
 					DBUtil.closeQuietly(dropDrinks);
 					DBUtil.closeQuietly(dropItems);
 					DBUtil.closeQuietly(dropExtras);
-					DBUtil.closeQuietly(dropSandwiches);
+					DBUtil.closeQuietly(dropOrders);
+					DBUtil.closeQuietly(dropOrderAccounts);
+					DBUtil.closeQuietly(dropOrderItems);
+
 				}				
 
 			};
@@ -181,10 +194,10 @@ public class DerbyDatabase {
 				PreparedStatement createAccountTable = null;
 				PreparedStatement createDrinkTable = null;
 				PreparedStatement createItemTable = null;
-
 				PreparedStatement createExtrasTable = null;
-				PreparedStatement createSandwichesTable = null;
-
+				PreparedStatement createOrdersTable = null;
+				PreparedStatement createOrderItemTable = null;
+				PreparedStatement createOrderAccountTable = null;
 
 				try {
 					createAccountTable = conn.prepareStatement(
@@ -233,21 +246,37 @@ public class DerbyDatabase {
 							);
 					createExtrasTable.executeUpdate();
 					
-					createSandwichesTable = conn.prepareStatement(
-							"create table Sandwich (" +
-									"   itemName varChar(40) " +
+					createOrdersTable = conn.prepareStatement(
+							"create table orders (" +
+									" order_id integer primary key "  + 
+									"		generated always as identity (start with 1, increment by 1), " +
+									
+									" delivery varChar(40)," +
+									" account_id integer " +
 									")"
 							);
-					createSandwichesTable.executeUpdate();
-
+					createOrdersTable.executeUpdate();
+					
+					createOrderItemTable = conn.prepareStatement(
+							"create table orderitem ("+
+									" order_id int, " +
+									" item_id int, " +
+									" amount int" + 
+									")"
+							);
+					createOrderItemTable.executeUpdate();
+					
+					
+					
 					return true;
 				} finally {
 					DBUtil.closeQuietly(createAccountTable);
 					DBUtil.closeQuietly(createDrinkTable);
 					DBUtil.closeQuietly(createItemTable);
-
 					DBUtil.closeQuietly(createExtrasTable);
-					DBUtil.closeQuietly(createSandwichesTable);
+					DBUtil.closeQuietly(createOrdersTable);
+					DBUtil.closeQuietly(createOrderItemTable);
+					DBUtil.closeQuietly(createOrderAccountTable);
 
 				}
 			}
@@ -262,7 +291,6 @@ public class DerbyDatabase {
 				List<Drink> drinkList;
 				List<Item> itemList;
 				List<Extras> extrasList;
-				List<Sandwich> sandwichesList;
 
 
 				try {
@@ -270,7 +298,6 @@ public class DerbyDatabase {
 					drinkList = InitialData.getDrink();
 					itemList = InitialData.getItem();
 					extrasList = InitialData.getExtra();
-					sandwichesList = InitialData.getSandwich();
 					
 
 				} catch (IOException e) {
@@ -281,7 +308,6 @@ public class DerbyDatabase {
 				PreparedStatement insertDrink   = null;
 				PreparedStatement insertItem   = null;
 				PreparedStatement insertExtra = null;
-				PreparedStatement insertSandwich = null;
 
 
 				try {
@@ -312,8 +338,11 @@ public class DerbyDatabase {
 					ResultSet set = databaseMetaData.getColumns(null, null,"ACCOUNTS", null);
 
 					while(set.next()){
+
+						
+
 						System.out.println(set.getString("COLUMN_NAME"));
-						System.out.printf(", ");
+            System.out.printf(", ");
 
 					}
 
@@ -347,14 +376,6 @@ public class DerbyDatabase {
 						insertExtra.addBatch();
 					}
 					insertExtra.executeBatch();
-					
-					// populate item table 
-					insertSandwich = conn.prepareStatement("insert into Sandwich (itemName) values (?)");
-					for (Sandwich sandwiches: sandwichesList) {
-						insertSandwich.setString(1, sandwiches.getItemName());
-						insertSandwich.addBatch();
-					}
-					insertSandwich.executeBatch();
 
 
 					return true;
@@ -363,7 +384,6 @@ public class DerbyDatabase {
 					DBUtil.closeQuietly(insertDrink);
 					DBUtil.closeQuietly(insertItem);
 					DBUtil.closeQuietly(insertExtra);
-					DBUtil.closeQuietly(insertSandwich);
 
 				}
 			}
@@ -830,8 +850,8 @@ public class DerbyDatabase {
 				try {
 					//retrieve all attributes 
 					stmt = conn.prepareStatement(
-							"select extra.*"+
-									" from extra "
+							"select extras.*"+
+									" from extras "
 							);
 
 
@@ -859,34 +879,64 @@ public class DerbyDatabase {
 		});
 	}
 	
-	public List<Sandwich> findAllSandwiches() throws SQLException {
-		return doExecuteTransaction(new Transaction<List<Sandwich>>() {
-			public List<Sandwich> execute(Connection conn) throws SQLException{
+	public List<Order> createOrder(int account_id, String delivery) throws SQLException {
+		return doExecuteTransaction(new Transaction<List<Order>>() {
+			public List<Order> execute(Connection conn) throws SQLException{
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
 				try {
 					//retrieve all attributes 
 					stmt = conn.prepareStatement(
-							"select Sandwich.*"+
-									" from sandwich "
+							"insert into orders (delivery, account_id)" +
+									"values (?, ?)" 
 							);
+					stmt.setString(1, delivery);
+					stmt.setInt(2, account_id);
 
 
 
-					List<Sandwich> result = new ArrayList<Sandwich>();
+					stmt.executeUpdate();
+
+					return null;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	public List<Order> findOrdersFromUsername(String userName) throws SQLException {
+		return doExecuteTransaction(new Transaction<List<Order>>() {
+			public List<Order> execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"select orders.* " +
+									"from accounts, orders " +
+									"where orders.account_id = accounts.account_id and " +
+									"accounts.Username = ?"
+							);
+					stmt.setString(1, userName);
+					
+
+
+					List<Order> result = new ArrayList<Order>();
 					resultSet = stmt.executeQuery();
-
 					//for testing that a result was returned
 					Boolean found = false;
-
+					
 					while (resultSet.next()) {
 						found = true;
 
 						//retrieve attributes from resultSet starting with index 1
-						Sandwich sandwich = new Sandwich();
-						loadSandwich(sandwich, resultSet, 1);
-						result.add(sandwich);
+						Order order = new Order(false, 0);
+						loadOrder(order, resultSet, 1);
+						result.add(order);
 					}
+					
 					return result;
 				}finally {
 					DBUtil.closeQuietly(resultSet);
@@ -895,6 +945,35 @@ public class DerbyDatabase {
 			}
 		});
 	}
+	
+	/*public List<Order> addItemToOrder(int order_id, Item item) throws SQLException {
+		return doExecuteTransaction(new Transaction<List<Order>>() {
+			public List<Order> execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"insert into orders (delivery, account_id)" +
+									"values (?, ?)" 
+							);
+					stmt.setString(1, delivery);
+					stmt.setInt(2, account_id);
+
+
+
+					stmt.executeUpdate();
+
+					return null;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	*/
+	
 
 	// The main method creates the database tables and loads the initial data.
 	public static void main(String[] args) throws IOException, SQLException {

@@ -18,8 +18,8 @@ public class OrderTest {
 	
 	@Before
 	public void setUp() {
-		order1 = new Order(true, false, 1);
-		order2 = new Order(null, null, 0);
+		order1 = new Order(true, 1);
+		order2 = new Order(null, 0);
 		item1 = new Item(1, "Water", 1.59);
 		item2 = new Item(2, "Gold Peak Tea", 2.19);
 		order1.addItem(item1);
@@ -30,8 +30,8 @@ public class OrderTest {
 	@Test
 	public void testgets() {
 		assertTrue(order1.getDelivery().equals(true));
-		assertTrue(order1.getPickup().equals(false));
-		assertTrue(order1.getOrderNumber() == 1);
+	
+		assertTrue(order1.getOrderId() == 1);
 		assertTrue(order1.getItem("Water") == item1);
 	}
 	
@@ -41,16 +41,12 @@ public class OrderTest {
 		assertTrue(order2.getDelivery().equals(false));
 	}
 	
-	@Test
-	public void testsetPickUp() {
-		order2.setPickup(true);
-		assertTrue(order2.getPickup().equals(true));
-	}
+
 	
 	@Test
 	public void testSetOrderNumber() {
-		order2.setOrderNumber(2);
-		assertTrue(order2.getOrderNumber() == 2);
+		order2.setOrderId(2);
+		assertTrue(order2.getOrderId() == 2);
 	}
 	
 	@Test

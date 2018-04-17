@@ -10,7 +10,6 @@ public class Inventory {
 	private List<Item> selectedItems;
 	private List<Drink> selectedDrinks;
 	private List<Extras> selectedExtras;
-	private List<Sandwich> selectedSandwich;
 	private DerbyDatabase db = null;
 	
 	public Inventory() {
@@ -21,8 +20,6 @@ public class Inventory {
 			selectedDrinks = db.findAllDrinks();
 			
 			selectedExtras = db.findAllExtras();
-			
-			selectedSandwich = db.findAllSandwiches();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -54,14 +51,6 @@ public class Inventory {
 	
 	public void removeExtras(Extras extra) {
 		selectedExtras.remove(extra);
-	}
-	
-	public void addSandwich(Sandwich sandwich) {
-		selectedSandwich.add(sandwich);
-	}
-	
-	public void removeSandwich(Sandwich sandwich) {
-		selectedSandwich.remove(sandwich);
 	}
 	
 	
@@ -98,17 +87,6 @@ public class Inventory {
 		return null;
 	}
 	
-	public Sandwich getSandwich(String Sandwich) {
-		for (Sandwich i: selectedSandwich) {
-			if (i.getItemName().equals(Sandwich)) {
-				
-				System.out.println("found sandwich");
-				return i;
-			}
-		}
-		return null;
-	}
-	
 	public List<Item> getItemList(){
 		return this.selectedItems;
 	}
@@ -118,13 +96,11 @@ public class Inventory {
 		return selectedDrinks;
 	}
 
+
 	public List<Extras> getExtraList() {
 		return selectedExtras;
 	}
-	
-	public List<Sandwich> getSandwichList() {
-		return selectedSandwich;
-	}
+
 
 
 

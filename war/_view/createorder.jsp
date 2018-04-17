@@ -144,9 +144,6 @@ h1{
 <form action="${pageContext.servletContext.contextPath}/adddrinks" method="get">
 <button class="startOrder"value="New Order" name="get" style="vertical-align:middle"><span>Add Drinks</span></button>
 </form>
-<form action="${pageContext.servletContext.contextPath}/addsandwich" method="get">
-<button class="startOrder"value="New Order" name="get" style="vertical-align:middle"><span>Add Sandwich</span></button>
-</form>
 </div>
 </div>
 </body>
