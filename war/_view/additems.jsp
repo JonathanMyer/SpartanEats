@@ -121,9 +121,9 @@ color: #4CAF50;
 <form action="${pageContext.servletContext.contextPath}/additems" method="post">
 			
 <table>
-	<c:forEach items="${inventory.itemList}" var="item">                      
+	<c:forEach items="${itemList}" var="item">                      
       	<tr>
-      	<td class = "Items">${item.itemName}     ${item.price}<button type = "Submit" value="${item.itemName}" name  = "additem"><h2>Add</h2></button></td>
+      	<td><button type = "Submit" value="${item.itemName}" name  = "additem">${item.itemName} add</button></td>
       	</tr>
    	</c:forEach>
 </table>

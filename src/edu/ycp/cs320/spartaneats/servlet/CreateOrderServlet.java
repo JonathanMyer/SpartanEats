@@ -1,6 +1,7 @@
 package edu.ycp.cs320.spartaneats.servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import edu.ycp.cs320.spartaneats.model.Inventory;
 import edu.ycp.cs320.spartaneats.model.Order;
+import edu.ycp.cs320.spartaneats.persist.DerbyDatabase;
 
 
 
@@ -27,21 +29,24 @@ public class CreateOrderServlet extends HttpServlet {
 		
 		HttpSession session = req.getSession(false);    // fetch the session and handle 
 		
-		Inventory inventory = new Inventory();
+		
         
 	    if (session == null) {    // no session exists, redirect to error page with error message
 	    	resp.sendRedirect(req.getContextPath()+"/login");
 	        } 
-	    // create an order if one doesn't already exist
-	    if (session.getAttribute("order") == null) {
-	    	Order order = new Order(false, false, 1);
-	    	session.setAttribute("order", order);
-	    }
+
+	    DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
 	    
-	    session.setAttribute("inventory", inventory);
 	    
-		
-	   
+	    try {
+			db.createOrder((int) session.getAttribute("account_id"), req.getParameter("deliverypref"));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+	    
+	    
 	    
 		req.getRequestDispatcher("/_view/createorder.jsp").forward(req, resp);
 	}

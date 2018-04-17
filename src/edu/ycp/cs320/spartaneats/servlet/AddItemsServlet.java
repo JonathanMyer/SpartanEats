@@ -3,6 +3,7 @@ package edu.ycp.cs320.spartaneats.servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,6 +23,7 @@ import edu.ycp.cs320.spartaneats.model.CreateOrderModel;
 import edu.ycp.cs320.spartaneats.model.Inventory;
 import edu.ycp.cs320.spartaneats.model.Item;
 import edu.ycp.cs320.spartaneats.model.Order;
+import edu.ycp.cs320.spartaneats.persist.DerbyDatabase;
 
 
 public class AddItemsServlet extends HttpServlet {
@@ -39,7 +41,19 @@ public class AddItemsServlet extends HttpServlet {
 	    if (session == null) {    // no session exists, redirect to error page with error message
 	    	resp.sendRedirect(req.getContextPath()+"/login");
 	        } 
-	    
+	    DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
+		List<Item> itemList = new ArrayList<Item>();
+		System.out.println(req.getParameter("type"));
+		System.out.println("Hello?");
+		try {
+			itemList = db.findItembyType(req.getParameter("type"));
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		req.setAttribute("itemList", itemList);
 	    req.getRequestDispatcher("/_view/additems.jsp").forward(req, resp);
 		
 	
@@ -55,36 +69,15 @@ public class AddItemsServlet extends HttpServlet {
 		// holds the error message text, if there is any
 		String errorMessage = null;
 
-		
-		//new AccountControllerPopulate(controller);
-		Order order = (Order) session.getAttribute("order");
-		Inventory inventory = (Inventory) session.getAttribute("inventory");
-		CreateOrderModel model = new CreateOrderModel();
-		model.setOrder(order);
-		model.setInventory(inventory);
-		
-		
-		Item add = null;
-		add = inventory.getItem(req.getParameter("additem"));
-		System.out.println("go to extras");
-		if (add != null) {
-			order.addItem(add);
-			req.getRequestDispatcher("/_view/addextras.jsp").forward(req, resp);
-		}
+		DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
 		
 		
 		
-		//errorMessage = "hello";
 		
-		//model.setError(errorMessage);
 		
-		req.setAttribute("model", model);
-		req.setAttribute("inventory", inventory);
-		req.setAttribute("order", order);
-		session.setAttribute("order", order);
-		session.setAttribute("inventory", inventory);
 		
-		req.getRequestDispatcher("/_view/vieworder.jsp").forward(req, resp);
+		
+		req.getRequestDispatcher("/_view/additems.jsp").forward(req, resp);
 		
 	}
 
