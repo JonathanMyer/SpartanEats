@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.ycp.cs320.spartaneats.model.Account;
-import edu.ycp.cs320.spartaneats.model.Drink;
 import edu.ycp.cs320.spartaneats.model.Item;
 import edu.ycp.cs320.spartaneats.persist.DerbyDatabase;
 
@@ -106,17 +105,6 @@ public class DerbyDatabaseTest {
 	}
 	
 	@Test
-	public void testFindDrinkbyName() throws SQLException {
-		//Powerade,2.79
-		String name = "Powerade";
-		List<Drink> drinkList;
-		drinkList = db.findDrinkbyName(name);
-		assertEquals(1, drinkList.size());
-		Drink drink = drinkList.get(0);
-		assertTrue(drink.getItemName().equals("Powerade"));
-		assertTrue(drink.getPrice() == 2.79);
-	}
-	@Test
 	public void testFindItembyName() throws SQLException {
 		// Caprese,6.49
 		String name = "Caprese";
@@ -132,11 +120,5 @@ public class DerbyDatabaseTest {
 	public void testFindAllItems() throws SQLException {
 		assertTrue(db.findAllItems().size() > 1);
 	}
-	
-	@Test
-	public void testFindAllDrinks() throws SQLException {
-		assertTrue(db.findAllDrinks().size() > 1);
-	}
-
 
 }

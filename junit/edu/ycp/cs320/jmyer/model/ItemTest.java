@@ -17,8 +17,6 @@ public class ItemTest {
 	//Initial setup of Item types
 	@Before
 	public void setUp() {
-		Water = new Item(1, "Dasani Water", 1.49);
-		Soda = new Item(2, "Mug Root Beer", 1.99);
 		placeholder = new Item();
 	}
 	//Test all get methods, mixture of True, False, and Equals assertions
@@ -50,7 +48,6 @@ public class ItemTest {
 
 	@Test
 	public void testSetItemId() {
-		placeholder.setItemId(1);
 		assertTrue(placeholder.getItemId() == 1);
 	}
 }

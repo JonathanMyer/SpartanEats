@@ -18,25 +18,9 @@
 	<servlet-name>AddItemsServlet</servlet-name>
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.AddItemsServlet</servlet-class>
   </servlet>
-  <servlet>
-	<servlet-name>AddDrinksServlet</servlet-name>
-	<servlet-class>edu.ycp.cs320.spartaneats.servlet.AddDrinksServlet</servlet-class>
-  </servlet>
- <servlet>
-	<servlet-name>AddSandwichServlet</servlet-name>
-	<servlet-class>edu.ycp.cs320.spartaneats.servlet.AddSandwichServlet</servlet-class>
-  </servlet>
     <servlet>
 	<servlet-name>AdminServlet</servlet-name>
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.AdminServlet</servlet-class>
-  </servlet>
-  <servlet>
-  	<servlet-name>AddExtrasServlet</servlet-name>
-  	<servlet-class>edu.ycp.cs320.spartaneats.servlet.AddExtrasServlet</servlet-class>
-  </servlet>
-  <servlet>
-	<servlet-name>PreferencesServlet</servlet-name>
-	<servlet-class>edu.ycp.cs320.spartaneats.servlet.CreateOrderServlet</servlet-class>
   </servlet>
   <servlet>
 	<servlet-name>CreateOrderServlet</servlet-name>
@@ -60,18 +44,6 @@
   <servlet-mapping>
     <servlet-name>AddItemsServlet</servlet-name>
     <url-pattern>/additems</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>AddDrinksServlet</servlet-name>
-    <url-pattern>/adddrinks</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>AddExtrasServlet</servlet-name>
-    <url-pattern>/addextras</url-pattern>
-  </servlet-mapping>
- <servlet-mapping>
-    <servlet-name>AddSandwichServlet</servlet-name>
-    <url-pattern>/addsandwich</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>PreferencesServlet</servlet-name>

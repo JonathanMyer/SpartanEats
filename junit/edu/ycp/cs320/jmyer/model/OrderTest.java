@@ -20,8 +20,7 @@ public class OrderTest {
 	public void setUp() {
 		order1 = new Order(true, false, 1);
 		order2 = new Order(null, null, 0);
-		item1 = new Item(1, "Water", 1.59);
-		item2 = new Item(2, "Gold Peak Tea", 2.19);
+
 		order1.addItem(item1);
 		
 		

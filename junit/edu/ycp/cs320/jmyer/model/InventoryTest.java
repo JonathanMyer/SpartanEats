@@ -21,9 +21,6 @@ public class InventoryTest {
 	public void SetUp() {
 		inventory1 = new Inventory();
 		System.out.println("Setup " + inventory1.getItem("Baja Chicken"));
-		item1 = new Item(1, "Baja Chicken1", 6.49);
-		item2 = new Item(2, "Chicken Pesto2", 6.49);
-		item3 = new Item(3, "Aggie Club", 6.49);
 		inventory1.addItem(item1);
 	}
 	
