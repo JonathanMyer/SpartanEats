@@ -8,7 +8,6 @@ import java.util.List;
 import edu.ycp.cs320.spartaneats.model.Account;
 import edu.ycp.cs320.spartaneats.model.Item;
 
-
 public class InitialData {
 	public static List<Item> getItem() throws IOException {
 		List<Item> ItemList = new ArrayList<Item>();
@@ -71,6 +70,5 @@ public class InitialData {
 			readAccounts.close();
 		}
 	}
-	
 
 }

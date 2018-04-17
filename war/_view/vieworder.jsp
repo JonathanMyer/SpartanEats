@@ -131,11 +131,10 @@ color: #4CAF50;
 	</c:forEach>
 </table>
 
-<div> Currently Selected Sandwich Items:</div>
+<div> Currently Selected Sandwich Extras:</div>
 <table>
-	<c:forEach items="${order.sandwichList}" var="item">
-	
-	<button class = "Items" type = "Submit" value="${sandwich.itemName}"name  = "removeitem">${sandwich.itemName}</button>
+	<c:forEach items="${order.extraList}" var="extras">
+	<button class = "Items" type = "Submit" value="${extras.itemName}"name  = "removeextra">${extras.itemName}    ${extras.price}</button>
 	
 	</c:forEach>
 </table>

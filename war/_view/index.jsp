@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <style>
@@ -114,18 +115,44 @@ h1{
 	margin-bottom: 50px;
 }
 
+.setOrder {
+  display: inline-block;
+  border-radius: 80px;
+  background-color: #f2f2f2;
+  border: none;
+  color: #4CAF50;
+  text-align: center;
+  font-size: 40px;
+	letter-spacing: 4px;
+  padding: 20px;
+  width: 70%;
+	height: 100px;
+  transition: all 0.5s;
+  cursor: pointer;
+	margin-left: 150px;
+}
+
+
 </style>
 <title>Spartan Eats</title>
 <body>
 <div class="foreground"></div>
 <div class="head">
-  <a href="https://imgur.com/edPxEqg"><img src="https://i.imgur.com/edPxEqg.png" title="source: imgur.com" id="Logo" /></a>
+
+	<img src="https://i.imgur.com/edPxEqg.png" title="source: imgur.com" id="Logo" /></a>
   <h1><b>SPARTAN EATS</b></h1>
 </div>
-<form action="${pageContext.servletContext.contextPath}/createorder" method="get">
+<form action="${pageContext.servletContext.contextPath}/setdeliverymethod" method="get">
+
 <button class="startOrder"value="New Order" name="get" style="vertical-align:middle"><span>Start Order</span></button>
 </form>
 <button class="trackOrder">Track Current Order</button>
 <button class="savedOrder">View Saved Orders</button>
+
+<button class="setOrder">Set Order Preferrences</button>
+</div>
+</div>
+
 </body>
 </html>
+

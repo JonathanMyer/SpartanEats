@@ -17,9 +17,9 @@ public class OrderController {
 		orderList.remove(order);
 	}
 	// returns order using order number
-	public Order getOrder(int orderNumber) {
+	public Order getOrder(int orderId) {
 		for (Order order: orderList) {
-			if (order.getOrderNumber() == (orderNumber)) {
+			if (order.getOrderId() == (orderId)) {
 				System.out.println("Found Order");
 				return order;
 			}

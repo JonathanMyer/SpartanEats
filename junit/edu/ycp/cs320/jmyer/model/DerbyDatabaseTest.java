@@ -32,11 +32,13 @@ public class DerbyDatabaseTest {
 		assertTrue(account.getFirstName().equals("Sam"));
 		assertTrue(account.getLastName().equals("Kiser"));
 		assertTrue(account.getStudentID().equals("903-208-104"));
-		assertTrue(account.getPassword().equals("kEdP3AAS"));
+
+		assertTrue(account.getPassword().equals("testing"));
 		assertTrue(account.getEmail().equals("skiser@ycp.edu"));
 		assertTrue(account.getPhoneNumber().equals("845-181-2578"));
 		assertTrue(account.getAdminStatus().equals("user"));
-		assertTrue(account.getAccountId() == 2);
+		assertTrue(account.getAccountId() == 3);
+
 		assertTrue(account.getFlex() == 13.25);
 		assertTrue(account.getDining() == 22.0);
 	}
@@ -120,5 +122,13 @@ public class DerbyDatabaseTest {
 	public void testFindAllItems() throws SQLException {
 		assertTrue(db.findAllItems().size() > 1);
 	}
+	@Test
+	public void testCreateOrder() throws SQLException{
+		db.createOrder(4, "false");
+		db.createOrder(4, "false");
+		assertTrue(db.findOrdersFromUsername("jMyer").size() > 0);
+		System.out.println(db.findOrdersFromUsername("jMyer").size());
+	}
+
 
 }

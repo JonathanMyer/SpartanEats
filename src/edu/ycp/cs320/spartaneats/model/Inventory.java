@@ -14,7 +14,6 @@ public class Inventory {
 		db = new DerbyDatabase();
 		try {
 			selectedItems = db.findAllItems();
-	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -30,8 +29,7 @@ public class Inventory {
 	//remove an item from an order
 	public void removeItem(Item Item) {
 		selectedItems.remove(Item);
-	}
-	
+  }
 	// returns the item with given itemname
 	public Item getItem(String item) {
 		for (Item i: selectedItems) {
@@ -46,13 +44,6 @@ public class Inventory {
 	public List<Item> getItemList(){
 		return this.selectedItems;
 	}
-
-	public Pizza getPizza(String parameter) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 
 
 }

@@ -5,17 +5,14 @@ import java.util.List;
 
 public class Order  {
 	private List<Item> selectedItems;
-	private List<Sandwich> selectedSandwich;
 	private Boolean delivery = false;
-	private Boolean pickup = false;
-	private int orderNumber;
+	private int orderId;
+	private int account_id;
 	
-	public Order(Boolean Delivery, Boolean pickup, int OrderNumber) {
+	public Order(Boolean Delivery, int OrderId) {
 		selectedItems = new ArrayList<Item>();
-		selectedSandwich = new ArrayList<Sandwich>();
 		this.delivery = Delivery;
-		this.pickup = pickup;
-		this.orderNumber = OrderNumber;
+		this.orderId = OrderId;
 	}
 	
 	//add an item from an order
@@ -28,13 +25,6 @@ public class Order  {
 		selectedItems.remove(item);
 	}
 
-	public void addSandwich(Sandwich sandwich) {
-		selectedSandwich.add(sandwich);
-	}
-	
-	public void removeSandwich(Sandwich sandwich) {
-		selectedSandwich.remove(sandwich);
-	}
 
 	public Boolean getDelivery() {
 		return delivery;
@@ -44,20 +34,13 @@ public class Order  {
 		this.delivery = delivery;
 	}
 
-	public Boolean getPickup() {
-		return pickup;
+
+	public int getOrderId() {
+		return this.orderId;
 	}
 
-	public void setPickup(Boolean pickup) {
-		this.pickup = pickup;
-	}
-
-	public int getOrderNumber() {
-		return this.orderNumber;
-	}
-
-	public void setOrderNumber(int orderNumber) {
-		this.orderNumber = orderNumber;
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
 	}
 	
 	
@@ -69,29 +52,13 @@ public class Order  {
 				return i;
 			}
 		}	
-		return null;
-				
-	}
-
-	
-	public Sandwich getSandwich(String sandwich) {
-		for (Sandwich i: selectedSandwich) {
-			if (i.getItemName().equals(sandwich)) {
-				System.out.println("found sandwich");
-				return i;
-			}
-		}	
-		return null;
+		return null;	
 	}
 
 	public List<Item> getItemList(){
 		return this.selectedItems;
 	}
-	
-	public List<Sandwich> getSandwichList(){
-		return this.selectedSandwich;
-	}
-	
+
 	public double getTotalPrice() {
 		double price = 0;
 		for(Item i: selectedItems) {
@@ -100,11 +67,11 @@ public class Order  {
 		return price;
 	}
 
-	public void addPizza(Pizza add) {
-		// TODO Auto-generated method stub
-		
+	public int getAccount_id() {
+		return account_id;
 	}
 
-	
-	
+	public void setAccount_id(int account_id) {
+		this.account_id = account_id;
+	}	
 }
