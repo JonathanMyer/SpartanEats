@@ -57,6 +57,7 @@ public class LoginServlet extends HttpServlet {
 		else if (accountList.size() == 1) {
 			if (accountList.get(0).isPasswordCorrect(model.getPassword())) {
 				model.setSuccess(true);
+				model.setAccount(accountList.get(0));
 			} else {
 				errorMessage = "Password is Incorrect";
 			}
@@ -74,21 +75,22 @@ public class LoginServlet extends HttpServlet {
 		
 		// Forward to view to render the result HTML document
 		if (model.getSuccess()) {
+			HttpSession session = req.getSession(true);    // create the session
+			int account_id = model.getAccount().getAccountId();
+			session.setAttribute("account_id", account_id);
+			session.setAttribute("db", db);
 			if(model.getAdmin()==true) {
 				System.out.println("Admin Status was found as admin");
-				HttpSession session = req.getSession(true);    // create the session
 				resp.sendRedirect(req.getContextPath()+"/admin");
 			}
 			else if(model.getAdmin()==false) {
 			//Admin Status found to be false
 			System.out.println("Admin Status was found as user or null");
-			HttpSession session = req.getSession(true);    // create the session
 			resp.sendRedirect(req.getContextPath()+"/index");
 			}
 			else {
 				//Trial
 				System.out.println("Else statement achieved in login servlet");
-				HttpSession session = req.getSession(true);    // create the session
 				resp.sendRedirect(req.getContextPath()+"/index");
 			}
 		}

@@ -129,6 +129,20 @@ public class DerbyDatabaseTest {
 		assertTrue(db.findOrdersFromUsername("jMyer").size() > 0);
 		System.out.println(db.findOrdersFromUsername("jMyer").size());
 	}
+	
+	@Test
+	public void testFindItemByType() throws SQLException{
+		assertTrue(db.findItembyType("Drink").get(0).getItemName().equals("Dasani Water"));
+		System.out.println("Testing findItemByType(''Drink'')");
+		for(Item i : db.findItembyType("Drink")) {
+			System.out.println(i.getItemName());
+		}
+		assertTrue(db.findItembyType("Mexican").get(0).getItemName().equals("Burrito"));
+	}
+	
+	
+	@Test
+	public void testFind
 
 
 }
