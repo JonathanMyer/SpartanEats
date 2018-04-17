@@ -39,6 +39,7 @@
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.CreateOrderServlet</servlet-class>
   </servlet>
   <servlet>
+
 	<servlet-name>CreateOrderServlet</servlet-name>
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.CreateOrderServlet</servlet-class>
   </servlet>
@@ -62,9 +63,6 @@
     <url-pattern>/additems</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>AddDrinksServlet</servlet-name>
-    <url-pattern>/adddrinks</url-pattern>
-  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>AddSnacksServlet</servlet-name>
     <url-pattern>/addsnacks</url-pattern>
@@ -74,8 +72,6 @@
     <servlet-name>SetDeliveryMethod</servlet-name>
     <url-pattern>/setdeliverymethod</url-pattern>
   </servlet-mapping>
-
-
 
   <servlet-mapping>
     <servlet-name>PreferencesServlet</servlet-name>

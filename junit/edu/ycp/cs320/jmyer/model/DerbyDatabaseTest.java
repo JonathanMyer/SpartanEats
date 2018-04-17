@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.ycp.cs320.spartaneats.model.Account;
-import edu.ycp.cs320.spartaneats.model.Drink;
 import edu.ycp.cs320.spartaneats.model.Item;
 import edu.ycp.cs320.spartaneats.persist.DerbyDatabase;
 
@@ -33,11 +32,13 @@ public class DerbyDatabaseTest {
 		assertTrue(account.getFirstName().equals("Sam"));
 		assertTrue(account.getLastName().equals("Kiser"));
 		assertTrue(account.getStudentID().equals("903-208-104"));
+
 		assertTrue(account.getPassword().equals("testing"));
 		assertTrue(account.getEmail().equals("skiser@ycp.edu"));
 		assertTrue(account.getPhoneNumber().equals("845-181-2578"));
 		assertTrue(account.getAdminStatus().equals("user"));
 		assertTrue(account.getAccountId() == 3);
+
 		assertTrue(account.getFlex() == 13.25);
 		assertTrue(account.getDining() == 22.0);
 	}
@@ -90,7 +91,7 @@ public class DerbyDatabaseTest {
 		//admin	password	nulll	null	null	null	null	0	0	admin, 15
 		List<Account> accountList;
 		accountList = db.findAccountbyAdminStatus("admin");
-		assertTrue(accountList.size() == 1);
+		assertEquals(1, accountList.size());
 		Account account = accountList.get(0);
 		assertTrue(account.getUserName().equals("admin"));
 		assertTrue(account.getFirstName().equals("null"));
@@ -105,17 +106,6 @@ public class DerbyDatabaseTest {
 		assertTrue(account.getDining() == 0.0);
 	}
 	
-	@Test
-	public void testFindDrinkbyName() throws SQLException {
-		//Powerade,2.79
-		String name = "Powerade";
-		List<Drink> drinkList;
-		drinkList = db.findDrinkbyName(name);
-		assertEquals(1, drinkList.size());
-		Drink drink = drinkList.get(0);
-		assertTrue(drink.getItemName().equals("Powerade"));
-		assertTrue(drink.getPrice() == 2.79);
-	}
 	@Test
 	public void testFindItembyName() throws SQLException {
 		// Caprese,6.49
@@ -132,12 +122,6 @@ public class DerbyDatabaseTest {
 	public void testFindAllItems() throws SQLException {
 		assertTrue(db.findAllItems().size() > 1);
 	}
-	
-	@Test
-	public void testFindAllDrinks() throws SQLException {
-		assertTrue(db.findAllDrinks().size() > 1);
-	}
-	
 	@Test
 	public void testCreateOrder() throws SQLException{
 		db.createOrder(4, "false");
