@@ -1,8 +1,6 @@
 package edu.ycp.cs320.spartaneats.servlet;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,22 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
-import edu.ycp.cs320.spartaneats.controller.OrderController;
-
-
-import edu.ycp.cs320.spartaneats.controller.OrderController;
-import edu.ycp.cs320.spartaneats.model.Account;
-//import edu.ycp.cs320.spartaneats.model.AccountControllerPopulate;
-
 import edu.ycp.cs320.spartaneats.model.CreateOrderModel;
 import edu.ycp.cs320.spartaneats.model.Inventory;
 import edu.ycp.cs320.spartaneats.model.Item;
 import edu.ycp.cs320.spartaneats.model.Order;
+import edu.ycp.cs320.spartaneats.model.Sandwich;
 
-
-public class AddItemsServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+public class AddSandwichServlet extends HttpServlet {
+private static final long serialVersionUID = 1L;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -40,7 +30,7 @@ public class AddItemsServlet extends HttpServlet {
 	    	resp.sendRedirect(req.getContextPath()+"/login");
 	        } 
 	    
-	    req.getRequestDispatcher("/_view/additems.jsp").forward(req, resp);
+	    req.getRequestDispatcher("/_view/addsandwich.jsp").forward(req, resp);
 		
 	
 	}
@@ -64,12 +54,12 @@ public class AddItemsServlet extends HttpServlet {
 		model.setInventory(inventory);
 		
 		
-		Item add = null;
-		add = inventory.getItem(req.getParameter("additem"));
-		System.out.println("go to extras");
+		Sandwich add = null;
+		add = inventory.getSandwich(req.getParameter("addsandwich"));
+		System.out.println("go to sandwich");
 		if (add != null) {
-			order.addItem(add);
-			req.getRequestDispatcher("/_view/addextras.jsp").forward(req, resp);
+			order.addSandwich(add);
+			req.getRequestDispatcher("/_view/vieworder.jsp").forward(req, resp);
 		}
 		
 		
@@ -88,5 +78,4 @@ public class AddItemsServlet extends HttpServlet {
 		
 	}
 
-	
 }
