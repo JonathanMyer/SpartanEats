@@ -13,8 +13,6 @@ import edu.ycp.cs320.spartaneats.model.Item;
 public class InventoryTest {
 	private Inventory inventory1;
 	private Item item1;
-	private Item item2;
-	private Item item3;
 	
 	
 	@Before
@@ -22,11 +20,11 @@ public class InventoryTest {
 		inventory1 = new Inventory();
 		System.out.println("Setup " + inventory1.getItem("Baja Chicken"));
 		inventory1.addItem(item1);
+		inventory1.addItem(item3);
 	}
 	
 	@Test
 	public void testGetItem() {
-		//System.out.println(item1.getItemName());
 		assertEquals(inventory1.getItem(item1.getItemName()), item1);
 	}
 	

@@ -1,4 +1,4 @@
-package edu.ycp.cs320.jmyer.model;
+ package edu.ycp.cs320.jmyer.model;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
@@ -17,37 +17,46 @@ public class ItemTest {
 	//Initial setup of Item types
 	@Before
 	public void setUp() {
-		placeholder = new Item();
+		Water = new Item("Drink", "Dasani Water", 1.49, "false", 1.0);
+		Soda = new Item();
 	}
 	//Test all get methods, mixture of True, False, and Equals assertions
 	@Test
 	public void testGets() {
+		assertTrue(Water.getItemId() == 1.0);
+		assertTrue(Water.getItemType().equals("Drink"));
 		assertTrue(Water.getItemName().equals("Dasani Water"));
-		assertTrue(Soda.getItemName().equals("Mug Root Beer"));
-		//Same Statements Different assertion types
 		assertTrue(Water.getPrice() == 1.49);
-		assertEquals(Water.getPrice(), 1.49, 0.0000001);
-		assertTrue(Water.getItemId() == 1);
-		assertEquals(Water.getItemId(), 1, 0.0000001);
-		//False assertions
-		assertFalse(Soda.getItemName().equals("Coffee"));
-		assertFalse(Soda.getItemId() == 1);
-		assertFalse(Soda.getPrice() == 1.00);	
+		assertTrue(Water.getCondiments().equals("false"));
+		//assertTrue(Soda.getItemName().equals("Mug Root Beer"));
 	}
 	@Test
+	public void testSetItemID() {
+		Soda.setItemId(2.0);
+		assertTrue(Soda.getItemId() == 2.0);
+	}
+	
+	@Test
+	public void testSetItemType() {
+		Soda.setItemType("Drink");
+		assertTrue(Soda.getItemType().equals("Drink"));
+	}
+	
+	@Test
 	public void testSetItemName() {
-		placeholder.setItemName("Turkey Bacon");
-		assertTrue(placeholder.getItemName().equals("Turkey Bacon"));
+		Soda.setItemName("Mug Root Beer");
+		assertTrue(Soda.getItemName().equals("Mug Root Beer"));
 	}
 	
 	@Test
 	public void testSetPrice() {
-		placeholder.setPrice(6.49);
-		assertTrue(placeholder.getPrice() == 6.49);
+		Soda.setPrice(1.49);
+		assertTrue(Soda.getPrice() == 1.49);
 	}
-
+	
 	@Test
-	public void testSetItemId() {
-		assertTrue(placeholder.getItemId() == 1);
+	public void testSetCondiments() {
+		Soda.setCondiments("false");
+		assertTrue(Soda.getCondiments().equals("false"));
 	}
 }
