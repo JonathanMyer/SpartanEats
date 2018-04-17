@@ -13,11 +13,6 @@ public class OrderItem {
 
 	}
 	
-	
-
-
-	
-	
 
 
 	public int getOrder_id() {
