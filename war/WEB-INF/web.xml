@@ -22,10 +22,6 @@
 	<servlet-name>AddDrinksServlet</servlet-name>
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.AddDrinksServlet</servlet-class>
   </servlet>
- <servlet>
-	<servlet-name>AddSandwichServlet</servlet-name>
-	<servlet-class>edu.ycp.cs320.spartaneats.servlet.AddSandwichServlet</servlet-class>
-  </servlet>
     <servlet>
 	<servlet-name>AdminServlet</servlet-name>
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.AdminServlet</servlet-class>
@@ -73,10 +69,12 @@
     <servlet-name>AddSnacksServlet</servlet-name>
     <url-pattern>/addsnacks</url-pattern>
   </servlet-mapping>
+
     <servlet-mapping>
     <servlet-name>SetDeliveryMethod</servlet-name>
     <url-pattern>/setdeliverymethod</url-pattern>
   </servlet-mapping>
+
 
 
   <servlet-mapping>

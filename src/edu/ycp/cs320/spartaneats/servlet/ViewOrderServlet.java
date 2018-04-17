@@ -24,7 +24,6 @@ import edu.ycp.cs320.spartaneats.model.Extras;
 import edu.ycp.cs320.spartaneats.model.Inventory;
 import edu.ycp.cs320.spartaneats.model.Item;
 import edu.ycp.cs320.spartaneats.model.Order;
-import edu.ycp.cs320.spartaneats.model.Sandwich;
 
 
 public class ViewOrderServlet extends HttpServlet {
@@ -38,7 +37,7 @@ public class ViewOrderServlet extends HttpServlet {
 		
 		HttpSession session = req.getSession(false);    // fetch the session and handle 
         Inventory inventory = new Inventory();
-        Order order = new Order(false, false, 1);
+        Order order = new Order(false, 1);
 	    if (session == null) {    // no session exists, redirect to error page with error message
 	    	resp.sendRedirect(req.getContextPath()+"/login");
 	        } 
@@ -69,13 +68,13 @@ public class ViewOrderServlet extends HttpServlet {
 		
 		Drink removeDrink = null;
 		Item removeItem = null;
-		Sandwich removeSandwich = null;
+		Extras removeExtra = null;
 		Boolean continueOrder = false;
 		
 		continueOrder =  Boolean.valueOf(req.getParameter("continueOrder"));
 		removeDrink = inventory.getDrink(req.getParameter("removedrink"));
 		removeItem = inventory.getItem(req.getParameter("removeitem"));
-		removeSandwich = inventory.getSandwich(req.getParameter("removesandwich"));
+		removeExtra = inventory.getExtras(req.getParameter("removeextra"));
 		if (removeDrink != null) {
 			order.removeDrink(removeDrink);
 			System.out.println("removing " + removeDrink);
@@ -84,9 +83,9 @@ public class ViewOrderServlet extends HttpServlet {
 			order.removeItem(removeItem);
 			System.out.println("removing " + removeItem);
 		}
-		if (removeSandwich != null) {
-			order.removeSandwich(removeSandwich);
-			System.out.println("removing " + removeSandwich);
+		if (removeExtra != null) {
+			order.removeExtra(removeExtra);
+			System.out.println("removing " + removeExtra);
 		}
 		if (continueOrder) {
 			req.getRequestDispatcher("/_view/createorder.jsp").forward(req, resp);
