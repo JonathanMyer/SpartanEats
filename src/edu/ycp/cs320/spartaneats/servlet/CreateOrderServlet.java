@@ -34,7 +34,7 @@ public class CreateOrderServlet extends HttpServlet {
 	        } 
 	    // create an order if one doesn't already exist
 	    if (session.getAttribute("order") == null) {
-	    	Order order = new Order(false, false, 1);
+	    	Order order = new Order(false, 1);
 	    	session.setAttribute("order", order);
 	    }
 	    
