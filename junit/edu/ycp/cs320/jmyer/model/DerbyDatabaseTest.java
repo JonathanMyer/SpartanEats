@@ -142,7 +142,10 @@ public class DerbyDatabaseTest {
 	
 	
 	@Test
-	public void testFind
+	public void testAddItemToOrder() throws SQLException{
+		db.addItemToOrder(1, 2, 1);
+		db.addItemToOrder(1, 2, 1);
+	}
 
 
 }

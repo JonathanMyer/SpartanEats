@@ -12,7 +12,8 @@ input[type="image"]{
 <html>
 <body>
   <form action="${pageContext.servletContext.contextPath}/createorder" method="get">
-    <input type="image" src="https://i.imgur.com/bgSYjEw.png" alt="Delivery">
-    <input type="image" src="https://i.imgur.com/vElZnLF.png" alt="Pickup">
+    <input type="image" src="https://i.imgur.com/bgSYjEw.png" alt="Delivery" name="deliverypref" value="delivery">
+    <input type="image" src="https://i.imgur.com/vElZnLF.png" alt="Pickup" name="deliverypref" value="pickup">
+   </form>
 </body>
 </html>

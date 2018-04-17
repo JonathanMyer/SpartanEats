@@ -139,12 +139,18 @@ h1{
   <h1><b>SPARTAN EATS</b></h1>
 </div>
 <form action="${pageContext.servletContext.contextPath}/additems" method="get">
-<button class="startOrder"value="New Order" name="get" style="vertical-align:middle"><span>Add Items</span></button>
+<button class="startOrder"value="Mexican" name="type" style="vertical-align:middle"><span>View Mexican Options</span></button>
 </form>
-<form action="${pageContext.servletContext.contextPath}/adddrinks" method="get">
-<button class="startOrder"value="New Order" name="get" style="vertical-align:middle"><span>Add Drinks</span></button>
+<form action="${pageContext.servletContext.contextPath}/additems" method="get">
+<button class="startOrder"value="Drink" name="type" style="vertical-align:middle"><span>View Drinks</span></button>
 </form>
-</div>
-</div>
+<form action="${pageContext.servletContext.contextPath}/additems" method="get">
+<button class="startOrder"value="Pizza" name="type" style="vertical-align:middle"><span>View Pizza</span></button>
+</form>
+<form action="${pageContext.servletContext.contextPath}/additems" method="get">
+<button class="startOrder"value="Sandwich" name="type" style="vertical-align:middle"><span>View Sandwich</span></button>
+</form>
+
+
 </body>
 </html>
