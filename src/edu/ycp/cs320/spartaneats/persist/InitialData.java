@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import edu.ycp.cs320.spartaneats.model.Account;
+import edu.ycp.cs320.spartaneats.model.Condiments;
 import edu.ycp.cs320.spartaneats.model.Item;
 
 public class InitialData {
@@ -32,6 +33,29 @@ public class InitialData {
 			return ItemList;
 		} finally {
 			readItems.close();
+		}
+	}
+	public static List<Condiments> getCondiment() throws IOException {
+		List<Condiments> CondimentsList = new ArrayList<Condiments>();
+		ReadCSV readCondiments = new ReadCSV("condiments.csv");
+		try {
+			while (true) {
+				List<String> tuple = readCondiments.next();
+				if (tuple == null) {
+					break;
+				}
+				Iterator<String> i = tuple.iterator();
+				Condiments Condiment = new Condiments();
+	
+				Condiment.setCondType(i.next());
+				Condiment.setCondName(i.next());
+				Condiment.setContID(Integer.parseInt(i.next()));
+				
+				CondimentsList.add(Condiment);
+			}
+			return CondimentsList;
+		} finally {
+			readCondiments.close();
 		}
 	}
 
