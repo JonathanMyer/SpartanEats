@@ -15,6 +15,7 @@ import edu.ycp.cs320.spartaneats.model.Account;
 import edu.ycp.cs320.spartaneats.model.Condiments;
 import edu.ycp.cs320.spartaneats.model.Item;
 import edu.ycp.cs320.spartaneats.model.Order;
+import edu.ycp.cs320.spartaneats.model.OrderItem;
 import edu.ycp.cs320.spartaneats.persist.DerbyDatabase.Transaction;
 import edu.ycp.cs320.sqldemo.DBUtil;
 
@@ -114,6 +115,16 @@ public class DerbyDatabase {
 		condiment.setContID(resultSet.getInt(index++));
 	}
 	
+	private void loadOrderItem(OrderItem orderItem, ResultSet resultSet, int index) throws SQLException {
+		orderItem.setOrder_id(resultSet.getInt(index++));
+		orderItem.setItem_id(resultSet.getInt(index++));
+		orderItem.setAmount(resultSet.getInt(index++));
+		String[] temp = resultSet.getString(index++).split(",");
+		for(String s: temp) {
+			orderItem.getCondiment_id().add(Integer.parseInt(s));
+		}
+	}
+	
 	public void dropTables() throws SQLException {
 		doExecuteTransaction(new Transaction<Boolean>() {
 			@Override
@@ -151,7 +162,7 @@ public class DerbyDatabase {
 							( "drop table orderitem");
 					dropOrderItems.execute();
 					dropOrderItems.close();
-		
+
 
 					return true;
 				} catch (Exception ex) {
@@ -236,7 +247,8 @@ public class DerbyDatabase {
 							"create table orderitem ("+
 									" order_id int, " +
 									" item_id int, " +
-									" amount int" + 
+									" amount int, " + 
+									" condiments varChar(40) " +
 									")"
 							);
 					createOrderItemTable.executeUpdate();
@@ -634,9 +646,9 @@ public class DerbyDatabase {
 				try {
 					//retrieve all attributes 
 					stmt = conn.prepareStatement(
-							"select item.*"+
-									" from item " +
-									"where item.itemName = ?"
+							"select items.*"+
+									" from items " +
+									"where items.itemName = ?"
 							);
 					stmt.setString(1, name);
 
@@ -670,6 +682,52 @@ public class DerbyDatabase {
 			}
 		});
 	}
+	
+	
+	public List<Item> findItembyType(String type) throws SQLException {
+		return doExecuteTransaction(new Transaction<List<Item>>() {
+			public List<Item> execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"select items.*"+
+									" from items " +
+									"where items.itemType = ?"
+							);
+					stmt.setString(1, type);
+
+
+					List<Item> result = new ArrayList<Item>();
+					resultSet = stmt.executeQuery();
+
+					//for testing that a result was returned
+					Boolean found = false;
+
+					while (resultSet.next()) {
+						found = true;
+
+						//retrieve attributes from resultSet starting with index 1
+						Item item = new Item();
+						loadItem(item, resultSet, 1);
+						result.add(item);
+
+					}
+
+					//check if the title was found
+					if (!found) {
+						System.out.println("<" + type + "> -Item type wasn't found in the item table");
+
+					}
+					return result;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
 
 	public List<Item> findAllItems() throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Item>>() {
@@ -679,8 +737,7 @@ public class DerbyDatabase {
 				try {
 					//retrieve all attributes 
 					stmt = conn.prepareStatement(
-							"select item.*"+
-									" from item "
+							"select * from items "
 							);
 
 					List<Item> result = new ArrayList<Item>();
@@ -810,7 +867,7 @@ public class DerbyDatabase {
 		});
 	}
 	
-	/*public List<Order> addItemToOrder(int order_id, Item item) throws SQLException {
+	public List<Order> addItemToOrder(int order_id, int item_id, int amount) throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Order>>() {
 			public List<Order> execute(Connection conn) throws SQLException{
 				PreparedStatement stmt = null;
@@ -818,11 +875,12 @@ public class DerbyDatabase {
 				try {
 					//retrieve all attributes 
 					stmt = conn.prepareStatement(
-							"insert into orders (delivery, account_id)" +
-									"values (?, ?)" 
+							"insert into orderitem (order_id, item_id, amount)" +
+									"values (?, ?, ?)" 
 							);
-					stmt.setString(1, delivery);
-					stmt.setInt(2, account_id);
+					stmt.setInt(1, order_id);
+					stmt.setInt(2, item_id);
+					stmt.setInt(3, amount);
 
 
 
@@ -836,7 +894,7 @@ public class DerbyDatabase {
 			}
 		});
 	}
-	*/
+	
 	// The main method creates the database tables and loads the initial data.
 	public static void main(String[] args) throws IOException, SQLException {
 		DerbyDatabase db = new DerbyDatabase();

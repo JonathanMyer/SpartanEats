@@ -65,7 +65,7 @@ public class ViewOrderServlet extends HttpServlet {
 		model.setInventory(inventory);
 	
 		Item removeItem = null;
-		Extras removeExtra = null;
+		
 		Boolean continueOrder = false;
 		
 		continueOrder =  Boolean.valueOf(req.getParameter("continueOrder"));
