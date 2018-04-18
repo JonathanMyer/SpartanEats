@@ -2,6 +2,7 @@ package edu.ycp.cs320.spartaneats.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -39,8 +40,10 @@ public class CreateOrderServlet extends HttpServlet {
 	    
 	    
 	    try {
-			db.createOrder((int) session.getAttribute("account_id"), req.getParameter("deliverypref"));
-		} catch (SQLException e) {
+			int order_id = db.createOrder((int) session.getAttribute("account_id"), req.getParameter("deliverypref"));
+			session.setAttribute("order_id", order_id);
+	    
+	    } catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

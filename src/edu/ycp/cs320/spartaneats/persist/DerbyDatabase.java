@@ -100,7 +100,7 @@ public class DerbyDatabase {
 		item.setItemName(resultSet.getString(index++));
 		item.setPrice(resultSet.getDouble(index++));	
 		item.setCondiments(resultSet.getString(index++));
-		item.setItemId(resultSet.getDouble(index++));
+		item.setItemId(resultSet.getInt(index++));
 	}
 	
 	private void loadOrder(Order order, ResultSet resultSet, int index) throws SQLException {
@@ -119,10 +119,13 @@ public class DerbyDatabase {
 		orderItem.setOrder_id(resultSet.getInt(index++));
 		orderItem.setItem_id(resultSet.getInt(index++));
 		orderItem.setAmount(resultSet.getInt(index++));
-		String[] temp = resultSet.getString(index++).split(",");
-		for(String s: temp) {
-			orderItem.getCondiment_id().add(Integer.parseInt(s));
+		String temps = resultSet.getString(index++);
+		String[] temp = temps.split(",");
+		for (String s: temp) {
+			orderItem.addCondiment_idToList(Integer.parseInt(s));
 		}
+		
+		
 	}
 	
 	public void dropTables() throws SQLException {
@@ -215,7 +218,7 @@ public class DerbyDatabase {
 									"	itemName varchar(40)," +
 									"   price float, " +
 									"   condiments varchar(40)," +
-									"	itemId double " +
+									"	itemId int " +
 									")"
 							);
 					createItemTable.executeUpdate(); 	
@@ -246,7 +249,7 @@ public class DerbyDatabase {
 									" order_id int, " +
 									" item_id int, " +
 									" amount int, " + 
-									" condiments varChar(40) " +
+									" condiments varChar(1000) " +
 									")"
 							);
 					createOrderItemTable.executeUpdate();
@@ -323,7 +326,7 @@ public class DerbyDatabase {
 						insertItem.setString(2, item.getItemName());
 						insertItem.setDouble(3, item.getPrice());
 						insertItem.setString(4, item.getCondiments());
-						insertItem.setDouble(5, item.getItemId());
+						insertItem.setInt(5, item.getItemId());
 						insertItem.addBatch();
 					}
 					insertItem.executeBatch();
@@ -636,9 +639,9 @@ public class DerbyDatabase {
 		});
 	}
 
-	public List<Item> findItembyName(String name) throws SQLException {
-		return doExecuteTransaction(new Transaction<List<Item>>() {
-			public List<Item> execute(Connection conn) throws SQLException{
+	public Item findItembyName(String name) throws SQLException {
+		return doExecuteTransaction(new Transaction<Item>() {
+			public Item execute(Connection conn) throws SQLException{
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
 				try {
@@ -651,28 +654,19 @@ public class DerbyDatabase {
 					stmt.setString(1, name);
 
 
-					List<Item> result = new ArrayList<Item>();
 					resultSet = stmt.executeQuery();
 
-					//for testing that a result was returned
-					Boolean found = false;
+					
 
-					while (resultSet.next()) {
-						found = true;
+					//retrieve attributes from resultSet starting with index 1
+					Item item = new Item();
+					loadItem(item, resultSet, 1);
+					
 
-						//retrieve attributes from resultSet starting with index 1
-						Item item = new Item();
-						loadItem(item, resultSet, 1);
-						result.add(item);
+					
 
-					}
-
-					//check if the title was found
-					if (!found) {
-						System.out.println("<" + name+ "> -Item name wasn't found in the item table");
-
-					}
-					return result;
+					
+					return item;
 				}finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
@@ -716,6 +710,51 @@ public class DerbyDatabase {
 					//check if the title was found
 					if (!found) {
 						System.out.println("<" + type + "> -Item type wasn't found in the item table");
+
+					}
+					return result;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	public List<Condiments> findCondimentbyType(String type) throws SQLException {
+		return doExecuteTransaction(new Transaction<List<Condiments>>() {
+			public List<Condiments> execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"select condiments.*"+
+									" from condiments " +
+									"where condiments.condType = ?"
+							);
+					stmt.setString(1, type);
+
+
+					List<Condiments> result = new ArrayList<Condiments>();
+					resultSet = stmt.executeQuery();
+
+					//for testing that a result was returned
+					Boolean found = false;
+
+					while (resultSet.next()) {
+						found = true;
+
+						//retrieve attributes from resultSet starting with index 1
+						Condiments cond = new Condiments();
+						loadCondiment(cond, resultSet, 1);
+						result.add(cond);
+
+					}
+
+					//check if the title was found
+					if (!found) {
+						System.out.println("<" + type + "> -Condiment type wasn't found in the item table");
 
 					}
 					return result;
@@ -798,11 +837,13 @@ public class DerbyDatabase {
 		});
 	}
 	
-	public List<Order> createOrder(int account_id, String delivery) throws SQLException {
-		return doExecuteTransaction(new Transaction<List<Order>>() {
-			public List<Order> execute(Connection conn) throws SQLException{
+	public int createOrder(int account_id, String delivery) throws SQLException {
+		return doExecuteTransaction(new Transaction<Integer>() {
+			public Integer execute(Connection conn) throws SQLException{
 				PreparedStatement stmt = null;
+				
 				ResultSet resultSet = null;
+				
 				try {
 					//retrieve all attributes 
 					stmt = conn.prepareStatement(
@@ -811,12 +852,14 @@ public class DerbyDatabase {
 							);
 					stmt.setString(1, delivery);
 					stmt.setInt(2, account_id);
-
-
-
+					int highestOrderNum = 0;
+					List<Order> orderList = findOrdersFromAccountID(account_id);
+					for (Order o: orderList) {
+						highestOrderNum = o.getOrderId();
+					}
 					stmt.executeUpdate();
 
-					return null;
+					return highestOrderNum;
 				}finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
@@ -865,7 +908,7 @@ public class DerbyDatabase {
 		});
 	}
 	
-	public List<Order> addItemToOrder(int order_id, int item_id, int amount) throws SQLException {
+	public List<Order> findOrdersFromAccountID(int account_id) throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Order>>() {
 			public List<Order> execute(Connection conn) throws SQLException{
 				PreparedStatement stmt = null;
@@ -873,12 +916,58 @@ public class DerbyDatabase {
 				try {
 					//retrieve all attributes 
 					stmt = conn.prepareStatement(
-							"insert into orderitem (order_id, item_id, amount)" +
-									"values (?, ?, ?)" 
+							"select orders.* " +
+									"from accounts, orders " +
+									"where orders.account_id =  ?"
+							);
+					stmt.setInt(1, account_id);
+					
+
+
+					List<Order> result = new ArrayList<Order>();
+					resultSet = stmt.executeQuery();
+					//for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+
+						//retrieve attributes from resultSet starting with index 1
+						Order order = new Order(false, 0);
+						loadOrder(order, resultSet, 1);
+						result.add(order);
+					}
+					
+					return result;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	public List<Order> addItemToOrder(int order_id, int item_id, int amount, List<Integer> conds_id) throws SQLException {
+		return doExecuteTransaction(new Transaction<List<Order>>() {
+			public List<Order> execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				String condimentsString = "";
+				
+				for(Integer i: conds_id) {
+					condimentsString += i.toString() + ",";
+				}
+				
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"insert into orderitem (order_id, item_id, amount, condiments)" +
+									"values (?, ?, ?, ?)" 
 							);
 					stmt.setInt(1, order_id);
 					stmt.setInt(2, item_id);
 					stmt.setInt(3, amount);
+					stmt.setString(4, condimentsString);
 
 
 
@@ -892,6 +981,49 @@ public class DerbyDatabase {
 			}
 		});
 	}
+	
+	public List<OrderItem> findOrderItemsFromOrderID(int order_id) throws SQLException {
+		return doExecuteTransaction(new Transaction<List<OrderItem>>() {
+			public List<OrderItem> execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"select orderitem.* " +
+									"from orderitem " +
+									"where orderitem.order_id = ?" +
+									")"
+							);
+					stmt.setInt(1, order_id);
+					
+
+
+					List<OrderItem> result = new ArrayList<OrderItem>();
+					resultSet = stmt.executeQuery();
+					//for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+
+						//retrieve attributes from resultSet starting with index 1
+						OrderItem orderItem = new OrderItem();
+						loadOrderItem(orderItem, resultSet, 1);
+						result.add(orderItem);
+					}
+					
+					return result;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	
+	
 	
 	// The main method creates the database tables and loads the initial data.
 	public static void main(String[] args) throws IOException, SQLException {

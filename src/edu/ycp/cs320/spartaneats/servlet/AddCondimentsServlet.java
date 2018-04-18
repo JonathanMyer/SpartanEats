@@ -26,7 +26,7 @@ import edu.ycp.cs320.spartaneats.model.Order;
 import edu.ycp.cs320.spartaneats.persist.DerbyDatabase;
 
 
-public class AddItemsServlet extends HttpServlet {
+public class AddCondimentsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Override
@@ -54,7 +54,7 @@ public class AddItemsServlet extends HttpServlet {
 		}
 		
 		req.setAttribute("itemList", itemList);
-	    req.getRequestDispatcher("/_view/additems.jsp").forward(req, resp);
+	    req.getRequestDispatcher("/_view/addcondiments.jsp").forward(req, resp);
 		
 	
 	}
@@ -77,11 +77,6 @@ public class AddItemsServlet extends HttpServlet {
 			if (addItem.getCondiments().equals("true")) {
 				List<Condiments> condList = db.findCondimentbyType(addItem.getItemType());
 				req.setAttribute("condList", condList);
-				session.setAttribute("addItem", addItem);
-				req.getRequestDispatcher("/_view/addcondiments.jsp");
-			} else {
-				db.addItemToOrder((int)session.getAttribute("orderNum"), addItem.getItemId(), 1, new ArrayList<Integer>());
-				req.getRequestDispatcher("/_veiw/vieworder.jsp");
 			}
 			
 			
@@ -95,7 +90,7 @@ public class AddItemsServlet extends HttpServlet {
 		
 		
 		
-		req.getRequestDispatcher("/_view/additems.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/addcondiments.jsp").forward(req, resp);
 		
 	}
 

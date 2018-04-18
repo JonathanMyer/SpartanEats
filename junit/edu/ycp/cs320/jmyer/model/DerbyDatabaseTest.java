@@ -3,13 +3,16 @@ package edu.ycp.cs320.jmyer.model;
 import static org.junit.Assert.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import edu.ycp.cs320.spartaneats.model.Account;
+import edu.ycp.cs320.spartaneats.model.Condiments;
 import edu.ycp.cs320.spartaneats.model.Item;
+import edu.ycp.cs320.spartaneats.model.OrderItem;
 import edu.ycp.cs320.spartaneats.persist.DerbyDatabase;
 
 
@@ -143,9 +146,32 @@ public class DerbyDatabaseTest {
 	
 	@Test
 	public void testAddItemToOrder() throws SQLException{
-		db.addItemToOrder(1, 2, 1);
-		db.addItemToOrder(1, 2, 1);
+		List<Condiments> conds = null;
+		try{
+			conds = db.findAllCondiments();
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		List<Integer> conds_id = new ArrayList<Integer>();
+		conds_id.add(1);
+		conds_id.add(2);
+		conds_id.add(3);
+		
+		try {
+			db.addItemToOrder(1, 2, 1, conds_id);
+			db.addItemToOrder(2, 3, 1, conds_id);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		db.findOrderItemsFromOrderID(1);
 	}
+	
+	
 
+	
 
 }

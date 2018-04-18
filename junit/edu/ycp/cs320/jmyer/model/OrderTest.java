@@ -20,11 +20,13 @@ public class OrderTest {
 	
 	@Before
 	public void setUp() {
+
 		SampleOrder1 = new Order(true, 1, 1);
-		SampleItem1 = new Item("Drink", "Water", 1.49, "false", 1.0);
+		SampleItem1 = new Item("Drink", "Water", 1.49, "false", 1);
 		SampleOrder1.addItem(SampleItem1);
+
 		
-		SampleItem2 = new Item("Drink", "Mug", 1.49, "false", 2.0);
+		SampleItem2 = new Item("Drink", "Mug", 1.49, "false", 2);
 		SampleOrder2 = new Order();
 		
 		SampleOrder3 = new Order(true, 1, 1);		

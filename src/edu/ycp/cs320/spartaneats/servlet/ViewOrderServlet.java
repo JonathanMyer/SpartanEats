@@ -22,6 +22,7 @@ import edu.ycp.cs320.spartaneats.model.CreateOrderModel;
 import edu.ycp.cs320.spartaneats.model.Inventory;
 import edu.ycp.cs320.spartaneats.model.Item;
 import edu.ycp.cs320.spartaneats.model.Order;
+import edu.ycp.cs320.spartaneats.persist.DerbyDatabase;
 
 
 public class ViewOrderServlet extends HttpServlet {
@@ -39,8 +40,14 @@ public class ViewOrderServlet extends HttpServlet {
 	    if (session == null) {    // no session exists, redirect to error page with error message
 	    	resp.sendRedirect(req.getContextPath()+"/login");
 	        } 
-	    session.setAttribute("inventory", inventory);
-	    session.setAttribute("order", order);
+	   
+	    DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
+	    try {
+			req.setAttribute("itemList", db.findOrderItemsFromOrderID((int)session.getAttribute("order_id")));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	    req.getRequestDispatcher("/_view/vieworder.jsp").forward(req, resp);
 		
 	

@@ -17,13 +17,13 @@ public class ItemTest {
 	//Initial setup of Item types
 	@Before
 	public void setUp() {
-		Water = new Item("Drink", "Dasani Water", 1.49, "false", 1.0);
+		Water = new Item("Drink", "Dasani Water", 1.49, "false", 1);
 		Soda = new Item();
 	}
 	//Test all get methods, mixture of True, False, and Equals assertions
 	@Test
 	public void testGets() {
-		assertTrue(Water.getItemId() == 1.0);
+		assertTrue(Water.getItemId() == 1);
 		assertTrue(Water.getItemType().equals("Drink"));
 		assertTrue(Water.getItemName().equals("Dasani Water"));
 		assertTrue(Water.getPrice() == 1.49);
@@ -32,8 +32,8 @@ public class ItemTest {
 	}
 	@Test
 	public void testSetItemID() {
-		Soda.setItemId(2.0);
-		assertTrue(Soda.getItemId() == 2.0);
+		Soda.setItemId(2);
+		assertTrue(Soda.getItemId() == 2);
 	}
 	
 	@Test
