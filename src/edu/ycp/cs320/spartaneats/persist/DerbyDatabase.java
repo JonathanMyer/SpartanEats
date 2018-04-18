@@ -660,6 +660,7 @@ public class DerbyDatabase {
 
 					//retrieve attributes from resultSet starting with index 1
 					Item item = new Item();
+					resultSet.next();
 					loadItem(item, resultSet, 1);
 					
 
@@ -969,8 +970,6 @@ public class DerbyDatabase {
 					stmt.setInt(3, amount);
 					stmt.setString(4, condimentsString);
 
-
-
 					stmt.executeUpdate();
 
 					return null;
@@ -981,7 +980,29 @@ public class DerbyDatabase {
 			}
 		});
 	}
-	
+	/*
+	public List<OrderItem> removeItemFromOrder(OrderItem orderItem) throws SQLException {
+		return doExecuteTransaction(new Transaction<List<OrderItem>>() {
+			public List<OrderItem> execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;			
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"delete from orderitem where order_id=? and item_id=?"
+							);
+					stmt.setInt(1, orderItem.getOrder_id());
+					stmt.setInt(2, orderItem.getItem_id());
+					stmt.executeUpdate();
+					return null;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	*/
 	public List<OrderItem> findOrderItemsFromOrderID(int order_id) throws SQLException {
 		return doExecuteTransaction(new Transaction<List<OrderItem>>() {
 			public List<OrderItem> execute(Connection conn) throws SQLException{
@@ -992,8 +1013,7 @@ public class DerbyDatabase {
 					stmt = conn.prepareStatement(
 							"select orderitem.* " +
 									"from orderitem " +
-									"where orderitem.order_id = ?" +
-									")"
+									"where orderitem.order_id = ?"
 							);
 					stmt.setInt(1, order_id);
 					
