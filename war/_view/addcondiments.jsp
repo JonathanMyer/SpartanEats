@@ -9,28 +9,8 @@ body{
 	background-color: #f2f2f2;
 	height: 100%;
 	width: 100%;
-	font-size: 26px;
+	font-size: 40px;
 	letter-spacing: 2px;
-}
-.head{
-  text-align: center;
-  color: white;
-  text-shadow: 2px 2px 8px #377A3A;
-  font-size: 40px;
-  padding-top: 100px;
-}
-#Logo {
-  position: fixed;
-  left: 300px;
-  top: 335px;
-  width:40%;
-}
-.foreground {
-  position: absolute;
-  height: 1720px;
-  width: 965px;
-  background: radial-gradient(#77F97D 5%, #68DE6D 25%, #4CAF50 70%);
-  z-index: -1;
 }
 h1{
 	text-align: center;
@@ -38,82 +18,75 @@ h1{
 	text-shadow: 4px 4px 8px #377A3A;
 	padding-bottom: 15px;
 }
-.condiments {
-  display: inline-block;
-  border-radius: 80px;
-  background-color: #f2f2f2;
-  border: none;
-  color: #4CAF50;
-  text-align: center;
-  font-size: 35px;
-	letter-spacing: 6px;
-	text-transform: uppercase;
-  padding: 10px;
-  width: 85%;
-	height: 80px;	`
-  transition: all 0.5s;
-  cursor: pointer;
-	margin-left: 85px;
-	margin-bottom: 20px;
-}
-
-.condiments span {
-  cursor: pointer;
-  display: inline-block;
+/* Customize the label (the container) */
+.container {
+  display: block;
   position: relative;
-  transition: 0.5s;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
-.condiments span:after {
-  content: '\00bb';
+/* Hide the browser's default checkbox */
+.container input {
   position: absolute;
   opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
-}
-
-.condiments:hover span {
-  padding-right: 25px;
-}
-
-.condiments:hover span:after {
-  opacity: 1;
-  right: 0;
-}
-
-.Continue {
-  display: inline-block;
-  border-radius: 80px;
-  background-color: #f2f2f2;
-  border: none;
-  color: #4CAF50;
-  text-align: center;
-  font-size: 80px;
-	letter-spacing: 6px;
-	text-transform: uppercase;
-  padding: 10px;
-  width: 45px;
-	height: 60px;	`
-  transition: all 0.5s;
   cursor: pointer;
-	margin-left: 10px;
-	margin-bottom: 20px;
 }
 
-.h2{
-font-size: 100 px;
-color: #4CAF50;
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
 }
 
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
 </style>
 <title>Condiments</title>
 
 <body>
-<div class="foreground"></div>
-<div class="head">
 <h1><b>Condiments</b></h1>
-</div>	
 <c:if test="${! empty model.error}">
 <div class="error">${model.error}</div>
 </c:if>
@@ -123,12 +96,14 @@ color: #4CAF50;
 <table>
 	<c:forEach items="${condimentList}" var="condiments">                      
       	<tr>
-      	<td><button type = "Submit" value="${condiments.condName}" name  = "addcondiments">${condiments.condName} add</button></td>
+      	<td><label class="container">
+  <input type="checkbox" value="${condiments.condName}" name="addcondiments">${condiments.condName}
+  <span class="checkmark"></span>
+</label></td>
       	</tr>
    	</c:forEach>
 </table>
-
-		
+	<input type="Submit">
 </form>
 </body>
 </html>
