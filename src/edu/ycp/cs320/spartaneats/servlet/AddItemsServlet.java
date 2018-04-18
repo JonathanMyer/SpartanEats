@@ -44,7 +44,7 @@ public class AddItemsServlet extends HttpServlet {
 	    DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
 		List<Item> itemList = new ArrayList<Item>();
 		System.out.println(req.getParameter("type"));
-		System.out.println("Hello?");
+		
 		try {
 			itemList = db.findItembyType(req.getParameter("type"));
 			
