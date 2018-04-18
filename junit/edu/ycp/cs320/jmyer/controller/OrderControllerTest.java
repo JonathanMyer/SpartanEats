@@ -19,9 +19,9 @@ public class OrderControllerTest {
 	@Before
 	public void setUp() {
 		controller = new OrderController();
-		order1 = new Order(true, 1);
-		order2 = new Order(false, 2);
-		order3 = new Order(true,  3);
+		order1 = new Order(true, 1, 0);
+		order2 = new Order(false, 2, 0);
+		order3 = new Order(true,  3, 0);
 		controller.addOrder(order1);
 		controller.addOrder(order2);
 	}
