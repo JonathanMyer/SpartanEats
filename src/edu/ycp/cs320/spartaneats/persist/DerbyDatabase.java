@@ -238,11 +238,12 @@ public class DerbyDatabase {
 					createCondimentTable.executeUpdate(); 
 					createOrdersTable = conn.prepareStatement(
 							"create table orders (" +
-									" order_id integer primary key "  + 
+									" order_id integer not null  "  + 
 									"		generated always as identity (start with 1, increment by 1), " +
 									
 									" delivery varChar(40)," +
-									" account_id integer " +
+									" account_id integer, " +
+									" CONSTRAINT primary_key PRIMARY KEY (order_id)" +
 									")"
 							);
 					createOrdersTable.executeUpdate();
@@ -690,7 +691,7 @@ public class DerbyDatabase {
 					stmt = conn.prepareStatement(
 							"select items.*"+
 									" from items " +
-									"where items.item_id = ?"
+									"where items.itemId = ?"
 							);
 					stmt.setInt(1, item_id);
 
@@ -710,6 +711,44 @@ public class DerbyDatabase {
 
 					
 					return item;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	public Condiments findCondimentsbyCondimentID(int condiment_id) throws SQLException {
+		return doExecuteTransaction(new Transaction<Condiments>() {
+			public Condiments execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"select condiments.*"+
+									" from condiments " +
+									"where condiments.condID = ?"
+							);
+					stmt.setInt(1, condiment_id);
+
+
+					resultSet = stmt.executeQuery();
+
+					
+
+					//retrieve attributes from resultSet starting with index 1
+					Condiments cond = new Condiments();
+					resultSet.next();
+
+					loadCondiment(cond, resultSet, 1);
+					
+
+					
+
+					
+					return cond;
 				}finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
@@ -884,9 +923,9 @@ public class DerbyDatabase {
 		return doExecuteTransaction(new Transaction<Integer>() {
 			public Integer execute(Connection conn) throws SQLException{
 				PreparedStatement stmt = null;
-				
-				
-				
+				PreparedStatement stmt2 = null;
+				ResultSet resultSet = null;
+				String genId[] = { "order_id" };
 				
 				
 				try {
@@ -894,19 +933,26 @@ public class DerbyDatabase {
 					stmt = conn.prepareStatement(
 							"insert into orders (delivery, account_id)" +
 									"values (?, ?)" 
-							, 1 );
+							, stmt.RETURN_GENERATED_KEYS);
 					stmt.setString(1, delivery);
 					stmt.setInt(2, account_id);
-					int order_id = stmt.executeUpdate();
+					stmt.executeUpdate();
 					
-					System.out.println("Order ID:" + order_id);
+					resultSet = stmt.getGeneratedKeys();
+					int order_id = 0;
+					if(resultSet.next()) {
+						order_id = resultSet.getInt(1);
+						System.out.println("Order ID:" + order_id);
+					}
+					
+					
 					return order_id;
 					
 					
 					
 				}	
 				finally {
-				
+					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(stmt);
 				}				
 			}

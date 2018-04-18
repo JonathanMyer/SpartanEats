@@ -47,15 +47,19 @@ public class ViewOrderServlet extends HttpServlet {
 	    DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
 	    
 	    try {
+	    	
+	    	// compile the order
 			orderItem =  db.findOrderItemsFromOrderID((int)session.getAttribute("order_id"));
 			for (OrderItem o: orderItem) {
 		    	 order.addItem(db.findItembyItemID(o.getItem_id()));
 		    	 List<String> tempCondArray = new ArrayList<String>();
 		    	 for(int i: o.getCondiment_id()) {
-		    		 db.findCon
+		    		 tempCondArray.add(db.findCondimentsbyCondimentID(i).getCondName());
 		    	 }
+		    	 order.getCondArray().add(tempCondArray);
+		    	 
 		     }
-			 
+			 req.setAttribute("order", order);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -100,9 +104,7 @@ public class ViewOrderServlet extends HttpServlet {
 			req.getRequestDispatcher("/_view/createorder.jsp").forward(req, resp);
 		}
 		
-		//errorMessage = "hello";
 		
-		//model.setError(errorMessage);
 		
 		req.setAttribute("model", model);
 		req.setAttribute("inventory", inventory);

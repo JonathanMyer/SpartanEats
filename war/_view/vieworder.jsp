@@ -124,12 +124,16 @@ color: #4CAF50;
 
 <div> Currently Selected Items:</div>
 <table>
-	<c:forEach items="${itemList}" var="item">
+	<c:forEach items="${order.itemList}" var="item" varStatus="inter">
 	
 	<button class = "Items" type = "Submit" value="${item.itemName}"name  = "removeitem">${item.itemName}    ${item.price}</button>
 	
+	<c:forEach items= "${order.condArray[iter.index]}" var = "condiment">
+		<button class = "Items" type = "Submit" value="${condiment.condName}"name  = "removeitem">${condiment.condName}</button>
 	</c:forEach>
-	<td>Total: ${order.totalPrice}</td>
+	
+	</c:forEach>
+	
 </table>
 
 

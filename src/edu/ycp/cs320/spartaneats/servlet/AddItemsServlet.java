@@ -45,6 +45,7 @@ public class AddItemsServlet extends HttpServlet {
 		List<Item> itemList = new ArrayList<Item>();
 		System.out.println(req.getParameter("type"));
 		
+		
 		try {
 			itemList = db.findItembyType(req.getParameter("type"));
 			
@@ -79,6 +80,8 @@ public class AddItemsServlet extends HttpServlet {
 				req.setAttribute("condList", condList);
 				session.setAttribute("addItem", addItem);
 				resp.sendRedirect(req.getContextPath()+"/addcondiments");
+				
+				
 			} else {
 				int orderNum = (int)session.getAttribute("order_id");
 				
