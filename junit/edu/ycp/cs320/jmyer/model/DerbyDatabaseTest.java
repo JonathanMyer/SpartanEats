@@ -114,9 +114,7 @@ public class DerbyDatabaseTest {
 		// Caprese,6.49
 		String name = "Caprese";
 		List<Item> itemList;
-		itemList = db.findItembyName(name);
-		assertEquals(1, itemList.size());
-		Item item = itemList.get(0);
+		Item item =  db.findItembyName(name);
 		assertTrue(item.getItemName().equals("Caprese"));
 		assertTrue(item.getPrice() == 6.49);
 	}
