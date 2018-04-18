@@ -15,16 +15,16 @@ input[type="image"]{
     <input type="image" class="startOrder"value="Pizza" name="type" src="https://i.imgur.com/gLlYsi8.png" alt="Pizza">
 </form>
 <form action="${pageContext.servletContext.contextPath}/additems" method="get">
- <input type="image" class="startOrder"value="Sandwiches" name="type" src="https://i.imgur.com/7AgJ1u1.png" alt="Sandwiches">
+ <input type="image" class="startOrder"value="Sandwich" name="type" src="https://i.imgur.com/7AgJ1u1.png" alt="Sandwiches">
 </form>
 <form action="${pageContext.servletContext.contextPath}/additems" method="get">
- <input type="image" class="startOrder"value="Tacos" name="type" src="https://i.imgur.com/uu9i1fP.png" alt="Tacos">
+ <input type="image" class="startOrder"value="Mexican" name="type" src="https://i.imgur.com/uu9i1fP.png" alt="Tacos">
 </form>
 <form action="${pageContext.servletContext.contextPath}/additems" method="get">
- <input type="image" class="startOrder"value="Snacks" name="type" src="https://i.imgur.com/cRkeVVo.png" alt="Snacks">
+ <input type="image" class="startOrder"value="Snack" name="type" src="https://i.imgur.com/cRkeVVo.png" alt="Snacks">
 </form>
 <form action="${pageContext.servletContext.contextPath}/additems" method="get">
- <input type="image" class="startOrder"value="Drinks" name="type" src="https://i.imgur.com/3bw5jij.png" alt="Drinks">
+ <input type="image" class="startOrder"value="Drink" name="type" src="https://i.imgur.com/3bw5jij.png" alt="Drinks">
 </form>
 
 </body>
