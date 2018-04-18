@@ -35,7 +35,7 @@ public class ViewOrderServlet extends HttpServlet {
 		
 		HttpSession session = req.getSession(false);    // fetch the session and handle 
         Inventory inventory = new Inventory();
-        Order order = new Order(false, 1);
+        Order order = new Order(false, 1, 1);
 	    if (session == null) {    // no session exists, redirect to error page with error message
 	    	resp.sendRedirect(req.getContextPath()+"/login");
 	        } 

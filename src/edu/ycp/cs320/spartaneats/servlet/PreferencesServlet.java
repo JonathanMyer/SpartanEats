@@ -44,7 +44,7 @@ public class PreferencesServlet {
 		// result of calculation goes here
 		OrderController controller = new OrderController();
 		
-		Order order = new Order(null, 0);
+		Order order = new Order(null, 0, 0);
 		
 		
 		
