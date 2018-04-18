@@ -44,6 +44,7 @@ public class AddItemsServlet extends HttpServlet {
 		DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
 		List<Item> itemList = new ArrayList<Item>();
 		System.out.println(req.getParameter("type"));
+
 		if(req.getParameter("type").equals("Pizza")) {
 			try {
 				List<Condiments>condimentList = db.findCondimentbyType(req.getParameter("type"));
@@ -77,6 +78,7 @@ public class AddItemsServlet extends HttpServlet {
 
 			req.setAttribute("itemList", itemList);
 			req.getRequestDispatcher("/_view/additems.jsp").forward(req, resp);
+
 		}
 	}
 	@Override
@@ -99,6 +101,8 @@ public class AddItemsServlet extends HttpServlet {
 				req.setAttribute("condList", condList);
 				session.setAttribute("addItem", addItem);
 				resp.sendRedirect(req.getContextPath()+"/addcondiments");
+				
+				
 			} else {
 				int orderNum = (int)session.getAttribute("order_id");
 
