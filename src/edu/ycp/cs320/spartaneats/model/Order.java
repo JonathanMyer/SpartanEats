@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Order  {
 	private List<Item> selectedItems;
+	private List<List> condArray = new ArrayList<List>();
 	private Boolean delivery;
 	private int orderId;
 	private int accountId;
@@ -58,11 +59,21 @@ public class Order  {
 	public List<Item> getItemList(){
 		return this.selectedItems;
 	}
+	
+	
 	public double getTotalPrice() {
 		double price = 0;
 		for(Item i: selectedItems) {
 			price += i.getPrice();
 		}
 		return price;
+	}
+	
+	public List<List> getCondArray() {
+		return condArray;
+	}
+	
+	public void setCondArray(List<List> condArray) {
+		this.condArray = condArray;
 	}
 }

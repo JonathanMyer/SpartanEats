@@ -122,7 +122,10 @@ public class DerbyDatabase {
 		String temps = resultSet.getString(index++);
 		String[] temp = temps.split(",");
 		for (String s: temp) {
-			orderItem.addCondiment_idToList(Integer.parseInt(s));
+			if (s.length()>0) {
+				orderItem.addCondiment_idToList(Integer.parseInt(s));
+			}
+			
 		}
 		
 		
@@ -661,6 +664,45 @@ public class DerbyDatabase {
 					//retrieve attributes from resultSet starting with index 1
 					Item item = new Item();
 					resultSet.next();
+
+					loadItem(item, resultSet, 1);
+					
+
+					
+
+					
+					return item;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	public Item findItembyItemID(int item_id) throws SQLException {
+		return doExecuteTransaction(new Transaction<Item>() {
+			public Item execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"select items.*"+
+									" from items " +
+									"where items.item_id = ?"
+							);
+					stmt.setInt(1, item_id);
+
+
+					resultSet = stmt.executeQuery();
+
+					
+
+					//retrieve attributes from resultSet starting with index 1
+					Item item = new Item();
+					resultSet.next();
+
 					loadItem(item, resultSet, 1);
 					
 
@@ -843,29 +885,34 @@ public class DerbyDatabase {
 			public Integer execute(Connection conn) throws SQLException{
 				PreparedStatement stmt = null;
 				
-				ResultSet resultSet = null;
+				
+				
+				
 				
 				try {
 					//retrieve all attributes 
 					stmt = conn.prepareStatement(
 							"insert into orders (delivery, account_id)" +
 									"values (?, ?)" 
-							);
+							, 1 );
 					stmt.setString(1, delivery);
 					stmt.setInt(2, account_id);
-					int highestOrderNum = 0;
-					List<Order> orderList = findOrdersFromAccountID(account_id);
-					for (Order o: orderList) {
-						highestOrderNum = o.getOrderId();
-					}
-					stmt.executeUpdate();
-
-					return highestOrderNum;
-				}finally {
-					DBUtil.closeQuietly(resultSet);
+					int order_id = stmt.executeUpdate();
+					
+					System.out.println("Order ID:" + order_id);
+					return order_id;
+					
+					
+					
+				}	
+				finally {
+				
 					DBUtil.closeQuietly(stmt);
-				}
+				}				
 			}
+			
+			
+		
 		});
 	}
 	
@@ -919,9 +966,11 @@ public class DerbyDatabase {
 					stmt = conn.prepareStatement(
 							"select orders.* " +
 									"from accounts, orders " +
-									"where orders.account_id =  ?"
+									"where orders.account_id = accounts.account_id and " +
+									"accounts.account_id = ?"
 							);
 					stmt.setInt(1, account_id);
+					
 					
 
 
@@ -953,7 +1002,7 @@ public class DerbyDatabase {
 			public List<Order> execute(Connection conn) throws SQLException{
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
-				String condimentsString = "";
+				String condimentsString = new String();
 				
 				for(Integer i: conds_id) {
 					condimentsString += i.toString() + ",";
@@ -1013,7 +1062,10 @@ public class DerbyDatabase {
 					stmt = conn.prepareStatement(
 							"select orderitem.* " +
 									"from orderitem " +
-									"where orderitem.order_id = ?"
+
+									"where orderitem.order_id = ?" 
+									
+
 							);
 					stmt.setInt(1, order_id);
 					

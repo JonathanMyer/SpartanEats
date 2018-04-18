@@ -78,10 +78,13 @@ public class AddItemsServlet extends HttpServlet {
 				List<Condiments> condList = db.findCondimentbyType(addItem.getItemType());
 				req.setAttribute("condList", condList);
 				session.setAttribute("addItem", addItem);
-				req.getRequestDispatcher("/_view/addcondiments.jsp");
+				resp.sendRedirect(req.getContextPath()+"/addcondiments");
 			} else {
-				db.addItemToOrder((int)session.getAttribute("orderNum"), addItem.getItemId(), 1, new ArrayList<Integer>());
-				req.getRequestDispatcher("/_veiw/vieworder.jsp");
+				int orderNum = (int)session.getAttribute("order_id");
+				
+				
+				db.addItemToOrder(orderNum, addItem.getItemId(), 1, new ArrayList<Integer>(0));
+				resp.sendRedirect(req.getContextPath()+"/vieworder");
 			}
 			
 			

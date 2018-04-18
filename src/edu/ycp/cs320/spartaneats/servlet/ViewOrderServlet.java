@@ -3,6 +3,7 @@ package edu.ycp.cs320.spartaneats.servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,6 +23,7 @@ import edu.ycp.cs320.spartaneats.model.CreateOrderModel;
 import edu.ycp.cs320.spartaneats.model.Inventory;
 import edu.ycp.cs320.spartaneats.model.Item;
 import edu.ycp.cs320.spartaneats.model.Order;
+import edu.ycp.cs320.spartaneats.model.OrderItem;
 import edu.ycp.cs320.spartaneats.persist.DerbyDatabase;
 
 
@@ -37,17 +39,30 @@ public class ViewOrderServlet extends HttpServlet {
 		HttpSession session = req.getSession(false);    // fetch the session and handle 
         Inventory inventory = new Inventory();
         Order order = new Order(false, 1, 1);
+        List<OrderItem> orderItem = null;
+        order.getCondArray();
 	    if (session == null) {    // no session exists, redirect to error page with error message
 	    	resp.sendRedirect(req.getContextPath()+"/login");
 	        } 
-	   
 	    DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
+	    
 	    try {
-			req.setAttribute("itemList", db.findOrderItemsFromOrderID((int)session.getAttribute("order_id")));
+			orderItem =  db.findOrderItemsFromOrderID((int)session.getAttribute("order_id"));
+			for (OrderItem o: orderItem) {
+		    	 order.addItem(db.findItembyItemID(o.getItem_id()));
+		    	 List<String> tempCondArray = new ArrayList<String>();
+		    	 for(int i: o.getCondiment_id()) {
+		    		 db.findCon
+		    	 }
+		     }
+			 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	     
+	    
+	    
 	    req.getRequestDispatcher("/_view/vieworder.jsp").forward(req, resp);
 		
 	
