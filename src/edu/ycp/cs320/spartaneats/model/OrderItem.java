@@ -6,7 +6,7 @@ public class OrderItem {
 	private int order_id;
 	private int item_id;
 	private int amount;
-	private ArrayList<Integer> condiment_id;
+	private ArrayList<Integer> condiment_id = new ArrayList<Integer>();
 	
 	
 	public OrderItem() {
@@ -54,7 +54,9 @@ public class OrderItem {
 		this.amount = amount;
 	}
 
-
+	public void addCondiment_idToList(int i) {
+		condiment_id.add(i);
+	}
 
 
 	public ArrayList<Integer> getCondiment_id() {

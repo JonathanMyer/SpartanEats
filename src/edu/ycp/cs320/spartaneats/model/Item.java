@@ -6,13 +6,13 @@ public class Item {
 	private String itemName;
 	private double price;
 	private String condiments;
-	private Double itemId;
+	private int itemId;
 	
 	public Item() {
 
 	}
 	
-	public Item(String itemType, String itemName, double price, String condiments, Double itemID) {
+	public Item(String itemType, String itemName, double price, String condiments, int itemID) {
 		this.itemType = itemType;
 		this.itemName = itemName;
 		this.price = price;
@@ -52,11 +52,11 @@ public class Item {
 		this.condiments = condiments;
 	}
 	
-	public void setItemId(Double itemId) {
+	public void setItemId(int itemId) {
 		this.itemId = itemId;
 	}
 	
-	public Double getItemId() {
+	public int getItemId() {
 		return itemId;
 	}
 }

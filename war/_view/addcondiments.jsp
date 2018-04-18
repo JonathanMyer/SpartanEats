@@ -1,7 +1,6 @@
 <!DOCTYPE html> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-
 <html>
 <style>
 
@@ -39,26 +38,6 @@ h1{
 	text-shadow: 4px 4px 8px #377A3A;
 	padding-bottom: 15px;
 }
-
-.Continue {
-  display: inline-block;
-  border-radius: 80px;
-  background-color: #f2f2f2;
-  border: none;
-  color: #4CAF50;
-  text-align: center;
-  
-	letter-spacing: 6px;
-	text-transform: uppercase;
-  padding: 10px;
-  width: 45%;
-	height: 60px;	`
-  transition: all 0.5s;
-  cursor: pointer;
-	margin-left: 10px;
-	margin-bottom: 20px;
-}
-
 .Items {
   display: inline-block;
   border-radius: 80px;
@@ -66,15 +45,15 @@ h1{
   border: none;
   color: #4CAF50;
   text-align: center;
-  font-size: 30px;
+  font-size: 35px;
 	letter-spacing: 6px;
 	text-transform: uppercase;
   padding: 10px;
   width: 85%;
-	height: 60px;	`
+	height: 80px;	`
   transition: all 0.5s;
   cursor: pointer;
-	margin-left: 10px;
+	margin-left: 85px;
 	margin-bottom: 20px;
 }
 
@@ -103,42 +82,53 @@ h1{
   right: 0;
 }
 
+.Continue {
+  display: inline-block;
+  border-radius: 80px;
+  background-color: #f2f2f2;
+  border: none;
+  color: #4CAF50;
+  text-align: center;
+  font-size: 80px;
+	letter-spacing: 6px;
+	text-transform: uppercase;
+  padding: 10px;
+  width: 45px;
+	height: 60px;	`
+  transition: all 0.5s;
+  cursor: pointer;
+	margin-left: 10px;
+	margin-bottom: 20px;
+}
+
 .h2{
-font-size: 200px;
+font-size: 100 px;
 color: #4CAF50;
 }
+
 </style>
-<title>Order</title>
+<title>Items</title>
+
+<body>
 <div class="foreground"></div>
 <div class="head">
-<h1><b>Order</b></h1>
-</div>
-<body>
-		
+<h1><b>Items</b></h1>
+</div>	
 <c:if test="${! empty model.error}">
 <div class="error">${model.error}</div>
 </c:if>
-<form action="${pageContext.servletContext.contextPath}/vieworder" method="post">
-
-<button class="Continue" type="Submit" value="true" name="continueOrder" style="vertical-align:middle"><h2>Continue Ordering</h2></button>
-
-<div> Currently Selected Items:</div>
+		
+<form action="${pageContext.servletContext.contextPath}/addcondiments" method="post">
+			
 <table>
-	<c:forEach items="${itemList}" var="item">
-	
-	<button class = "Items" type = "Submit" value="${item.itemName}"name  = "removeitem">${item.itemName}    ${item.price}</button>
-	
-	</c:forEach>
-	<td>Total: ${order.totalPrice}</td>
+	<c:forEach items="${itemList}" var="item">                      
+      	<tr>
+      	<td><button type = "Submit" value="${item.itemName}" name  = "additem">${item.itemName} add</button></td>
+      	</tr>
+   	</c:forEach>
 </table>
 
-
-			
-
-
-   	
-   	
-   	
+		
 </form>
 </body>
 </html>

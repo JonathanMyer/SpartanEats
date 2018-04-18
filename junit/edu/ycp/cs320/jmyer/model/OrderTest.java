@@ -20,9 +20,9 @@ public class OrderTest {
 	@Before
 	public void setUp() {
 		order1 = new Order(true, 1);
-		item1 = new Item("Drink", "Water", 1.49, "false", 1.0);
+		item1 = new Item("Drink", "Water", 1.49, "false", 1);
 		order1.addItem(item1);
-		item2 = new Item("Drink", "Mug", 1.49, "false", 2.0);
+		item2 = new Item("Drink", "Mug", 1.49, "false", 2);
 		order2 = new Order(null, 2);
 		
 		

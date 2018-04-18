@@ -26,7 +26,7 @@ public class InitialData {
 				item.setItemName(i.next());
 				item.setPrice(Double.parseDouble(i.next()));
 				item.setCondiments(i.next());
-				item.setItemId(Double.parseDouble(i.next()));
+				item.setItemId(Integer.parseInt(i.next()));
 				
 				ItemList.add(item);
 			}
