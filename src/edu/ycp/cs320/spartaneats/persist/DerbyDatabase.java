@@ -894,7 +894,7 @@ public class DerbyDatabase {
 						found = true;
 
 						//retrieve attributes from resultSet starting with index 1
-						Order order = new Order(false, 0);
+						Order order = new Order();
 						loadOrder(order, resultSet, 1);
 						result.add(order);
 					}
@@ -933,7 +933,7 @@ public class DerbyDatabase {
 						found = true;
 
 						//retrieve attributes from resultSet starting with index 1
-						Order order = new Order(false, 0);
+						Order order = new Order();
 						loadOrder(order, resultSet, 1);
 						result.add(order);
 					}
