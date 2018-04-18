@@ -49,7 +49,7 @@ public class InitialData {
 	
 				Condiment.setCondType(i.next());
 				Condiment.setCondName(i.next());
-				Condiment.setContID(Integer.parseInt(i.next()));
+				Condiment.setCondID(Integer.parseInt(i.next()));
 				
 				CondimentsList.add(Condiment);
 			}

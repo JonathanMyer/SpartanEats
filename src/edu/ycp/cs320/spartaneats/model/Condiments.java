@@ -3,15 +3,15 @@ package edu.ycp.cs320.spartaneats.model;
 public class Condiments {
 	private String condType;
 	private String condName;
-	private int contID;
+	private int CondID;
 	
 	public Condiments() {
 		
 	}
-	public Condiments(String condType, String CondName, int ContID) {
+	public Condiments(String condType, String CondName, int CondID) {
 		this.setCondType(condType);
 		this.setCondName(CondName);
-		this.setContID(ContID);
+		this.setCondID(CondID);
 	}
 	public String getCondType() {
 		return condType;
@@ -25,10 +25,10 @@ public class Condiments {
 	public void setCondName(String condName) {
 		this.condName = condName;
 	}
-	public int getContID() {
-		return contID;
+	public int getCondID() {
+		return CondID;
 	}
-	public void setContID(int contID) {
-		this.contID = contID;
+	public void setCondID(int CondID) {
+		this.CondID = CondID;
 	}
 }

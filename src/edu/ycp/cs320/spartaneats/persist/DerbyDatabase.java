@@ -112,7 +112,7 @@ public class DerbyDatabase {
 	private void loadCondiment(Condiments condiment, ResultSet resultSet, int index) throws SQLException {
 		condiment.setCondType(resultSet.getString(index++));
 		condiment.setCondName(resultSet.getString(index++));
-		condiment.setContID(resultSet.getInt(index++));
+		condiment.setCondID(resultSet.getInt(index++));
 	}
 	
 	private void loadOrderItem(OrderItem orderItem, ResultSet resultSet, int index) throws SQLException {
@@ -221,8 +221,6 @@ public class DerbyDatabase {
 									"	itemId int " +
 									")"
 							);
-
-					
 					createItemTable.executeUpdate(); 	
 					
 					createCondimentTable= conn.prepareStatement(
@@ -338,7 +336,7 @@ public class DerbyDatabase {
 					for (Condiments condiment : condimentList) {
 						insertCondiment.setString(1, condiment.getCondType());
 						insertCondiment.setString(2, condiment.getCondName());
-						insertCondiment.setInt(3, condiment.getContID());
+						insertCondiment.setInt(3, condiment.getCondID());
 						insertCondiment.addBatch();
 					}
 					insertCondiment.executeBatch();
