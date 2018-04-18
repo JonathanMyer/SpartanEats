@@ -18,7 +18,7 @@ import edu.ycp.cs320.spartaneats.controller.OrderController;
 import edu.ycp.cs320.spartaneats.controller.OrderController;
 import edu.ycp.cs320.spartaneats.model.Account;
 //import edu.ycp.cs320.spartaneats.model.AccountControllerPopulate;
-
+import edu.ycp.cs320.spartaneats.model.Condiments;
 import edu.ycp.cs320.spartaneats.model.CreateOrderModel;
 import edu.ycp.cs320.spartaneats.model.Inventory;
 import edu.ycp.cs320.spartaneats.model.Item;
@@ -72,7 +72,25 @@ public class AddItemsServlet extends HttpServlet {
 		DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
 		
 		
-		
+		try {
+			Item addItem = (Item) db.findItembyName(req.getParameter("additem"));
+			if (addItem.getCondiments().equals("true")) {
+				List<Condiments> condList = db.findCondimentbyType(addItem.getItemType());
+				req.setAttribute("condList", condList);
+				session.setAttribute("addItem", addItem);
+				req.getRequestDispatcher("/_view/addcondiments.jsp");
+			} else {
+				db.addItemToOrder((int)session.getAttribute("orderNum"), addItem.getItemId(), 1, new ArrayList<Integer>());
+				req.getRequestDispatcher("/_veiw/vieworder.jsp");
+			}
+			
+			
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 		

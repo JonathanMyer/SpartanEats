@@ -79,6 +79,7 @@ public class LoginServlet extends HttpServlet {
 			int account_id = model.getAccount().getAccountId();
 			session.setAttribute("account_id", account_id);
 			session.setAttribute("db", db);
+			session.setAttribute("username", model.getAccountName());
 			if(model.getAdmin()==true) {
 				System.out.println("Admin Status was found as admin");
 				resp.sendRedirect(req.getContextPath()+"/admin");
