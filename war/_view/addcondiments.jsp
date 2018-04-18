@@ -38,7 +38,7 @@ h1{
 	text-shadow: 4px 4px 8px #377A3A;
 	padding-bottom: 15px;
 }
-.Items {
+.condiments {
   display: inline-block;
   border-radius: 80px;
   background-color: #f2f2f2;
@@ -57,14 +57,14 @@ h1{
 	margin-bottom: 20px;
 }
 
-.Items span {
+.condiments span {
   cursor: pointer;
   display: inline-block;
   position: relative;
   transition: 0.5s;
 }
 
-.Items span:after {
+.condiments span:after {
   content: '\00bb';
   position: absolute;
   opacity: 0;
@@ -73,11 +73,11 @@ h1{
   transition: 0.5s;
 }
 
-.Items:hover span {
+.condiments:hover span {
   padding-right: 25px;
 }
 
-.Items:hover span:after {
+.condiments:hover span:after {
   opacity: 1;
   right: 0;
 }
@@ -107,12 +107,12 @@ color: #4CAF50;
 }
 
 </style>
-<title>Items</title>
+<title>Condiments</title>
 
 <body>
 <div class="foreground"></div>
 <div class="head">
-<h1><b>Items</b></h1>
+<h1><b>Condiments</b></h1>
 </div>	
 <c:if test="${! empty model.error}">
 <div class="error">${model.error}</div>
@@ -121,9 +121,9 @@ color: #4CAF50;
 <form action="${pageContext.servletContext.contextPath}/addcondiments" method="post">
 			
 <table>
-	<c:forEach items="${itemList}" var="item">                      
+	<c:forEach items="${condimentList}" var="condiments">                      
       	<tr>
-      	<td><button type = "Submit" value="${item.itemName}" name  = "additem">${item.itemName} add</button></td>
+      	<td><button type = "Submit" value="${condiments.condName}" name  = "addcondiments">${condiments.condName} add</button></td>
       	</tr>
    	</c:forEach>
 </table>

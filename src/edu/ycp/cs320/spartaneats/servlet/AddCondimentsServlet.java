@@ -42,23 +42,21 @@ public class AddCondimentsServlet extends HttpServlet {
 	    	resp.sendRedirect(req.getContextPath()+"/login");
 	        } 
 	    DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
-		List<Item> itemList = new ArrayList<Item>();
+		List<Condiments> condimentList = new ArrayList<Condiments>();
 		System.out.println(req.getParameter("type"));
-		System.out.println("Hello?");
 		try {
-			itemList = db.findItembyType(req.getParameter("type"));
+			condimentList = db.findCondimentbyType(req.getParameter("type"));
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		req.setAttribute("itemList", itemList);
+		req.setAttribute("condimentList", condimentList);
 	    req.getRequestDispatcher("/_view/addcondiments.jsp").forward(req, resp);
 		
 	
 	}
-	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -70,29 +68,18 @@ public class AddCondimentsServlet extends HttpServlet {
 		String errorMessage = null;
 
 		DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
-		
-		
+
 		try {
 			Item addItem = (Item) db.findItembyName(req.getParameter("additem"));
 			if (addItem.getCondiments().equals("true")) {
-				List<Condiments> condList = db.findCondimentbyType(addItem.getItemType());
-				req.setAttribute("condList", condList);
+				List<Condiments> condimentList = db.findCondimentbyType(addItem.getItemType());
+				req.setAttribute("condimentList", condimentList);
 			}
-			
-			
-			
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
-		
-		req.getRequestDispatcher("/_view/addcondiments.jsp").forward(req, resp);
-		
-	}
 
-	
+		req.getRequestDispatcher("/_view/addcondiments.jsp").forward(req, resp);
+	}
 }
