@@ -11,10 +11,10 @@ input[type="image"]{
 </style>
 <title>Spartan Eats</title>
 <body>
-<form action="${pageContext.servletContext.contextPath}/additems" method="get">
+<form action="${pageContext.servletContext.contextPath}/addcondiments" method="get">
     <input type="image" class="startOrder"value="Pizza" name="type" src="https://i.imgur.com/gLlYsi8.png" alt="Pizza">
 </form>
-<form action="${pageContext.servletContext.contextPath}/additems" method="get">
+<form action="${pageContext.servletContext.contextPath}/addcondiments" method="get">
  <input type="image" class="startOrder"value="Sandwich" name="type" src="https://i.imgur.com/7AgJ1u1.png" alt="Sandwiches">
 </form>
 <form action="${pageContext.servletContext.contextPath}/additems" method="get">

@@ -18,6 +18,10 @@
 	<servlet-name>AddItemsServlet</servlet-name>
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.AddItemsServlet</servlet-class>
   </servlet>
+    <servlet>
+	<servlet-name>AddCondimentsServlet</servlet-name>
+	<servlet-class>edu.ycp.cs320.spartaneats.servlet.AddCondimentsServlet</servlet-class>
+  </servlet>
   <servlet>
 	<servlet-name>AdminServlet</servlet-name>
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.AdminServlet</servlet-class>
@@ -52,6 +56,10 @@
   <servlet-mapping>
     <servlet-name>AddItemsServlet</servlet-name>
     <url-pattern>/additems</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>AddCondimentsServlet</servlet-name>
+    <url-pattern>/addcondiments</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>SetDeliveryMethod</servlet-name>
