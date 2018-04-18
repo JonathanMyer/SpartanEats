@@ -7,7 +7,7 @@ public class Order  {
 	private List<Item> selectedItems;
 	private Boolean delivery = false;
 	private int orderId;
-	private int account_id;
+	private int accountId;
 	
 	public Order(Boolean Delivery, int OrderId) {
 		selectedItems = new ArrayList<Item>();
