@@ -5,16 +5,19 @@ import java.util.List;
 
 public class Order  {
 	private List<Item> selectedItems;
-	private List<List> condArray = new ArrayList<List>();
+	private List<List<Condiments>> condArray;
 	private Boolean delivery;
 	private int orderId;
 	private int accountId;
+	private Boolean active;
 	
 	public Order() {
 	selectedItems = new ArrayList<Item>();
+	condArray = new ArrayList<List<Condiments>>();
 	}
 	public Order(Boolean Delivery, int OrderId, int AccountId) {
 		selectedItems = new ArrayList<Item>();
+		condArray = new ArrayList<List<Condiments>>();
 		this.delivery = Delivery;
 		this.orderId = OrderId;
 		this.accountId = AccountId;
@@ -69,11 +72,29 @@ public class Order  {
 		return price;
 	}
 	
-	public List<List> getCondArray() {
+	public List<List<Condiments>> getCondArray() {
 		return condArray;
 	}
 	
-	public void setCondArray(List<List> condArray) {
+	public void addCondArrayList(List<Condiments> condList) {
+		this.condArray.add(condList);
+	}
+	
+	public void setCondArray(List<List<Condiments>> condArray) {
 		this.condArray = condArray;
+	}
+	public Boolean getActive() {
+		return active;
+	}
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+	
+	public void setActiveTrue() {
+		this.active = true;
+	}
+	
+	public void setActiveFalse() {
+		this.active = false;
 	}
 }
