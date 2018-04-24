@@ -173,11 +173,22 @@ public class DerbyDatabaseTest {
 
 		db.findOrderItemsFromOrderID(1);
 	}
-/*
+
 	@Test
 	public void testRemoveItemFromOrder() throws SQLException{
 		try {
-			db.removeItemFromOrder(SampleOrderItem);
+			int order_id = db.createOrder(4, "deliver");
+			List<Integer> condList = new ArrayList<Integer>();
+			condList.add(3);
+			condList.add(4);
+			condList.add(7);
+			db.addItemToOrder(order_id, 4, 1, condList);
+			db.addItemToOrder(order_id, 6, 1, new ArrayList<Integer>(0));
+			List<OrderItem> orderItemList = db.findOrderItemsFromOrderID(order_id);
+			assertTrue(orderItemList.size() == 2);
+			db.removeItemFromOrder(orderItemList.get(2));
+			orderItemList = db.findOrderItemsFromOrderID(order_id);
+			assertTrue(orderItemList.size() == 1);
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -186,6 +197,23 @@ public class DerbyDatabaseTest {
 
 		db.findOrderItemsFromOrderID(1);
 	}
-*/
+
+	@Test
+	public void testActiveOrders(){
+		try {
+			int order_id = db.createOrder(4, "delivery");
+			int active = db.updateOrderToActive(order_id);
+			List<Order> activeOrders = db.findActiveOrders();
+			assertTrue(activeOrders.size() == 1);
+			db.updateOrderToInActive(order_id);
+			activeOrders = db.findActiveOrders();
+			assertTrue(activeOrders.size() == 0);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 }
