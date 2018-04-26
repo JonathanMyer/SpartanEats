@@ -3,6 +3,7 @@ package edu.ycp.cs320.spartaneats.servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -52,6 +53,8 @@ public class AddCondimentsServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
+		
+		
 		req.setAttribute("condimentList", condimentList);
 	    req.getRequestDispatcher("/_view/addcondiments.jsp").forward(req, resp);
 		
@@ -68,18 +71,31 @@ public class AddCondimentsServlet extends HttpServlet {
 		String errorMessage = null;
 
 		DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
-
-		try {
-			Item addItem = (Item) db.findItembyName(req.getParameter("additem"));
-			if (addItem.getCondiments().equals("true")) {
-				List<Condiments> condimentList = db.findCondimentbyType(addItem.getItemType());
-				req.setAttribute("condimentList", condimentList);
+		
+		String condiments[] = req.getParameterValues("addcondiments");
+		List<String> condimentList = Arrays.asList(condiments);
+		List<Integer> condimentListIds = new ArrayList<Integer>();
+		for (String s: condimentList) {
+			System.out.println(s);
+			try {
+				condimentListIds.add(db.findCondimentsbyCondimentName(s).getCondID());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+		}
+		
+		int item_id = ((Item)session.getAttribute("addItem")).getItemId();
+		System.out.println(item_id);
+		int order_id = (int)session.getAttribute("order_id");
+		try {
+			db.addItemToOrder(order_id, item_id, 1, condimentListIds);
+			resp.sendRedirect(req.getContextPath()+"/vieworder");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		req.getRequestDispatcher("/_view/addcondiments.jsp").forward(req, resp);
+		
+		//req.getRequestDispatcher("/_view/addcondiments.jsp").forward(req, resp);
 	}
 }

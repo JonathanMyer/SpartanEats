@@ -43,25 +43,30 @@ public class AddItemsServlet extends HttpServlet {
 		} 
 		DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
 		List<Item> itemList = new ArrayList<Item>();
-		System.out.println(req.getParameter("type"));
+		System.out.println("type is: " +req.getParameter("type"));
 
 		if(req.getParameter("type").equals("Pizza")) {
 			try {
 				List<Condiments>condimentList = db.findCondimentbyType(req.getParameter("type"));
 				req.setAttribute("condimentList", condimentList);
+				Item addItem = db.findItembyName("Custom Pizza");
+				System.out.println("Item name is: " + addItem.getItemName());
+				session.setAttribute("addItem", addItem);
+				req.setAttribute("type", "Pizza");
 				req.getRequestDispatcher("/_view/addcondiments.jsp").forward(req, resp);
-
+					
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		if(req.getParameter("type").equals("Sandwich")) {
+		else if(req.getParameter("type").equals("Sandwich")) {
 			try {
 				List<Condiments>condimentList = db.findCondimentbyType(req.getParameter("type"));
 				req.setAttribute("condimentList", condimentList);
+				session.setAttribute("addItem", db.findItembyName("Custom Sandwich"));
 				req.getRequestDispatcher("/_view/addcondiments.jsp").forward(req, resp);
-
+				req.setAttribute("type", "Pizza");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -70,14 +75,14 @@ public class AddItemsServlet extends HttpServlet {
 		else {
 			try {
 				itemList = db.findItembyType(req.getParameter("type"));
-
+				req.setAttribute("itemList", itemList);
+				req.getRequestDispatcher("/_view/additems.jsp").forward(req, resp);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
-			req.setAttribute("itemList", itemList);
-			req.getRequestDispatcher("/_view/additems.jsp").forward(req, resp);
+			
 
 		}
 	}
@@ -122,7 +127,7 @@ public class AddItemsServlet extends HttpServlet {
 
 
 
-		req.getRequestDispatcher("/_view/additems.jsp").forward(req, resp);
+		//req.getRequestDispatcher("/_view/additems.jsp").forward(req, resp);
 
 	}
 

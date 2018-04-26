@@ -18,7 +18,7 @@ import edu.ycp.cs320.spartaneats.controller.OrderController;
 import edu.ycp.cs320.spartaneats.controller.OrderController;
 import edu.ycp.cs320.spartaneats.model.Account;
 //import edu.ycp.cs320.spartaneats.model.AccountControllerPopulate;
-
+import edu.ycp.cs320.spartaneats.model.Condiments;
 import edu.ycp.cs320.spartaneats.model.CreateOrderModel;
 import edu.ycp.cs320.spartaneats.model.Inventory;
 import edu.ycp.cs320.spartaneats.model.Item;
@@ -37,26 +37,25 @@ public class ViewOrderServlet extends HttpServlet {
 		System.out.println("Create Order Servlet: doGet");
 		
 		HttpSession session = req.getSession(false);    // fetch the session and handle 
-        Inventory inventory = new Inventory();
         Order order = new Order(false, 1, 1);
+        
         List<OrderItem> orderItem = null;
-        order.getCondArray();
 	    if (session == null) {    // no session exists, redirect to error page with error message
 	    	resp.sendRedirect(req.getContextPath()+"/login");
 	        } 
 	    DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
-	    
+	    order.setOrderId((int)session.getAttribute("order_id"));
 	    try {
 	    	
 	    	// compile the order
-			orderItem =  db.findOrderItemsFromOrderID((int)session.getAttribute("order_id"));
+			orderItem =  db.findOrderItemsFromOrderID(order.getOrderId());
 			for (OrderItem o: orderItem) {
 		    	 order.addItem(db.findItembyItemID(o.getItem_id()));
-		    	 List<String> tempCondArray = new ArrayList<String>();
+		    	 List<Condiments> tempCondArray = new ArrayList<Condiments>();
 		    	 for(int i: o.getCondiment_id()) {
-		    		 tempCondArray.add(db.findCondimentsbyCondimentID(i).getCondName());
+		    		 tempCondArray.add(db.findCondimentsbyCondimentID(i));
 		    	 }
-		    	 order.getCondArray().add(tempCondArray);
+		    	 order.addCondArrayList(tempCondArray);
 		    	 
 		     }
 			 req.setAttribute("order", order);
@@ -84,6 +83,7 @@ public class ViewOrderServlet extends HttpServlet {
 
 		
 		//new AccountControllerPopulate(controller);
+		DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
 		Order order = (Order) session.getAttribute("order");
 		Inventory inventory = (Inventory) session.getAttribute("inventory");
 		CreateOrderModel model = new CreateOrderModel();
@@ -93,26 +93,35 @@ public class ViewOrderServlet extends HttpServlet {
 		Item removeItem = null;
 		
 		Boolean continueOrder = false;
+		Boolean orderComplete = false;
 		
 		continueOrder =  Boolean.valueOf(req.getParameter("continueOrder"));
-		removeItem = inventory.getItem(req.getParameter("removeitem"));
-		if (removeItem != null) {
-			order.removeItem(removeItem);
-			System.out.println("removing " + removeItem);
+		orderComplete = Boolean.valueOf(req.getParameter("orderComplete"));
+		
+		if (orderComplete) {
+			try {
+				int orderId = (Integer) session.getAttribute("order_id");
+				db.updateOrderToActive(orderId);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		if (continueOrder) {
 			req.getRequestDispatcher("/_view/createorder.jsp").forward(req, resp);
 		}
 		
 		
+		else {
+			req.setAttribute("model", model);
+			req.setAttribute("inventory", inventory);
+			req.setAttribute("order", order);
+			session.setAttribute("order", order);
+			session.setAttribute("inventory", inventory);
+			
+			req.getRequestDispatcher("/_view/vieworder.jsp").forward(req, resp);
+		}
 		
-		req.setAttribute("model", model);
-		req.setAttribute("inventory", inventory);
-		req.setAttribute("order", order);
-		session.setAttribute("order", order);
-		session.setAttribute("inventory", inventory);
-		
-		req.getRequestDispatcher("/_view/vieworder.jsp").forward(req, resp);
 		
 	}
 
