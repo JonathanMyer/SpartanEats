@@ -94,7 +94,7 @@ h1{
 <form action="${pageContext.servletContext.contextPath}/addcondiments" method="post">
 			
 <table>
-	<c:forEach items="${condimentList}" var="condiments">                      
+	<c:forEach items="${condimentList}" var="condiments" varStatus = "iter">                      
       	<tr>
       	<td><label class="container">
   <input type="checkbox" value="${condiments.condName}" name="addcondiments">${condiments.condName}
@@ -103,7 +103,7 @@ h1{
       	</tr>
    	</c:forEach>
 </table>
-	<input type="Submit">
+	<input type="Submit" value = "Submit">
 </form>
 </body>
 </html>

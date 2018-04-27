@@ -107,6 +107,11 @@ public class DerbyDatabase {
 		order.setOrderId(resultSet.getInt(index++));
 		order.setDelivery(Boolean.valueOf(resultSet.getString(index++)));
 		order.setAccount_id(resultSet.getInt(index++));
+		if(resultSet.getInt(index++) == 0) {
+			order.setActiveFalse();
+		}else {
+			order.setActiveTrue();
+		}
 	}
 	
 	private void loadCondiment(Condiments condiment, ResultSet resultSet, int index) throws SQLException {
@@ -198,6 +203,8 @@ public class DerbyDatabase {
 				PreparedStatement createOrderAccountTable = null;
 
 				try {
+					
+					
 					createAccountTable = conn.prepareStatement(
 							"create table accounts (" +									
 									"	userName varchar(40)," +
@@ -238,11 +245,13 @@ public class DerbyDatabase {
 					createCondimentTable.executeUpdate(); 
 					createOrdersTable = conn.prepareStatement(
 							"create table orders (" +
-									" order_id integer primary key "  + 
+									" order_id integer not null  "  + 
 									"		generated always as identity (start with 1, increment by 1), " +
 									
 									" delivery varChar(40)," +
-									" account_id integer " +
+									" account_id integer, " +
+									" CONSTRAINT primary_key PRIMARY KEY (order_id)," +
+									" active integer" +
 									")"
 							);
 					createOrdersTable.executeUpdate();
@@ -663,9 +672,11 @@ public class DerbyDatabase {
 
 					//retrieve attributes from resultSet starting with index 1
 					Item item = new Item();
-					resultSet.next();
+					if(resultSet.next()) {
+						loadItem(item, resultSet, 1);
+					}
 
-					loadItem(item, resultSet, 1);
+					
 					
 
 					
@@ -690,7 +701,7 @@ public class DerbyDatabase {
 					stmt = conn.prepareStatement(
 							"select items.*"+
 									" from items " +
-									"where items.item_id = ?"
+									"where items.itemId = ?"
 							);
 					stmt.setInt(1, item_id);
 
@@ -701,9 +712,10 @@ public class DerbyDatabase {
 
 					//retrieve attributes from resultSet starting with index 1
 					Item item = new Item();
-					resultSet.next();
+					if (resultSet.next()){
+						loadItem(item, resultSet, 1);
+					}
 
-					loadItem(item, resultSet, 1);
 					
 
 					
@@ -717,6 +729,136 @@ public class DerbyDatabase {
 			}
 		});
 	}
+	
+	public Condiments findCondimentsbyCondimentID(int condiment_id) throws SQLException {
+		return doExecuteTransaction(new Transaction<Condiments>() {
+			public Condiments execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"select condiments.*"+
+									" from condiments " +
+									"where condiments.condID = ?"
+							);
+					stmt.setInt(1, condiment_id);
+
+					resultSet = stmt.executeQuery();
+					//retrieve attributes from resultSet starting with index 1
+					Condiments cond = new Condiments();
+					if (resultSet.next()) {
+						loadCondiment(cond, resultSet, 1);
+					}			
+					return cond;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	public Condiments findCondimentsbyCondimentName(String condName) throws SQLException {
+		return doExecuteTransaction(new Transaction<Condiments>() {
+			public Condiments execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"select condiments.*"+
+									" from condiments " +
+									"where condiments.condName = ?"
+							);
+					stmt.setString(1, condName);
+
+
+					resultSet = stmt.executeQuery();
+
+					
+
+					//retrieve attributes from resultSet starting with index 1
+					Condiments cond = new Condiments();
+					
+					if (resultSet.next()) {
+						loadCondiment(cond, resultSet, 1);
+						System.out.println(cond.getCondName());
+
+					}
+
+					
+
+					
+
+					
+					return cond;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	
+	public int updateOrderToActive(int order_id) throws SQLException {
+		return doExecuteTransaction(new Transaction<Integer>() {
+			public Integer execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"update orders"+
+									" set orders.active = ? " +
+									"where orders.order_id = ?"
+							);
+					stmt.setInt(1, 1);
+					stmt.setInt(2, order_id);
+
+					int updateCount = stmt.executeUpdate();
+					return updateCount;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+				
+				
+				
+			}
+		});
+	}
+	
+	
+	public int updateOrderToInActive(int order_id) throws SQLException {
+		return doExecuteTransaction(new Transaction<Integer>() {
+			public Integer execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"update orders"+
+									" set orders.active = ? " +
+									"where orders.order_id = ?"
+							);
+					stmt.setInt(1, 0);
+					stmt.setInt(2, order_id);
+
+					int updateCount = stmt.executeUpdate();
+					return updateCount;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+				
+				
+				
+			}
+		});
+	}
+	
 	
 	
 	public List<Item> findItembyType(String type) throws SQLException {
@@ -884,29 +1026,38 @@ public class DerbyDatabase {
 		return doExecuteTransaction(new Transaction<Integer>() {
 			public Integer execute(Connection conn) throws SQLException{
 				PreparedStatement stmt = null;
-				
-				
-				
+				PreparedStatement stmt2 = null;
+				ResultSet resultSet = null;
+				String genId[] = { "order_id" };
 				
 				
 				try {
 					//retrieve all attributes 
 					stmt = conn.prepareStatement(
-							"insert into orders (delivery, account_id)" +
-									"values (?, ?)" 
-							, 1 );
+							"insert into orders (delivery, account_id, active)" +
+									"values (?, ?, ?)" 
+							, stmt.RETURN_GENERATED_KEYS);
 					stmt.setString(1, delivery);
 					stmt.setInt(2, account_id);
-					int order_id = stmt.executeUpdate();
+					int active = 0;
+					stmt.setInt(3, active);
+					stmt.executeUpdate();
 					
-					System.out.println("Order ID:" + order_id);
+					resultSet = stmt.getGeneratedKeys();
+					int order_id = 0;
+					if(resultSet.next()) {
+						order_id = resultSet.getInt(1);
+						System.out.println("Order ID:" + order_id);
+					}
+					
+					
 					return order_id;
 					
 					
 					
 				}	
 				finally {
-				
+					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(stmt);
 				}				
 			}
@@ -915,6 +1066,47 @@ public class DerbyDatabase {
 		
 		});
 	}
+	
+
+	public List<Order> findActiveOrders() throws SQLException {
+		return doExecuteTransaction(new Transaction<List<Order>>() {
+			public List<Order> execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"select orders.* " +
+									"from orders " +
+									"where orders.active = ?"
+							);
+					stmt.setInt(1, 1);
+					
+
+
+					List<Order> result = new ArrayList<Order>();
+					resultSet = stmt.executeQuery();
+					//for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+
+						//retrieve attributes from resultSet starting with index 1
+						Order order = new Order();
+						loadOrder(order, resultSet, 1);
+						result.add(order);
+					}
+					
+					return result;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
 	
 	public List<Order> findOrdersFromUsername(String userName) throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Order>>() {
@@ -954,8 +1146,7 @@ public class DerbyDatabase {
 				}
 			}
 		});
-	}
-	
+	}	
 	public List<Order> findOrdersFromAccountID(int account_id) throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Order>>() {
 			public List<Order> execute(Connection conn) throws SQLException{
@@ -1029,21 +1220,25 @@ public class DerbyDatabase {
 			}
 		});
 	}
-	/*
-	public List<OrderItem> removeItemFromOrder(OrderItem orderItem) throws SQLException {
-		return doExecuteTransaction(new Transaction<List<OrderItem>>() {
-			public List<OrderItem> execute(Connection conn) throws SQLException{
+
+	public Integer removeItemFromOrder(OrderItem orderItem) throws SQLException {
+		return doExecuteTransaction(new Transaction<Integer>() {
+			public Integer execute(Connection conn) throws SQLException{
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;			
 				try {
 					//retrieve all attributes 
 					stmt = conn.prepareStatement(
-							"delete from orderitem where order_id=? and item_id=?"
+							"delete from orderitem "+
+									"where orderitem.order_id = ? and "+
+									"orderitem.item_id = ?"
 							);
 					stmt.setInt(1, orderItem.getOrder_id());
+					System.out.println("OrderItem Order ID: " + orderItem.getOrder_id());
+					System.out.println("OrderItem Item ID: " + orderItem.getItem_id());
 					stmt.setInt(2, orderItem.getItem_id());
-					stmt.executeUpdate();
-					return null;
+					int updateCount = stmt.executeUpdate();
+					return updateCount;
 				}finally {
 					DBUtil.closeQuietly(resultSet);
 					DBUtil.closeQuietly(stmt);
@@ -1051,7 +1246,7 @@ public class DerbyDatabase {
 			}
 		});
 	}
-	*/
+
 	public List<OrderItem> findOrderItemsFromOrderID(int order_id) throws SQLException {
 		return doExecuteTransaction(new Transaction<List<OrderItem>>() {
 			public List<OrderItem> execute(Connection conn) throws SQLException{
@@ -1062,7 +1257,6 @@ public class DerbyDatabase {
 					stmt = conn.prepareStatement(
 							"select orderitem.* " +
 									"from orderitem " +
-
 									"where orderitem.order_id = ?" 
 									
 
