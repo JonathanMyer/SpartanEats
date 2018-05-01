@@ -147,9 +147,11 @@ h1{
 <button class="startOrder"value="New Order" name="get" style="vertical-align:middle"><span>Start Order</span></button>
 </form>
 <button class="trackOrder">Track Current Order</button>
+
 <form action="${pageContext.servletContext.contextPath}/savedorders" method="get">
 <button class="savedOrder">View Saved Orders</button>
 </form>
+
 <button class="setOrder">Set Order Preferrences</button>
 </div>
 </div>
