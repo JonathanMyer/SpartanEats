@@ -42,6 +42,10 @@
 	<servlet-name>ViewOrderServlet</servlet-name>
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.ViewOrderServlet</servlet-class>
   </servlet>
+  <servlet>
+	<servlet-name>SavedOrdersServlet</servlet-name>
+	<servlet-class>edu.ycp.cs320.spartaneats.servlet.SavedOrdersServlet</servlet-class>
+  </servlet>
 
 
   <!-- Servlet mappings -->
@@ -81,6 +85,11 @@
     <servlet-name>AdminServlet</servlet-name>
     <url-pattern>/admin</url-pattern>
   </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>SavedOrdersServlet</servlet-name>
+    <url-pattern>/savedorders</url-pattern>
+  </servlet-mapping>
+  
 
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
