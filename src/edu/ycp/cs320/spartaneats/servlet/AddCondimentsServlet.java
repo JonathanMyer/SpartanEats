@@ -46,7 +46,8 @@ public class AddCondimentsServlet extends HttpServlet {
 		List<Condiments> condimentList = new ArrayList<Condiments>();
 		System.out.println(req.getParameter("type"));
 		try {
-			condimentList = db.findCondimentbyType(req.getParameter("type"));
+			Item addItem =(Item) session.getAttribute("addItem");
+			condimentList = db.findCondimentbyType(addItem.getItemType());
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

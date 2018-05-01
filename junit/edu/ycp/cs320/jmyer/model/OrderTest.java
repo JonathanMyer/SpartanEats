@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.ycp.cs320.spartaneats.model.Condiments;
 import edu.ycp.cs320.spartaneats.model.Item;
 import edu.ycp.cs320.spartaneats.model.Order;
 
@@ -91,6 +92,24 @@ public class OrderTest {
 		assertTrue(SampleOrder2.getTotalPrice() == 4.47);
 		assertFalse(SampleOrder2.getTotalPrice() == 5.00);
 		
+	}
+	
+	@Test
+	public void testRemoveItemAndCond() {
+		Order sampleOrder3 = new Order();
+		sampleOrder3.addItem(new Item());
+		sampleOrder3.addItem(new Item());
+		sampleOrder3.addItem(new Item());
+		sampleOrder3.addItem(new Item());
+		sampleOrder3.addCondArrayList(new ArrayList<Condiments>());
+		sampleOrder3.addCondArrayList(new ArrayList<Condiments>());
+		sampleOrder3.addCondArrayList(new ArrayList<Condiments>());
+		sampleOrder3.addCondArrayList(new ArrayList<Condiments>());
+		assertTrue(sampleOrder3.getItemList().size() == 4);
+		assertTrue(sampleOrder3.getCondArray().size() == 4);
+		sampleOrder3.removeItemAndCond(2);
+		assertTrue(sampleOrder3.getItemList().size() == 3);
+		assertTrue(sampleOrder3.getCondArray().size() == 3);
 	}
 }
 

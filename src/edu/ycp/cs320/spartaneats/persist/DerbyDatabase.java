@@ -801,7 +801,6 @@ public class DerbyDatabase {
 		});
 	}
 	
-	
 	public int updateOrderToActive(int order_id) throws SQLException {
 		return doExecuteTransaction(new Transaction<Integer>() {
 			public Integer execute(Connection conn) throws SQLException{
@@ -830,7 +829,6 @@ public class DerbyDatabase {
 		});
 	}
 	
-	
 	public int updateOrderToInActive(int order_id) throws SQLException {
 		return doExecuteTransaction(new Transaction<Integer>() {
 			public Integer execute(Connection conn) throws SQLException{
@@ -858,8 +856,6 @@ public class DerbyDatabase {
 			}
 		});
 	}
-	
-	
 	
 	public List<Item> findItembyType(String type) throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Item>>() {
@@ -1067,7 +1063,6 @@ public class DerbyDatabase {
 		});
 	}
 	
-
 	public List<Order> findActiveOrders() throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Order>>() {
 			public List<Order> execute(Connection conn) throws SQLException{
@@ -1102,7 +1097,6 @@ public class DerbyDatabase {
 			}
 		});
 	}
-	
 	
 	public List<Order> findOrdersFromUsername(String userName) throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Order>>() {
@@ -1143,6 +1137,7 @@ public class DerbyDatabase {
 			}
 		});
 	}	
+
 	public List<Order> findOrdersFromAccountID(int account_id) throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Order>>() {
 			public List<Order> execute(Connection conn) throws SQLException{
@@ -1283,9 +1278,6 @@ public class DerbyDatabase {
 			}
 		});
 	}
-	
-	
-	
 	
 	// The main method creates the database tables and loads the initial data.
 	public static void main(String[] args) throws IOException, SQLException {
