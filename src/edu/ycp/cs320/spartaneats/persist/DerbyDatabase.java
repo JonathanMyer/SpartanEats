@@ -1081,9 +1081,6 @@ public class DerbyDatabase {
 									"where orders.active = ?"
 							);
 					stmt.setInt(1, 1);
-					
-
-
 					List<Order> result = new ArrayList<Order>();
 					resultSet = stmt.executeQuery();
 					//for testing that a result was returned
@@ -1097,7 +1094,6 @@ public class DerbyDatabase {
 						loadOrder(order, resultSet, 1);
 						result.add(order);
 					}
-					
 					return result;
 				}finally {
 					DBUtil.closeQuietly(resultSet);
