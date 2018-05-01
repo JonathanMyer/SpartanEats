@@ -52,7 +52,6 @@ height: 100px;
       	</tr>
    	</c:forEach>
 </table>
-
 		
 </form>
 </body>

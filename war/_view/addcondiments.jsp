@@ -42,7 +42,6 @@ h1{
 	opacity: 0;
   cursor: pointer;
 }
-
 /* Create a custom checkbox */
 .checkmark {
 	position: absolute;
