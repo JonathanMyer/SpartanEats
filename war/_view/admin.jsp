@@ -21,11 +21,11 @@
 		<c:if test="${! empty model.error}">
 			<div class="error">${model.error}</div>
 		</c:if>
-		<form action="${pageContext.servletContext.contextPath}/admin" method="get">
+		<form action="${pageContext.servletContext.contextPath}/admin" method="post">
 <table>
-	<c:forEach items="${activeOrder}" var="Order" varStatus="iter">
+	<c:forEach items="${activeOrder}" var="order" varStatus="iter">
 	
-	<button class="button">view order number:${Order.orderId}</button>
+	<button class="button" name="orderId" value="${order.orderId}">view order number: ${order.orderId}</button>
 	</c:forEach>
 </table>   	
 </form>
