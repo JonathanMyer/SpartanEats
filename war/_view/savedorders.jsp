@@ -139,21 +139,14 @@ h1{
 <div class="foreground"></div>
 <div class="head">
 
-	<img src="https://i.imgur.com/edPxEqg.png" title="source: imgur.com" id="Logo" /></a>
+	<img src="https://i.imgur.com/edPxEqg.png" title="source: imgur.com" id="Logo" />
   <h1><b>SPARTAN EATS</b></h1>
 </div>
-<form action="${pageContext.servletContext.contextPath}/setdeliverymethod" method="get">
-
-<button class="startOrder"value="New Order" name="get" style="vertical-align:middle"><span>Start Order</span></button>
-</form>
-<button class="trackOrder">Track Current Order</button>
 <form action="${pageContext.servletContext.contextPath}/savedorders" method="get">
-<button class="savedOrder">View Saved Orders</button>
+	<c:forEach items ="${orderList}" var="order">                      
+      	<button type = "Submit" value="${order.orderId}" name  = "orderId"> View Order: ${order.orderId}</button>	
+   	</c:forEach>
 </form>
-<button class="setOrder">Set Order Preferrences</button>
-</div>
-</div>
-
 </body>
 </html>
 
