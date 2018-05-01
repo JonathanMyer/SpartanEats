@@ -51,12 +51,13 @@ h1{
 	letter-spacing: 6px;
 	text-transform: uppercase;
   padding: 10px;
-  width: 45%;
-	height: 60px;	`
+  width: 95%;
+	height: 80px;
   transition: all 0.5s;
   cursor: pointer;
 	margin-left: 10px;
 	margin-bottom: 20px;
+	font-size: 50px;
 }
 
 .Items {
@@ -107,6 +108,14 @@ h1{
 font-size: 200px;
 color: #4CAF50;
 }
+#condiments{
+padding-left:70px;
+font-size: 60px;
+color: #ff0000;
+}
+#items{
+font-size: 80px;
+}
 </style>
 <title>Order</title>
 <div class="foreground"></div>
@@ -120,22 +129,24 @@ color: #4CAF50;
 </c:if>
 <form action="${pageContext.servletContext.contextPath}/vieworder" method="post">
 
-<button class="Continue" type="Submit" value="true" name="continueOrder" style="vertical-align:middle"><h2>Continue Ordering</h2></button>
+<button class="Continue" type="Submit" value="true" name="continueOrder" style="vertical-align:middle">Continue Ordering</button>
 
-<div> Currently Selected Items:</div>
+<div id="items"> Currently Selected Items:</div>
 <table>
 	<c:forEach items="${order.condArray}" var="condarray" varStatus="iter">
 	
-	<div>${order.itemList[iter.index].itemName}    ${order.itemList[iter.index].price}</div>
+	<div id="items">${order.itemList[iter.index].itemName}    ${order.itemList[iter.index].price}</div>
+	
+	<button class = "Items" type = "Submit" value="${iter.index}"name  = "removeItem">remove</button>
 	
 		<c:forEach items= "${condarray}" var = "condiments">
-			<div>${condiments.condName}</div>
+			<div id="condiments">+ ${condiments.condName}</div>
 		</c:forEach>
 	
 	</c:forEach>
-	<div>Total: ${order.totalPrice}</div>
+	<div id="items">Total: ${order.totalPrice}</div>
 	
-	<button class="Continue" type="Submit" value="true" name="orderComplete" style="vertical-align:middle"><h2>Submit Order</h2></button>
+	<button class="Continue" type="Submit" value="true" name="orderComplete" style="vertical-align:middle">Submit Order</button>
 </table>   	
 </form>
 </body>

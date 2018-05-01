@@ -52,14 +52,14 @@ public class LoginServlet extends HttpServlet {
 		}
 		
 		if (accountList.size() <= 0) {
-			errorMessage = "Username does not exist";
+			errorMessage = "Username or Password is Incorrect";
 		}
 		else if (accountList.size() == 1) {
 			if (accountList.get(0).isPasswordCorrect(model.getPassword())) {
 				model.setSuccess(true);
 				model.setAccount(accountList.get(0));
 			} else {
-				errorMessage = "Password is Incorrect";
+				errorMessage = "Username or Password is Incorrect";
 			}
 			if (accountList.get(0).isAdminValidated()) {
 				model.setAdmin(true);
@@ -71,10 +71,11 @@ public class LoginServlet extends HttpServlet {
 		
 		req.setAttribute("model", model);
 
-		model.setAdmin(accountList.get(0).isAdminValidated());
+		
 		
 		// Forward to view to render the result HTML document
 		if (model.getSuccess()) {
+			model.setAdmin(accountList.get(0).isAdminValidated());
 			HttpSession session = req.getSession(true);    // create the session
 			int account_id = model.getAccount().getAccountId();
 			session.setAttribute("account_id", account_id);

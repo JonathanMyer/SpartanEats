@@ -186,7 +186,7 @@ public class DerbyDatabaseTest {
 			db.addItemToOrder(order_id, 6, 1, new ArrayList<Integer>(0));
 			List<OrderItem> orderItemList = db.findOrderItemsFromOrderID(order_id);
 			assertTrue(orderItemList.size() == 2);
-			db.removeItemFromOrder(orderItemList.get(2));
+			db.removeItemFromOrder(orderItemList.get(1));
 			orderItemList = db.findOrderItemsFromOrderID(order_id);
 			assertTrue(orderItemList.size() == 1);
 
