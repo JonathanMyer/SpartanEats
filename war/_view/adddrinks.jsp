@@ -1,6 +1,4 @@
-<!DOCTYPE html> 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<!DOCTYPE html>
 <html>
 <style>
 body{
@@ -103,16 +101,16 @@ h1{
 </style>
 <title>Drinks</title>
 <body>
-<h1><b>Drinks</b></h1>
+<h1><b>Items</b></h1>
 </div>
 <c:if test="${! empty model.error}">
 <div class="error">${model.error}</div>
 </c:if>
-<form action="${pageContext.servletContext.contextPath}/addDrinks" method="post">
+<form action="${pageContext.servletContext.contextPath}/adddrinks" method="post">
 <table>
-<c:forEach items="${inventory.extraList}" var="Drinks">          
+<c:forEach items="${inventory.drinkList}" var="Drinks">          
       	<tr>
-      	<td><label class = "Drinks">
+      	<td><label class = "Extras">
 					<input type="checkbox" name="addDrinks">${Drinks.itemName}<span class="price">${Drinks.price}</span>
 					<span class="checkmark"></span>
 					</label></td>

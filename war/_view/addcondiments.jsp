@@ -11,6 +11,7 @@ body{
 	width: 100%;
 	font-size: 40px;
 	letter-spacing: 2px;
+	color: black;
 }
 h1{
 	text-align: center;
@@ -24,9 +25,10 @@ h1{
   position: relative;
   padding-left: 20px;
   margin-bottom: 30px;
-	font-size: 60px;
-	border-bottom: 6px dashed #808080;
-	padding-right: 710px;
+  font-size: 55px;
+  width: 100%;
+  border-bottom: 6px dashed #808080;
+  padding-right: 200px;
   cursor: pointer;
 
   -webkit-user-select: none;
@@ -115,7 +117,9 @@ h1{
       	</tr>
    	</c:forEach>
 </table>
+<div class="Submit">
 	<input type="Submit" value = "Submit">
+	</div>
 </form>
 </body>
 </html>
