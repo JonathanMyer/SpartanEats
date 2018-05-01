@@ -118,6 +118,10 @@ h1{
 	right:400px;
 	bottom: 8px;
 }
+.profiles{
+	padding-top: 15px;
+	display:block;
+}
 </style>
 <body>
 	<a href="https://imgur.com/edPxEqg"><img src="https://i.imgur.com/edPxEqg.png" title="source: imgur.com" id="Logo" /></a>
@@ -137,9 +141,9 @@ h1{
   </form>
 </div>
 <div class="footer">
-  	<p>Chase Teichmann</p>
-	<p>Samantha Kiser</p>
-	<p>Johnathan Myer</p>
+	<a href="http://localhost:8081/spartaneats/profiles#John" class="profiles">Johnathan Myer</a>
+  	<a href="http://localhost:8081/spartaneats/profiles#Chase" class="profiles">Chase Teichmann</a>
+	<a href="http://localhost:8081/spartaneats/profiles#Sam" class="profiles">Samantha Kiser</a>
 	<a href="https://imgur.com/O7SkjrK"><img src="https://i.imgur.com/O7SkjrK.png" title="source: imgur.com" id="Eclipse"/></a>
 	<a href="https://imgur.com/NOE2ReT"><img src="https://i.imgur.com/NOE2ReT.png" title="source: imgur.com" id="Atom"/></a>
 	<p id="developed"> Developed In</p>
