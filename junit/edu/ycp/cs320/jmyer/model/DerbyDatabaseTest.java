@@ -21,6 +21,7 @@ public class DerbyDatabaseTest {
 	private DerbyDatabase db;
 	private OrderItem SampleOrderItem;
 	private ArrayList<Integer>ItemCondimentList = new ArrayList<Integer>();
+	private Order order;
 
 	@Before
 	public void setUp() throws Exception {
@@ -29,6 +30,7 @@ public class DerbyDatabaseTest {
 		ItemCondimentList.add(4);
 		ItemCondimentList.add(6);
 		SampleOrderItem = new OrderItem(5, 3, 2, ItemCondimentList);
+		
 	}
 
 	@Test
@@ -199,6 +201,118 @@ public class DerbyDatabaseTest {
 	}
 
 	@Test
+	public void testFindOrderbyAccountID() {
+		try {	
+			int sub = db.findOrdersFromAccountID(5).size();
+			db.createOrder(5, "deliver");
+			List<Order> orders = db.findOrdersFromAccountID(5);
+			System.out.println("Orders size: "+orders.size());
+			assertTrue((orders.size()-sub) == 1);
+			assertTrue(orders.get(0).getAccountId() == 5);
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testFindOrderbyUserName() {
+		try {	
+			List<Order> skiser = db.findOrdersFromUsername("skiser");
+			System.out.println("skiser size" +skiser.size());
+			//assertTrue((orders.size()-sub) == 1);
+			assertTrue(skiser.size() == 0);
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testFindAllAcounts() {
+		try {
+			assertTrue(db.findAllAccounts().size() == 15);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testFindAllCondiments() {
+		try {
+			assertTrue(db.findAllCondiments().size() == 72);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testFindItembyID() {
+		try {
+			assertTrue(db.findItembyItemID(1).getItemName().equals("Burrito"));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testCondimentsbyCondimentId() {
+		try {
+			assertTrue(db.findCondimentsbyCondimentID(1).getCondName().equals("Brown Rice"));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testCondimentsbyCondimentName() {
+		try {
+			assertTrue(db.findCondimentsbyCondimentName("Chicken").getCondID() == 4);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testCondimentsbyType() {
+		try {
+			List<Condiments> mexican = db.findCondimentbyType("Mexican");
+			System.out.println(mexican.size());
+			assertTrue(mexican.size() == 26);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testFindOrderItemsFromOrderID() {
+		int order_id;
+		try {
+			order_id = db.createOrder(4, "deliver");
+			List<Integer> condList = new ArrayList<Integer>();
+			condList.add(3);
+			condList.add(4);
+			condList.add(7);
+			db.addItemToOrder(order_id, 4, 1, condList);
+			db.addItemToOrder(order_id, 6, 1, new ArrayList<Integer>(0));
+			List<OrderItem> orderItemList = db.findOrderItemsFromOrderID(order_id);
+			assertTrue(orderItemList.size() == 2);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	@Test
 	public void testActiveOrders(){
 		try {
 			int order_id = db.createOrder(4, "delivery");
@@ -213,7 +327,6 @@ public class DerbyDatabaseTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 
 }
