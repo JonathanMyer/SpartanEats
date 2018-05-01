@@ -1,136 +1,127 @@
 <!DOCTYPE html> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-
 <html>
 <style>
-
 body{
 	font-family: Arial, Helvetica, sans-serif;
-	background-color: #f2f2f2;
+	background-color: #f0f0f0;
 	height: 100%;
 	width: 100%;
-	font-size: 26px;
+	font-size: 40px;
 	letter-spacing: 2px;
-}
-.head{
-  text-align: center;
-  color: white;
-  text-shadow: 2px 2px 8px #377A3A;
-  font-size: 40px;
-  padding-top: 100px;
-}
-#Logo {
-  position: fixed;
-  left: 300px;
-  top: 335px;
-  width:40%;
-}
-.foreground {
-  position: absolute;
-  height: 1820px;
-  width: 965px;
-  background: radial-gradient(#77F97D 5%, #68DE6D 25%, #4CAF50 70%);
-  z-index: -1;
 }
 h1{
 	text-align: center;
 	color: white;
 	text-shadow: 4px 4px 8px #377A3A;
-	padding-bottom: 5px;
+	padding-bottom: 15px;
 }
+/* Customize the label (the Drinks) */
 .Drinks {
-  display: inline-block;
-  border-radius: 80px;
-  background-color: #f2f2f2;
-  border: none;
-  color: #4CAF50;
-  text-align: center;
-  font-size: 30px;
-	letter-spacing: 6px;
-	text-transform: uppercase;
-  padding: 10px;
-  width: 90%;
-	height: 40px;	`
-  transition: all 0.5s;
-  cursor: pointer;
-	margin-left: 75px;
-	margin-bottom: 20px;
-}
-
-.Drinks span {
-  cursor: pointer;
-  display: inline-block;
+  display: block;
   position: relative;
-  transition: 0.5s;
-}
-
-.Drinks span:after {
-  content: '\00bb';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
-}
-
-.Drinks:hover span {
-  padding-right: 25px;
-}
-
-.Drinks:hover span:after {
-  opacity: 1;
-  right: 0;
-}
-
-.Add {
-  display: inline-block;
-  border-radius: 80px;
-  background-color: #f2f2f2;
-  border: none;
-  color: #4CAF50;
-  text-align: center;
-  font-size: 30px;
-	letter-spacing: 6px;
-	text-transform: uppercase;
-  padding: 20px;
-  width: 15%;
-	height: 80px;	`
-  transition: all 0.5s;
+	padding-left: 15px;
+	margin-bottom: 30px;
+	font-size: 55px;
+	width: 100%;
+	border-bottom: 6px dashed #808080;
+	padding-right: 170px;
   cursor: pointer;
-	margin-left: 75px;
-	margin-bottom: 20px;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.Drinks input {
+  position: fixed;
+	right: 0;
+	opacity: 0;
+  cursor: pointer;
 }
 
-.h2{
-font-size: 100 px;
-color: #4CAF50;
+/* Create a custom checkbox */
+.checkmark {
+	position: absolute;
+	right: 0;
+	bottom: 20px;
+  height: 60px;
+  width: 60px;
+  background-color: #696969;
 }
+/* On mouse-over, add a grey background color */
+.Drinks:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+/* When the checkbox is checked, add a blue background */
+.Drinks input:checked ~ .checkmark {
+  background-color: #4CAF50;
+}
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+/* Show the checkmark when checked */
+.Drinks input:checked ~ .checkmark:after {
+  display: block;
+}
+/* Style the checkmark/indicator */
+.Drinks .checkmark:after {
+  left: 16px;
+  width: 17px;
+  height: 40px;
+  border: solid white;
+  border-width: 0 8px 8px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.Drinks .price{
+	position: absolute;
+	right: 100px;
+	font-size: 40px;
+	font-style: italic;
+}
+.Submit input{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	margin-left: -1px;
+	font-size: 60px;
+	font-family: "Arial Black", Gadget, sans-serif;
+	letter-spacing: 5px;
+	background-color: #4CAF50;
+	color: white;
+	text-shadow: 4px 4px 8px Black;
+	width: 100%;
+	height: 125px;
 
+}
 </style>
 <title>Drinks</title>
-
 <body>
-<div class="foreground"></div>
-<div class="head">
 <h1><b>Drinks</b></h1>
-</div>	
+</div>
 <c:if test="${! empty model.error}">
 <div class="error">${model.error}</div>
 </c:if>
-		
-<form action="${pageContext.servletContext.contextPath}/adddrinks" method="post">
-			
+<form action="${pageContext.servletContext.contextPath}/addDrinks" method="post">
 <table>
-	<c:forEach items="${inventory.drinkList}" var="drink">                      
+<c:forEach items="${inventory.extraList}" var="Drinks">          
       	<tr>
-      	<td class = "Drinks">${drink.itemName}     ${drink.price}<button type = "Submit" value="${drink.itemName}" name  = "adddrink"><h2>Add</h2></button></td>
-      	
-      	</tr>
-   	</c:forEach>
+      	<td><label class = "Drinks">
+					<input type="checkbox" name="addDrinks">${Drinks.itemName}<span class="price">${Drinks.price}</span>
+					<span class="checkmark"></span>
+					</label></td>
+				</tr>
+				</c:forEach>
 </table>
-
-		
+<div class="Submit">
+	<input type="Submit" value = "Submit">
+</div>
 </form>
 </body>
 </html>

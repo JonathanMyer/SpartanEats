@@ -42,6 +42,22 @@ public class AdminServlet extends HttpServlet {
 		}
 		req.getRequestDispatcher("/_view/admin.jsp").forward(req, resp);
 	}
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		System.out.println("Admin Servlet: doGet");
+		
+		HttpSession session = req.getSession(false); 
+		String orderNumberString = (String)req.getParameter("orderId");
+		if (orderNumberString != null) {
+			int orderNumber = Integer.parseInt(orderNumberString);
+			System.out.println("Order Number is: " + orderNumber);
+			session.setAttribute("order_id", orderNumber);
+			resp.sendRedirect(req.getContextPath()+"/vieworderadmin");
+		}
+		else {
+			req.getRequestDispatcher("/_view/admin.jsp").forward(req, resp);
+		}
+	}
 
 }
 

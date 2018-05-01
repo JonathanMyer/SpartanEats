@@ -34,6 +34,10 @@
 	<servlet-name>PreferencesServlet</servlet-name>
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.CreateOrderServlet</servlet-class>
   </servlet>
+   <servlet>
+	<servlet-name>ProfilesServlet</servlet-name>
+	<servlet-class>edu.ycp.cs320.spartaneats.servlet.ProfilesServlet</servlet-class>
+  </servlet>
   <servlet>
 	<servlet-name>CreateOrderServlet</servlet-name>
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.CreateOrderServlet</servlet-class>
@@ -43,8 +47,12 @@
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.ViewOrderServlet</servlet-class>
   </servlet>
   <servlet>
-	<servlet-name>SavedOrdersServlet</servlet-name>
-	<servlet-class>edu.ycp.cs320.spartaneats.servlet.SavedOrdersServlet</servlet-class>
+	<servlet-name>ViewOrderAdminServlet</servlet-name>
+	<servlet-class>edu.ycp.cs320.spartaneats.servlet.ViewOrderAdminServlet</servlet-class>
+  </servlet>
+  <servlet>
+	<servlet-name>SavedOrdersServlet</servlet-name>	
+	<servlet-class>edu.ycp.cs320.spartaneats.servlet.SavedOrdersServlet</servlet-class>	
   </servlet>
 
 
@@ -73,6 +81,10 @@
     <servlet-name>PreferencesServlet</servlet-name>
     <url-pattern>/preferences</url-pattern>
   </servlet-mapping>
+   <servlet-mapping>
+    <servlet-name>ProfilesServlet</servlet-name>
+    <url-pattern>/profiles</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>CreateOrderServlet</servlet-name>
     <url-pattern>/createorder</url-pattern>
@@ -82,14 +94,17 @@
     <url-pattern>/vieworder</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
+    <servlet-name>ViewOrderAdminServlet</servlet-name>
+    <url-pattern>/vieworderadmin</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
     <servlet-name>AdminServlet</servlet-name>
     <url-pattern>/admin</url-pattern>
   </servlet-mapping>
-    <servlet-mapping>
+  <servlet-mapping>
     <servlet-name>SavedOrdersServlet</servlet-name>
     <url-pattern>/savedorders</url-pattern>
   </servlet-mapping>
-  
 
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>

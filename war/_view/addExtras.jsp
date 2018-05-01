@@ -3,34 +3,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <html>
 <style>
-
 body{
 	font-family: Arial, Helvetica, sans-serif;
-	background-color: #f2f2f2;
+	background-color: #f0f0f0;
 	height: 100%;
 	width: 100%;
-	font-size: 26px;
+	font-size: 40px;
 	letter-spacing: 2px;
-}
-.head{
-  text-align: center;
-  color: white;
-  text-shadow: 2px 2px 8px #377A3A;
-  font-size: 40px;
-  padding-top: 100px;
-}
-#Logo {
-  position: fixed;
-  left: 300px;
-  top: 335px;
-  width:40%;
-}
-.foreground {
-  position: absolute;
-  height: 1720px;
-  width: 965px;
-  background: radial-gradient(#77F97D 5%, #68DE6D 25%, #4CAF50 70%);
-  z-index: -1;
 }
 h1{
 	text-align: center;
@@ -38,97 +17,111 @@ h1{
 	text-shadow: 4px 4px 8px #377A3A;
 	padding-bottom: 15px;
 }
-.Items {
-  display: inline-block;
-  border-radius: 80px;
-  background-color: #f2f2f2;
-  border: none;
-  color: #4CAF50;
-  text-align: center;
-  font-size: 35px;
-	letter-spacing: 6px;
-	text-transform: uppercase;
-  padding: 10px;
-  width: 85%;
-	height: 80px;	`
-  transition: all 0.5s;
-  cursor: pointer;
-	margin-left: 85px;
-	margin-bottom: 20px;
-}
-
-.Items span {
-  cursor: pointer;
-  display: inline-block;
+/* Customize the label (the Extras) */
+.Extras {
+  display: block;
   position: relative;
-  transition: 0.5s;
-}
-
-.Items span:after {
-  content: '\00bb';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
-}
-
-.Items:hover span {
-  padding-right: 25px;
-}
-
-.Items:hover span:after {
-  opacity: 1;
-  right: 0;
-}
-
-.Continue {
-  display: inline-block;
-  border-radius: 80px;
-  background-color: #f2f2f2;
-  border: none;
-  color: #4CAF50;
-  text-align: center;
-  font-size: 80px;
-	letter-spacing: 6px;
-	text-transform: uppercase;
-  padding: 10px;
-  width: 45px;
-	height: 60px;	`
-  transition: all 0.5s;
+	padding-left: 15px;
+	margin-bottom: 30px;
+	font-size: 55px;
+	width: 100%;
+	border-bottom: 6px dashed #808080;
+	padding-right: 170px;
   cursor: pointer;
-	margin-left: 10px;
-	margin-bottom: 20px;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.Extras input {
+  position: fixed;
+	right: 0;
+	opacity: 0;
+  cursor: pointer;
 }
 
-.h2{
-font-size: 100 px;
-color: #4CAF50;
+/* Create a custom checkbox */
+.checkmark {
+	position: absolute;
+	right: 0;
+	bottom: 20px;
+  height: 60px;
+  width: 60px;
+  background-color: #696969;
 }
+/* On mouse-over, add a grey background color */
+.Extras:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+/* When the checkbox is checked, add a blue background */
+.Extras input:checked ~ .checkmark {
+  background-color: #4CAF50;
+}
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+/* Show the checkmark when checked */
+.Extras input:checked ~ .checkmark:after {
+  display: block;
+}
+/* Style the checkmark/indicator */
+.Extras .checkmark:after {
+  left: 16px;
+  width: 17px;
+  height: 40px;
+  border: solid white;
+  border-width: 0 8px 8px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.Extras .price{
+	position: absolute;
+	right: 100px;
+	font-size: 40px;
+	font-style: italic;
+}
+.Submit input{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	margin-left: -1px;
+	font-size: 60px;
+	font-family: "Arial Black", Gadget, sans-serif;
+	letter-spacing: 5px;
+	background-color: #4CAF50;
+	color: white;
+	text-shadow: 4px 4px 8px Black;
+	width: 100%;
+	height: 125px;
 
+}
 </style>
-<title>Items</title>
-
+<title>Extras</title>
 <body>
-<div class="foreground"></div>
-<div class="head">
 <h1><b>Extras</b></h1>
-</div>	 
+</div>
 <c:if test="${! empty model.error}">
 <div class="error">${model.error}</div>
 </c:if>
-		
-<form action="${pageContext.servletContext.contextPath}/addextras" method="post">
-			
+<form action="${pageContext.servletContext.contextPath}/addExtras" method="post">
 <table>
-	<c:forEach items="${inventory.extraList}" var="extras">                      
+<c:forEach items="${inventory.extraList}" var="extras">          
       	<tr>
-      	<td class = "Items">${extras.itemName}     ${extras.price}<button type = "Submit" value="${extras.itemName}" name  = "addextras"><h2>Add</h2></button></td>
-      	</tr>
-   	</c:forEach>
+      	<td><label class = "Extras">
+					<input type="checkbox" name="addExtra">${extras.itemName}<span class="price">${extras.price}</span>
+					<span class="checkmark"></span>
+					</label></td>
+				</tr>
+				</c:forEach>
 </table>
-
-		
+<div class="Submit">
+	<input type="Submit" value = "Submit">
+</div>
 </form>
 </body>
 </html>

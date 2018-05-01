@@ -1,5 +1,7 @@
 
 <!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <html>
 <style>
 body{
@@ -142,9 +144,9 @@ h1{
 	<img src="https://i.imgur.com/edPxEqg.png" title="source: imgur.com" id="Logo" />
   <h1><b>SPARTAN EATS</b></h1>
 </div>
-<form action="${pageContext.servletContext.contextPath}/savedorders" method="get">
+<form action="${pageContext.servletContext.contextPath}/savedorders" method="post">
 	<c:forEach items ="${orderList}" var="order">                      
-      	<button type = "Submit" value="${order.orderId}" name  = "orderId"> View Order: ${order.orderId}</button>	
+      	<button id = "savedOrder" type = "Submit" value="${order.orderId}" name  = "orderId"> View Order: ${order.orderId}</button>	
    	</c:forEach>
 </form>
 </body>
