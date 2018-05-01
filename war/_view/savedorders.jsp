@@ -146,7 +146,7 @@ h1{
 </div>
 <form action="${pageContext.servletContext.contextPath}/savedorders" method="post">
 	<c:forEach items ="${orderList}" var="order">                      
-      	<button type = "Submit" value="${order.orderId}" name  = "orderId"> View Order: ${order.orderId}</button>	
+      	<button id = "savedOrder" type = "Submit" value="${order.orderId}" name  = "orderId"> View Order: ${order.orderId}</button>	
    	</c:forEach>
 </form>
 </body>
