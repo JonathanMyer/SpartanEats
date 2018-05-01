@@ -33,12 +33,9 @@ public class ViewOrderServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
 		System.out.println("Create Order Servlet: doGet");
-		
 		HttpSession session = req.getSession(false);    // fetch the session and handle 
         Order order = new Order(false, 1, 1);
-        
         List<OrderItem> orderItem = null;
 	    if (session == null) {    // no session exists, redirect to error page with error message
 	    	resp.sendRedirect(req.getContextPath()+"/login");
@@ -46,7 +43,6 @@ public class ViewOrderServlet extends HttpServlet {
 	    DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
 	    order.setOrderId((int)session.getAttribute("order_id"));
 	    try {
-	    	
 	    	// compile the order
 			orderItem =  db.findOrderItemsFromOrderID(order.getOrderId());
 			for (OrderItem o: orderItem) {
@@ -63,24 +59,15 @@ public class ViewOrderServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	     
-	    
-	    
 	    req.getRequestDispatcher("/_view/vieworder.jsp").forward(req, resp);
-		
-	
 	}
-	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
 		System.out.println("Create Order Servlet: doPost");
 		HttpSession session = req.getSession(false); 
-
 		// holds the error message text, if there is any
 		String errorMessage = null;
-
 		DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
 		Order order = (Order) session.getAttribute("order");
 		String removeItemString = req.getParameter("removeItem");
@@ -88,7 +75,7 @@ public class ViewOrderServlet extends HttpServlet {
 		Boolean orderComplete = false;
 		continueOrder =  Boolean.valueOf(req.getParameter("continueOrder"));
 		orderComplete = Boolean.valueOf(req.getParameter("orderComplete"));
-		
+
 		if (removeItemString != null) {
 			int removeItem = Integer.parseInt(removeItemString);
 			System.out.println("Removed Item ID: " + removeItem);
@@ -103,6 +90,7 @@ public class ViewOrderServlet extends HttpServlet {
 		}
 		
 		else if (orderComplete) {
+
 			try {
 				int orderId = (Integer) session.getAttribute("order_id");
 				db.updateOrderToActive(orderId);
@@ -116,12 +104,9 @@ public class ViewOrderServlet extends HttpServlet {
 			req.getRequestDispatcher("/_view/createorder.jsp").forward(req, resp);
 		}
 		else {
-			
+
+
 			req.getRequestDispatcher("/_view/vieworder.jsp").forward(req, resp);
 		}
-		
-		
 	}
-
-	
 }
