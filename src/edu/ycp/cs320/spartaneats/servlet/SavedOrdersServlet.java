@@ -43,12 +43,24 @@ public class SavedOrdersServlet extends HttpServlet{
 		}
 	    req.setAttribute("orderList", orderList);
 		req.getRequestDispatcher("/_view/savedorders.jsp").forward(req, resp);
-	}
+	}                                 
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
+		System.out.println("Saved Orders Servlet: doPost");
+		HttpSession session = req.getSession(false); 
+		String orderNumberString = (String)req.getParameter("orderId");
+		if (orderNumberString != null) {
+			int orderNumber = Integer.parseInt(orderNumberString);
+			System.out.println("Order Number is: " + orderNumber);
+			session.setAttribute("order_id", orderNumber);
+			resp.sendRedirect(req.getContextPath()+"/vieworder");
+		}
+		else {
+			req.getRequestDispatcher("/_view/savedorders.jsp").forward(req, resp);
+		}
 	}
 	
 }
