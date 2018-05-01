@@ -58,7 +58,7 @@ public class ViewOrderServlet extends HttpServlet {
 		    	 order.addCondArrayList(tempCondArray);
 		    	 
 		     }
-			 req.setAttribute("order", order);
+			 session.setAttribute("order", order);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -81,43 +81,41 @@ public class ViewOrderServlet extends HttpServlet {
 		// holds the error message text, if there is any
 		String errorMessage = null;
 
-		
-		//new AccountControllerPopulate(controller);
 		DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
 		Order order = (Order) session.getAttribute("order");
-		Inventory inventory = (Inventory) session.getAttribute("inventory");
-		CreateOrderModel model = new CreateOrderModel();
-		model.setOrder(order);
-		model.setInventory(inventory);
-	
-		Item removeItem = null;
-		
+		String removeItemString = req.getParameter("removeItem");
 		Boolean continueOrder = false;
 		Boolean orderComplete = false;
-		
 		continueOrder =  Boolean.valueOf(req.getParameter("continueOrder"));
 		orderComplete = Boolean.valueOf(req.getParameter("orderComplete"));
 		
-		if (orderComplete) {
+		if (removeItemString != null) {
+			int removeItem = Integer.parseInt(removeItemString);
+			System.out.println("Removed Item ID: " + removeItem);
+			OrderItem removeOrderItem = order.getOrderItem(removeItem);
+			try {
+				db.removeItemFromOrder(removeOrderItem);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			doGet(req,resp);
+		}
+		
+		else if (orderComplete) {
 			try {
 				int orderId = (Integer) session.getAttribute("order_id");
 				db.updateOrderToActive(orderId);
+				// TODO make a order complete servlet and forward there from this.
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		if (continueOrder) {
+		else if (continueOrder) {
 			req.getRequestDispatcher("/_view/createorder.jsp").forward(req, resp);
 		}
-		
-		
 		else {
-			req.setAttribute("model", model);
-			req.setAttribute("inventory", inventory);
-			req.setAttribute("order", order);
-			session.setAttribute("order", order);
-			session.setAttribute("inventory", inventory);
 			
 			req.getRequestDispatcher("/_view/vieworder.jsp").forward(req, resp);
 		}

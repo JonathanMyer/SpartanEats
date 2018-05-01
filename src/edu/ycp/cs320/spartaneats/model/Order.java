@@ -97,4 +97,19 @@ public class Order  {
 	public void setActiveFalse() {
 		this.active = false;
 	}
+	
+	public void removeItemAndCond(int removeItem) {
+		condArray.remove(removeItem);
+		selectedItems.remove(removeItem);
+	}
+	
+	public OrderItem getOrderItem(int removeItem) {
+		OrderItem orderItem = new OrderItem();
+		orderItem.setItem_id(selectedItems.get(removeItem).getItemId());
+		orderItem.setOrder_id(this.orderId);
+		return orderItem;
+	}
+	
+	
+	
 }
