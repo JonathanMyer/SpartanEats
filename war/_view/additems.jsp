@@ -18,20 +18,39 @@ h1{
 	text-shadow: 4px 4px 8px #377A3A;
 	padding-bottom: 15px;
 }
+.container {
+  display: block;
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 30px;
+  font-size: 55px;
+  width: 100%;
+  border-bottom: 6px dashed #808080;
+  padding-right: 10px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  }
+  
 .itemName{
 font-size: 55px;
 width:100%;
-
 }
+
+
 .itemPrice{
-color: red;
+color: #4CAF50;
 }
-.bttn{
+input{
 float: right;
-width: 100px;
-height: 100px;
-
+width: 60px;
+height: 60px;
+color: #696969;
+background-color: #696969;
 }
+
 </style>
 <body>
 <title>Items</title>
@@ -45,10 +64,8 @@ height: 100px;
 <table>
 	<c:forEach items="${itemList}" var="item">                      
       	<tr>
-		<td><span class="itemName">${item.itemName}</span></td>
-      	<td><span class="itemPrice">${item.price}</span></td>
-      	<td><button type="Submit" class="bttn" value="${item.itemName}" name="additem"><img src="https://i.imgur.com/IkAyG21.png"></button></td>
-
+		<td><label class="container"><span class="itemName">${item.itemName}: </span><span class="itemPrice">${item.price}</span>
+      	<input type="Submit" value="${item.itemName}" name="additem"></input></label></td>
       	</tr>
    	</c:forEach>
 </table>
