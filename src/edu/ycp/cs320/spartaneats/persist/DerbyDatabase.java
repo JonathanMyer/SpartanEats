@@ -363,6 +363,73 @@ public class DerbyDatabase {
 			}
 		});
 	}
+	
+	public double updateDiningBalance(double price, int account_id) throws SQLException {
+		return doExecuteTransaction(new Transaction<Double>() {
+			public Double execute(Connection conn) throws SQLException{
+				PreparedStatement stmt2 = null;
+				ResultSet resultSet2 = null;
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet1 = null;
+				double balance = 0.0;
+				try {conn.setAutoCommit(true);
+				//get dining balance
+				stmt1 = conn.prepareStatement("select accounts.dining from accounts where accounts.account_id = ?");
+				stmt1.setInt(1, account_id);
+				resultSet1 = stmt1.executeQuery();
+				//update 
+				if(resultSet1.next()) {
+					balance = resultSet1.getDouble(1);
+					System.out.println("Dining Balanace Before:" + balance);
+					balance = balance - price;
+					System.out.println("Dining Balanace After:" + balance);
+				}
+				stmt2 = conn.prepareStatement("insert into accounts(account.dining) values(?)");
+				stmt2.setDouble(1, balance);
+				stmt2.executeUpdate();
+					return balance;
+				}finally {
+					DBUtil.closeQuietly(resultSet1);
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(resultSet2);
+					DBUtil.closeQuietly(stmt2);
+				}
+			}
+		});
+	}
+	public double updateFlexBalance(double price, int account_id) throws SQLException {
+		return doExecuteTransaction(new Transaction<Double>() {
+			public Double execute(Connection conn) throws SQLException{
+				PreparedStatement stmt2 = null;
+				ResultSet resultSet2 = null;
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet1 = null;
+				double balance = 0.0;
+				try {conn.setAutoCommit(true);
+				//get Flex balance
+				stmt1 = conn.prepareStatement("select accounts.flex from accounts where accounts.account_id = ?");
+				stmt1.setInt(1, account_id);
+				resultSet1 = stmt1.executeQuery();
+				//update 
+				if(resultSet1.next()) {
+					balance = resultSet1.getDouble(1);
+					System.out.println("Flex Balanace Before:" + balance);
+					balance = balance - price;
+					System.out.println("Flex Balanace After:" + balance);
+				}
+				stmt2 = conn.prepareStatement("insert into accounts(account.Flex) values(?)");
+				stmt2.setDouble(1, balance);
+				stmt2.executeUpdate();
+					return balance;
+				}finally {
+					DBUtil.closeQuietly(resultSet1);
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(resultSet2);
+					DBUtil.closeQuietly(stmt2);
+				}
+			}
+		});
+	}
 	public List<Account> findAllAccounts() throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Account>>() {
 			public List<Account> execute(Connection conn) throws SQLException{
