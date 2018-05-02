@@ -42,7 +42,7 @@ public class SetDeliveryMethod extends HttpServlet {
 		DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
 		try {
 	    	
-			int order_id = db.createOrder((int) session.getAttribute("account_id"), req.getParameter("deliverypref"), req.getParameter("deliveryDest"));
+			int order_id = db.createOrderWithAccountId((int) session.getAttribute("account_id"));
 			System.out.println("Order ID: " + order_id);
 			System.out.println("DeilveryDest: " + req.getParameter("deliveryDest"));
 			session.setAttribute("order_id", order_id);
@@ -53,4 +53,5 @@ public class SetDeliveryMethod extends HttpServlet {
 		}
 		resp.sendRedirect(req.getContextPath()+"/createorder");
 	}
+	
 }

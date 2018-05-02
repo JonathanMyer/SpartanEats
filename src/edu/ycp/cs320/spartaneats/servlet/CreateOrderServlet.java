@@ -38,14 +38,18 @@ public class CreateOrderServlet extends HttpServlet {
 	    	resp.sendRedirect(req.getContextPath()+"/login");
 	        } 
 
+	 
+		DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
+		try {
+	    	
+			int order_id = db.createOrderWithAccountId((int) session.getAttribute("account_id"));
+			System.out.println("Order ID: " + order_id);
+			session.setAttribute("order_id", order_id);
 	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
+	    } catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		req.getRequestDispatcher("/_view/createorder.jsp").forward(req, resp);
 	}
 	

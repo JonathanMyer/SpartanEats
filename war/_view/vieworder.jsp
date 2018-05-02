@@ -201,7 +201,7 @@ font-size: 40px;
 	<label>
 		<hr>
 			<input type="checkbox" class="option-input checkbox" name="example" id="custom" value="one-time" onclick="setOrderName()"/>
-			<input type="text" name="Text" id="textBox" placeholder="Click to Save Order" onfocus="this.placeholder = ''" disabled/>
+			<input type="text" name="orderName" id="textBox" placeholder="Click to Save Order" onfocus="this.placeholder = ''" disabled/>
 	</label>
 <hr style="opacity: 0;">
 <hr style="opacity: 0;">
