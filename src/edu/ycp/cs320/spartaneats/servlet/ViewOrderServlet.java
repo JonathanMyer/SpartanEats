@@ -3,6 +3,7 @@ package edu.ycp.cs320.spartaneats.servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -33,7 +34,7 @@ public class ViewOrderServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		System.out.println("Create Order Servlet: doGet");
+		System.out.println("View Order Servlet: doGet");
 		HttpSession session = req.getSession(false);    // fetch the session and handle 
         Order order = new Order(false, 1, 1);
         List<OrderItem> orderItem = null;
@@ -64,19 +65,34 @@ public class ViewOrderServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		System.out.println("Create Order Servlet: doPost");
+		System.out.println("View Order Servlet: doPost");
 		HttpSession session = req.getSession(false); 
 		// holds the error message text, if there is any
 		String errorMessage = null;
 		DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
 		Order order = (Order) session.getAttribute("order");
 		String removeItemString = req.getParameter("removeItem");
+		String condiment = req.getParameter("removeCondiment");
+		String fromItem = req.getParameter("fromItem");
 		Boolean continueOrder = false;
 		Boolean orderComplete = false;
 		continueOrder =  Boolean.valueOf(req.getParameter("continueOrder"));
 		orderComplete = Boolean.valueOf(req.getParameter("orderComplete"));
-
-		if (removeItemString != null) {
+		if (condiment != null && fromItem != null) {
+			OrderItem removeOrderItem2 = order.getOrderItem(Integer.parseInt(fromItem));
+			try {
+				System.out.println("Remove Condiment: "+condiment +" from OrderItem Number: " + fromItem);
+				db.removeCondFromOrderItem(removeOrderItem2, Integer.parseInt(condiment));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			doGet(req,resp);
+		}
+		else if (removeItemString != null) {
 			int removeItem = Integer.parseInt(removeItemString);
 			System.out.println("Removed Item ID: " + removeItem);
 			OrderItem removeOrderItem = order.getOrderItem(removeItem);
