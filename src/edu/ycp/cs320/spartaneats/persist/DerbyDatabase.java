@@ -1125,24 +1125,16 @@ public class DerbyDatabase {
 						order_id = resultSet.getInt(1);
 						System.out.println("Order ID:" + order_id);
 					}
-					
-					
+
 					return order_id;
-					
-					
-					
 				}	
 				finally {
 					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(stmt);
 				}				
 			}
-			
-			
-		
 		});
 	}
-	
 	public String insertOrderName(int order_id, String orderName) throws SQLException {
 		return doExecuteTransaction(new Transaction<String>() {
 			public String execute(Connection conn) throws SQLException{
@@ -1200,7 +1192,6 @@ public class DerbyDatabase {
 			}
 		});
 	}
-	
 	public List<Order> findActiveOrdersFromAccountID(int account_ID) throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Order>>() {
 			public List<Order> execute(Connection conn) throws SQLException{
@@ -1237,7 +1228,6 @@ public class DerbyDatabase {
 			}
 		});
 	}
-	
 	public List<Order> findOrdersFromUsername(String userName) throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Order>>() {
 			public List<Order> execute(Connection conn) throws SQLException{
@@ -1277,7 +1267,6 @@ public class DerbyDatabase {
 			}
 		});
 	}	
-	
 	public Order findOrderFromOrderId(int order_id) throws SQLException {
 		return doExecuteTransaction(new Transaction<Order>() {
 			public Order execute(Connection conn) throws SQLException{
@@ -1305,7 +1294,6 @@ public class DerbyDatabase {
 			}
 		});
 	}
-
 	public List<Order> findOrdersFromAccountID(int account_id) throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Order>>() {
 			public List<Order> execute(Connection conn) throws SQLException{
@@ -1346,7 +1334,6 @@ public class DerbyDatabase {
 			}
 		});
 	}
-	
 	public List<Order> addItemToOrder(int order_id, int item_id, int amount, List<Integer> conds_id) throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Order>>() {
 			public List<Order> execute(Connection conn) throws SQLException{
@@ -1379,7 +1366,6 @@ public class DerbyDatabase {
 			}
 		});
 	}
-
 	public Integer removeItemFromOrder(OrderItem orderItem) throws SQLException {
 		return doExecuteTransaction(new Transaction<Integer>() {
 			public Integer execute(Connection conn) throws SQLException{
@@ -1405,7 +1391,6 @@ public class DerbyDatabase {
 			}
 		});
 	}
-	
 	public Integer removeCondFromOrderItem(OrderItem orderItem, int cond_id) throws SQLException {
 		return doExecuteTransaction(new Transaction<Integer>() {
 			public Integer execute(Connection conn) throws SQLException{
@@ -1437,7 +1422,6 @@ public class DerbyDatabase {
 			}
 		});
 	}
-
 	public List<OrderItem> findOrderItemsFromOrderID(int order_id) throws SQLException {
 		return doExecuteTransaction(new Transaction<List<OrderItem>>() {
 			public List<OrderItem> execute(Connection conn) throws SQLException{
@@ -1478,7 +1462,6 @@ public class DerbyDatabase {
 			}
 		});
 	}
-	
 	// The main method creates the database tables and loads the initial data.
 	public static void main(String[] args) throws IOException, SQLException {
 		DerbyDatabase db = new DerbyDatabase();
