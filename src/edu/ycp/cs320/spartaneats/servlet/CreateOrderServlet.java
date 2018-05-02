@@ -40,7 +40,7 @@ public class CreateOrderServlet extends HttpServlet {
 	    
 	    
 	    try {
-			int order_id = db.createOrder((int) session.getAttribute("account_id"), req.getParameter("deliverypref"));
+			int order_id = db.createOrder((int) session.getAttribute("account_id"), req.getParameter("deliverypref"), req.getParameter("deliveryDest"));
 			System.out.println("Order ID: " + order_id);
 			session.setAttribute("order_id", order_id);
 	    
