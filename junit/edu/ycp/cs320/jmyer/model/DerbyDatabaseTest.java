@@ -133,8 +133,8 @@ public class DerbyDatabaseTest {
 	}
 	@Test
 	public void testCreateOrder() throws SQLException{
-		db.createOrder(4, "false");
-		db.createOrder(4, "false");
+		db.createOrder(4, "false", "China");
+		db.createOrder(4, "false", "India");
 		assertTrue(db.findOrdersFromUsername("jMyer").size() > 0);
 		System.out.println(db.findOrdersFromUsername("jMyer").size());
 	}
@@ -179,7 +179,7 @@ public class DerbyDatabaseTest {
 	@Test
 	public void testRemoveItemFromOrder() throws SQLException{
 		try {
-			int order_id = db.createOrder(4, "deliver");
+			int order_id = db.createOrder(4, "true","China");
 			List<Integer> condList = new ArrayList<Integer>();
 			condList.add(3);
 			condList.add(4);
@@ -204,7 +204,7 @@ public class DerbyDatabaseTest {
 	public void testFindOrderbyAccountID() {
 		try {	
 			int sub = db.findOrdersFromAccountID(5).size();
-			db.createOrder(5, "deliver");
+			db.createOrder(5, "true", "China");
 			List<Order> orders = db.findOrdersFromAccountID(5);
 			System.out.println("Orders size: "+orders.size());
 			assertTrue((orders.size()-sub) == 1);
@@ -296,7 +296,7 @@ public class DerbyDatabaseTest {
 	public void testFindOrderItemsFromOrderID() {
 		int order_id;
 		try {
-			order_id = db.createOrder(4, "deliver");
+			order_id = db.createOrder(4, "true", "China");
 			List<Integer> condList = new ArrayList<Integer>();
 			condList.add(3);
 			condList.add(4);
@@ -315,7 +315,7 @@ public class DerbyDatabaseTest {
 	@Test
 	public void testActiveOrders(){
 		try {
-			int order_id = db.createOrder(4, "delivery");
+			int order_id = db.createOrder(4, "true", "China");
 			int active = db.updateOrderToActive(order_id);
 			List<Order> activeOrders = db.findActiveOrders();
 			assertTrue(activeOrders.size() == 1);
@@ -324,6 +324,20 @@ public class DerbyDatabaseTest {
 			assertTrue(activeOrders.size() == 0);
 
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testLoadOrder() {
+		try {
+			int order_id = db.createOrder(4, "false", "China");
+			Order order = db.findOrderFromOrderId(order_id);
+			assertTrue(order.getAccountId() == 4);
+			assertTrue(order.getDelivery() == false);
+			assertTrue(order.getDeliveryDest().equals("China"));
+		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

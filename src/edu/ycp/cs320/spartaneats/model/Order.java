@@ -10,6 +10,7 @@ public class Order  {
 	private int orderId;
 	private int accountId;
 	private Boolean active;
+	private String deliveryDest;
 	
 	public Order() {
 	selectedItems = new ArrayList<Item>();
@@ -108,6 +109,12 @@ public class Order  {
 		orderItem.setItem_id(selectedItems.get(removeItem).getItemId());
 		orderItem.setOrder_id(this.orderId);
 		return orderItem;
+	}
+	public String getDeliveryDest() {
+		return deliveryDest;
+	}
+	public void setDeliveryDest(String deliveryDest) {
+		this.deliveryDest = deliveryDest;
 	}
 	
 	
