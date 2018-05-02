@@ -1098,6 +1098,43 @@ public class DerbyDatabase {
 		});
 	}
 	
+	public List<Order> findActiveOrdersFromAccountID(int account_ID) throws SQLException {
+		return doExecuteTransaction(new Transaction<List<Order>>() {
+			public List<Order> execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"select orders.* " +
+									"from orders, accounts " +
+									"where orders.account_id = accounts.account_id and " +
+									"accounts.account_id = ? and orders.active = 1"
+									
+							);
+					stmt.setInt(1, account_ID);
+					List<Order> result = new ArrayList<Order>();
+					resultSet = stmt.executeQuery();
+					//for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+
+						//retrieve attributes from resultSet starting with index 1
+						Order order = new Order();
+						loadOrder(order, resultSet, 1);
+						result.add(order);
+					}
+					return result;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
 	public List<Order> findOrdersFromUsername(String userName) throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Order>>() {
 			public List<Order> execute(Connection conn) throws SQLException{

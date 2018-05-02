@@ -231,6 +231,20 @@ public class DerbyDatabaseTest {
 	}
 	
 	@Test
+	public void testActiveOrdersByUsername(){
+		try {
+			int order_id = db.createOrder(4, "delivery");
+			int active = db.updateOrderToActive(order_id);
+			List<Order> activeOrders = db.findActiveOrders();
+			assertTrue(activeOrders.size() == 1);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
 	public void testFindAllAcounts() {
 		try {
 			assertTrue(db.findAllAccounts().size() == 15);
@@ -310,7 +324,6 @@ public class DerbyDatabaseTest {
 			e.printStackTrace();
 		}
 	}
-	
 	
 	@Test
 	public void testActiveOrders(){
