@@ -1,5 +1,7 @@
 
 <!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <html>
 <style>
 body{
@@ -97,7 +99,7 @@ h1{
 	margin-left: 150px;
 	margin-bottom: 50px;
 }
-.savedOrder {
+.currentOrder {
   display: inline-block;
   border-radius: 80px;
   background-color: #f2f2f2;
@@ -139,20 +141,14 @@ h1{
 <div class="foreground"></div>
 <div class="head">
 
-	<img src="https://i.imgur.com/edPxEqg.png" title="source: imgur.com" id="Logo" /></a>
+	<img src="https://i.imgur.com/edPxEqg.png" title="source: imgur.com" id="Logo" />
   <h1><b>SPARTAN EATS</b></h1>
 </div>
-<form action="${pageContext.servletContext.contextPath}/setdeliverymethod" method="get">
-
-<button class="startOrder"value="New Order" name="get" style="vertical-align:middle"><span>Start Order</span></button>
+<form action="${pageContext.servletContext.contextPath}/currentorders" method="post">
+	<c:forEach items ="${orderList}" var="order">                      
+      	<button class = "currentOrder" id = "currentOrder" type = "Submit" value="${order.orderId}" name  = "orderId"> View Order: ${order.orderId}</button>	
+   	</c:forEach>
 </form>
-<form action="${pageContext.servletContext.contextPath}/currentorders" method="get">
-<button class="trackOrder">Track Current Order</button>
-</form>
-<form action="${pageContext.servletContext.contextPath}/savedorders" method="get">
-<button class="savedOrder">View Saved Orders</button>
-</form>
-
 </body>
 </html>
 
