@@ -1,5 +1,4 @@
 /bin/
 /test-bin/
 /test.db/
-
-derby.log
+/derby.log
