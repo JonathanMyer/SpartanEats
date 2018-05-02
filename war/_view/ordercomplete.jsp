@@ -18,121 +18,75 @@ body{
   color: white;
   text-shadow: 2px 2px 8px #377A3A;
   font-size: 40px;
-  padding-top: 100px;
+  padding-top: 50px;
 }
 #Logo {
   position: fixed;
   left: 300px;
-  top: 335px;
+  top: 300px;
   width:40%;
 }
 .foreground {
   position: absolute;
   height: 1720px;
   width: 965px;
-  background: radial-gradient(#77F97D 5%, #68DE6D 25%, #4CAF50 70%);
+  background: #F5F5F5;
   z-index: -1;
 }
 h1{
 	text-align: center;
-	color: white;
-	text-shadow: 4px 4px 8px #377A3A;
+	color: DarkGreen;
 	padding-bottom: 15px;
+	padding-top: 700px;
+	font-size: 125px;
 }
 
-.Continue {
-  display: inline-block;
-  border-radius: 80px;
-  background-color: #f2f2f2;
-  border: none;
-  color: #4CAF50;
-  text-align: center;
+.text {
   
-	letter-spacing: 6px;
-	text-transform: uppercase;
-  padding: 10px;
-  width: 95%;
-	height: 80px;
-  transition: all 0.5s;
-  cursor: pointer;
-	margin-left: 10px;
-	margin-bottom: 20px;
-	font-size: 50px;
-}
-
-.Items {
-  display: inline-block;
-  border-radius: 80px;
+  padding-bottom: 20px;
   background-color: #f2f2f2;
-  border: none;
-  color: #4CAF50;
+  color: Black;
   text-align: center;
-  font-size: 30px;
-	letter-spacing: 6px;
-	text-transform: uppercase;
-  padding: 10px;
-  width: 85%;
-	height: 60px;	`
-  transition: all 0.5s;
-  cursor: pointer;
-	margin-left: 10px;
-	margin-bottom: 20px;
+  font-size: 40px;	
+
+
+}
+.Return {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	background-color: #4CAF50;
+	font-size: 80px;
+	font-family: "Arial Black", Gadget, sans-serif;
+	letter-spacing: 5px;
+	color: Black;
+	text-shadow: 4px 4px 8px Black;
+	width: 100%;
+	height: 125px;
 }
 
-.Items span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
-}
-
-.Items span:after {
-  content: '\00bb';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
-}
-
-.Items:hover span {
-  padding-right: 25px;
-}
-
-.Items:hover span:after {
-  opacity: 1;
-  right: 0;
-}
-
-.h2{
-font-size: 200px;
-color: #4CAF50;
-}
-#condiments{
-padding-left:70px;
-font-size: 60px;
-color: #ff0000;
-}
-#items{
-font-size: 80px;
-}
 </style>
 <title>Order</title>
-<div class="foreground"></div>
+<div class="foreground">
 <div class="head">
-<h1><b>Order</b></h1>
+<img src="https://i.imgur.com/edPxEqg.png" title="source: imgur.com" id="Logo" />
+</div>
 </div>
 <body>
 		
 <c:if test="${! empty model.error}">
 <div class="error">${model.error}</div>
 </c:if>
-<form action="${pageContext.servletContext.contextPath}/ordercomplete" method="post">
-<div>Your Order is in Queue</div>
+<form action="${pageContext.servletContext.contextPath}/ordercomplete" method="post"></form>
+<h1><b>Order Complete!</b></h1>
+<div class = "text">Your Order is in Queue!</div>
 <br>
-<div>Ready in: ${time} minutes</div>
+<div class = "text">Ready in: ${time} minutes</div>
 <br>
-<div>Delivery Destination: ${order.deliveryDest}</div>
+<div class = "text">Delivery Destination: ${order.deliveryDest}</div>
+
+<form action="${pageContext.servletContext.contextPath}/index" method="get">
+<button class = "Return">Return</button>
 </form>
 </body>
 </html>
