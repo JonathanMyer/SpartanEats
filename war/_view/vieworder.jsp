@@ -201,7 +201,7 @@ font-size: 40px;
 	<label>
 		<hr>
 			<input type="checkbox" class="option-input checkbox" name="example" id="custom" value="one-time" onclick="setOrderName()"/>
-			<input type="text" name="orderName" id="textBox" placeholder="Click to Save Order" onfocus="this.placeholder = ''" disabled/>
+			<input type="text" name="Text" id="textBox" placeholder="Click to Save Order" onfocus="this.placeholder = ''" disabled/>
 	</label>
 <hr style="opacity: 0;">
 <hr style="opacity: 0;">
@@ -215,8 +215,7 @@ font-size: 40px;
 </div>
 		<c:forEach items= "${condarray}" var = "condiments">
 			<div id="condiments">${condiments.condName}
-				<input type = "hidden" value="${iter.index}" name = "fromItem">
-				<button class="removeButton" type = "Submit" name= "removeCondiment"  value = "${condiments.condID}"  title="Remove Condiment From Item">&#215;</button>
+		<!--		<button class="removeButton" type = "Submit" value="${iter.index}"name= "removeItem" title="Remove Condiment From Item">&#215;</button> -->
 			</div>
 		</c:forEach>
 	</c:forEach>

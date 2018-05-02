@@ -112,9 +112,6 @@ public class Order  {
 		OrderItem orderItem = new OrderItem();
 		orderItem.setItem_id(selectedItems.get(removeItem).getItemId());
 		orderItem.setOrder_id(this.orderId);
-		for(Condiments c: condArray.get(removeItem)) {
-			orderItem.addCondiment_idToList(c.getCondID());
-		}
 		return orderItem;
 	}
 	public String getDeliveryDest() {
