@@ -29,7 +29,7 @@ body{
   position: absolute;
   height: 1720px;
   width: 965px;
-  background: radial-gradient(#77F97D 5%, #68DE6D 25%, #4CAF50 70%);
+  background: #f2f2f2;
   z-index: -1;
 }
 h1{
@@ -102,9 +102,9 @@ h1{
 .savedOrder {
   display: inline-block;
   border-radius: 80px;
-  background-color: #f2f2f2;
+  background-color: DarkGreen;
   border: none;
-  color: #4CAF50;
+  color: White;
   text-align: center;
   font-size: 40px;
 	letter-spacing: 4px;
@@ -117,36 +117,19 @@ h1{
 	margin-bottom: 50px;
 }
 
-.setOrder {
-  display: inline-block;
-  border-radius: 80px;
-  background-color: #f2f2f2;
-  border: none;
-  color: #4CAF50;
-  text-align: center;
-  font-size: 40px;
-	letter-spacing: 4px;
-  padding: 20px;
-  width: 70%;
-	height: 100px;
-  transition: all 0.5s;
-  cursor: pointer;
-	margin-left: 150px;
-}
-
 
 </style>
-<title>Spartan Eats</title>
+<title>Saved Orders</title>
 <body>
 <div class="foreground"></div>
 <div class="head">
 
 	<img src="https://i.imgur.com/edPxEqg.png" title="source: imgur.com" id="Logo" />
-  <h1><b>SPARTAN EATS</b></h1>
+  <h1><b>Saved Orders</b></h1>
 </div>
 <form action="${pageContext.servletContext.contextPath}/savedorders" method="post">
 	<c:forEach items ="${orderList}" var="order">                      
-      	<button class = "savedOrder" id = "savedOrder" type = "Submit" value="${order.orderId}" name  = "orderId"> View Order: ${order.orderId}</button>	
+      	<button class = "savedOrder" id = "savedOrder" type = "Submit" value="${order.orderId}" name  = "orderId"> View Order: ${order.orderName}</button>	
    	</c:forEach>
 </form>
 </body>

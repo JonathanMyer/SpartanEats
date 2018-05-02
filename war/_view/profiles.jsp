@@ -92,7 +92,7 @@ a:hover {
       <span rel="HiddenContributionsSam">Show Contributions</span><br />
       <div id="HiddenContributionsSam" style="display: none;">
         <ul>
-          <li>Reimplemented Database Tables for Items</li>
+          <li>Reimplemented Database Tables for Items and Condiments</li>
           <li>Model Creation and Refactoring</li>
           <li>JUnit Testing</li>
           <li>Servlet Development</li>
