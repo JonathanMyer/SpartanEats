@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Properties;
 
 import edu.ycp.cs320.spartaneats.model.Account;
 import edu.ycp.cs320.spartaneats.model.Condiments;
@@ -24,6 +24,7 @@ public class DerbyDatabase {
 	static {
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+			
 		} catch (Exception e) {
 			throw new IllegalStateException("Could not load Derby driver");
 		}
@@ -72,8 +73,8 @@ public class DerbyDatabase {
 	}
 
 	private Connection connect() throws SQLException {
-		Connection conn = DriverManager.getConnection("jdbc:derby:test.db;create=true");
-
+		Connection conn = DriverManager.getConnection("jdbc:derby:../test.db;create=true");
+		
 		// Set autocommit to false to allow execution of
 		// multiple queries/statements as part of the same transaction.
 		conn.setAutoCommit(false);
@@ -1515,6 +1516,6 @@ public class DerbyDatabase {
 		db.loadInitialData();
 		System.out.println("Data Loaded");
 		System.out.println("Derby Database Main Complete");
-
+		
 	}
 }
