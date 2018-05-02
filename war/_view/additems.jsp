@@ -3,34 +3,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <html>
 <style>
-
 body{
 	font-family: Arial, Helvetica, sans-serif;
-	background-color: #f2f2f2;
+	background-color: #f0f0f0;
 	height: 100%;
 	width: 100%;
-	font-size: 26px;
+	font-size: 40px;
 	letter-spacing: 2px;
-}
-.head{
-  text-align: center;
-  color: white;
-  text-shadow: 2px 2px 8px #377A3A;
-  font-size: 40px;
-  padding-top: 100px;
-}
-#Logo {
-  position: fixed;
-  left: 300px;
-  top: 335px;
-  width:40%;
-}
-.foreground {
-  position: absolute;
-  height: 1720px;
-  width: 965px;
-  background: radial-gradient(#77F97D 5%, #68DE6D 25%, #4CAF50 70%);
-  z-index: -1;
+	color: black;
 }
 h1{
 	text-align: center;
@@ -38,96 +18,57 @@ h1{
 	text-shadow: 4px 4px 8px #377A3A;
 	padding-bottom: 15px;
 }
-.Items {
-  display: inline-block;
-  border-radius: 80px;
-  background-color: #f2f2f2;
-  border: none;
-  color: #4CAF50;
-  text-align: center;
-  font-size: 35px;
-	letter-spacing: 6px;
-	text-transform: uppercase;
-  padding: 10px;
-  width: 85%;
-	height: 80px;	`
-  transition: all 0.5s;
-  cursor: pointer;
-	margin-left: 85px;
-	margin-bottom: 20px;
-}
-
-.Items span {
-  cursor: pointer;
-  display: inline-block;
+.container {
+  display: block;
   position: relative;
-  transition: 0.5s;
-}
-
-.Items span:after {
-  content: '\00bb';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
-}
-
-.Items:hover span {
-  padding-right: 25px;
-}
-
-.Items:hover span:after {
-  opacity: 1;
-  right: 0;
-}
-
-.Continue {
-  display: inline-block;
-  border-radius: 80px;
-  background-color: #f2f2f2;
-  border: none;
-  color: #4CAF50;
-  text-align: center;
-  font-size: 80px;
-	letter-spacing: 6px;
-	text-transform: uppercase;
-  padding: 10px;
-  width: 45px;
-	height: 60px;	`
-  transition: all 0.5s;
+  padding-left: 20px;
+  margin-bottom: 30px;
+  font-size: 55px;
+  width: 100%;
+  border-bottom: 6px dashed #808080;
+  padding-right: 10px;
   cursor: pointer;
-	margin-left: 10px;
-	margin-bottom: 20px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  }
+  
+.itemName{
+font-size: 55px;
+width:100%;
 }
 
-.h2{
-font-size: 100 px;
+
+.itemPrice{
 color: #4CAF50;
+}
+input{
+float: right;
+width: 60px;
+height: 60px;
+color: #696969;
+background-color: #696969;
 }
 
 </style>
-<title>Items</title>
-
 <body>
-<div class="foreground"></div>
-<div class="head">
-<h1><b>Items</b></h1>
-</div>	
+<title>Items</title>
+<h1><b>All Items</b></h1>
 <c:if test="${! empty model.error}">
 <div class="error">${model.error}</div>
 </c:if>
 		
 <form action="${pageContext.servletContext.contextPath}/additems" method="post">
-			
+	
 <table>
 	<c:forEach items="${itemList}" var="item">                      
       	<tr>
-      	<td><button type = "Submit" value="${item.itemName}" name  = "additem">${item.itemName} add</button></td>
+		<td><label class="container"><span class="itemName">${item.itemName}: </span><span class="itemPrice">${item.price}</span>
+      	<input type="Submit" value="${item.itemName}" name="additem"></input></label></td>
       	</tr>
    	</c:forEach>
 </table>
-
 		
 </form>
 </body>
