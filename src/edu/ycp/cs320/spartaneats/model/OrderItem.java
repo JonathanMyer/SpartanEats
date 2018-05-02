@@ -1,6 +1,7 @@
 package edu.ycp.cs320.spartaneats.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class OrderItem {
 	private int order_id;
@@ -44,5 +45,15 @@ public class OrderItem {
 	}
 	public void setCondiment_id(ArrayList<Integer> condiment_id) {
 		this.condiment_id = condiment_id;
+	}
+	
+	public void removeCondiment(int cond_id) {
+		Iterator<Integer> iter = condiment_id.iterator();
+		while (iter.hasNext()) {
+			if (iter.next() == cond_id) {
+				iter.remove();
+			}
+			
+		}
 	}
 }
