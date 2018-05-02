@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import edu.ycp.cs320.spartaneats.model.Inventory;
 import edu.ycp.cs320.spartaneats.model.Order;
 import edu.ycp.cs320.spartaneats.persist.DerbyDatabase;
+
 
 
 
@@ -36,18 +38,10 @@ public class CreateOrderServlet extends HttpServlet {
 	    	resp.sendRedirect(req.getContextPath()+"/login");
 	        } 
 
-	    DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
 	    
 	    
-	    try {
-			int order_id = db.createOrder((int) session.getAttribute("account_id"), req.getParameter("deliverypref"), req.getParameter("deliveryDest"));
-			System.out.println("Order ID: " + order_id);
-			session.setAttribute("order_id", order_id);
 	    
-	    } catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	    
 	    
 	    
 	    

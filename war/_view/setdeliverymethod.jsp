@@ -1,101 +1,184 @@
 
 <!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <html>
 <style>
+body{
+	font-family: Arial, Helvetica, sans-serif;
+	background: radial-gradient(#77F97D 5%, #68DE6D 25%, #4CAF50 70%);
+	height: 100%;
+	width: 100%;
+	font-size: 26px;
+	letter-spacing: 2px;
+}
 /* Dropdown Button */
-.dropbtn {
-    background-color: #3498DB;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    width: 500px;
-    font-size: 50px;
+.custom-select {
+	position: relative;
+	font-family: Arial;
+	width: 100%;
+	height: 200px;
+	font-size: 100px;
 }
 
-/* Dropdown button on hover & focus */
-.dropbtn:hover, .dropbtn:focus {
-    background-color: #2980B9;
+.custom-select select {
+	display: none; /*hide original SELECT element:*/
 }
 
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-    position: relative;
-    display: inline-block;
+.select-selected {
+	background-color: DodgerBlue;
 }
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    width: 500px;
-    font-size: 50px;
+/*style the arrow inside the select element:*/
+.select-selected:after {
+	position: absolute;
+	content: "";
+	top: 14px;
+	right: 10px;
+	width: 0;
+	height: 0;
+	border: 6px solid transparent;
+	border-color: #fff transparent transparent transparent;
+}
+/*point the arrow upwards when the select box is open (active):*/
+.select-selected.select-arrow-active:after {
+	border-color: transparent transparent #fff transparent;
+	top: 7px;
+}
+/*style the items (options), including the selected item:*/
+.select-items div, .select-selected {
+	color: #ffffff;
+	padding: 8px 16px;
+	border: 1px solid transparent;
+	border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+	cursor: pointer;
+}
+/*style items (options):*/
+.select-items {
+	position: absolute;
+	background-color: DodgerBlue;
+	top: 50;
+	left: 0;
+	right: 0;
+	z-index: 99;
+}
+/*hide the items when the select box is closed:*/
+.select-hide {
+	display: none;
 }
 
-/* Links inside the dropdown */
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: inline-block;
+.select-items div:hover, .same-as-selected {
+	background-color: rgba(0, 0, 0, 0.1);
 }
-
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #ddd}
-
-/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-.show {display:block;}
 </style>
+
 <body>
 
-  <div class="dropdown">
-    <button onclick="myFunction()" class="dropbtn">Dropdown</button>
-    <div id="myDropdown" class="dropdown-content">
-      <a href="#">Beard Hall</a>
-      <a href="#">Codorus Hall</a>
-      <a href="#">Penn Hall</a>
-      <a href="#">Susquehana Hall</a>
-      <a href="#">Manor Hall</a>
-      <a href="#">Tyler Run Appt</a>
-      <a href="#">Northside Commons</a>
-      <a href="#">Little Run Lodge</a>
-      <a href="#">Richland Hall</a>
-      <a href="#">Brockie Commons</a>
-      <a href="#">Spring Garden Appt</a>
-      <a href="#">Country Club Manor</a>
-    </div>
-  </div>
-<script>
-/* When the user clicks on the button,
-toggle between hiding and showing the dropdown content */
-function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
-}
 
-// Close the dropdown menu if the user clicks outside of it
-window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
-</script>
-
-  <form action="${pageContext.servletContext.contextPath}/createorder" method="get">
-    <input type="image" src="https://i.imgur.com/bgSYjEw.png" alt="Delivery" name="deliverypref" value="true">
-    <input type="image" src="https://i.imgur.com/vElZnLF.png" alt="Pickup" name="deliverypref" value="false">
-   </form>
+	<form
+		action="${pageContext.servletContext.contextPath}/setdeliverymethod"
+		method="post">
+		<div class="custom-select">
+			<select name="deliveryDest">
+				<option value="null">Delivery Destination
+				<option value="Beard Hall">Beard Hall
+				<option value="Penn Hall">Penn Hall
+				<option value="Susquehana Hall">Susquehana Hall
+				<option value="Manor Hall">Manor Hall
+				<option value="Tyler Run Appt">Tyler Run Appt
+				<option value="Northside Commons">Northside Commons
+				<option value="Little Run Lodge">Little Run Lodge
+				<option value="Richland Hall">Richland Hall
+				<option value="Brockie Commons">Brockie Commons
+				<option value="Spring Garden Appt">Spring Garden Appt
+				<option value="Country Club Manor">Country Club Manor
+			</select>
+		</div>
+		<script> /* script pulled from https://www.w3schools.com/howto/howto_custom_select.asp */
+			var x, i, j, selElmnt, a, b, c;
+			/*look for any elements with the class "custom-select":*/
+			x = document.getElementsByClassName("custom-select");
+			for (i = 0; i < x.length; i++) {
+				selElmnt = x[i].getElementsByTagName("select")[0];
+				/*for each element, create a new DIV that will act as the selected item:*/
+				a = document.createElement("DIV");
+				a.setAttribute("class", "select-selected");
+				a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+				x[i].appendChild(a);
+				/*for each element, create a new DIV that will contain the option list:*/
+				b = document.createElement("DIV");
+				b.setAttribute("class", "select-items select-hide");
+				for (j = 1; j < selElmnt.length; j++) {
+					/*for each option in the original select element,
+					create a new DIV that will act as an option item:*/
+					c = document.createElement("DIV");
+					c.innerHTML = selElmnt.options[j].innerHTML;
+					c
+							.addEventListener(
+									"click",
+									function(e) {
+										/*when an item is clicked, update the original select box,
+										and the selected item:*/
+										var y, i, k, s, h;
+										s = this.parentNode.parentNode
+												.getElementsByTagName("select")[0];
+										h = this.parentNode.previousSibling;
+										for (i = 0; i < s.length; i++) {
+											if (s.options[i].innerHTML == this.innerHTML) {
+												s.selectedIndex = i;
+												h.innerHTML = this.innerHTML;
+												y = this.parentNode
+														.getElementsByClassName("same-as-selected");
+												for (k = 0; k < y.length; k++) {
+													y[k]
+															.removeAttribute("class");
+												}
+												this.setAttribute("class",
+														"same-as-selected");
+												break;
+											}
+										}
+										h.click();
+									});
+					b.appendChild(c);
+				}
+				x[i].appendChild(b);
+				a.addEventListener("click", function(e) {
+					/*when the select box is clicked, close any other select boxes,
+					and open/close the current select box:*/
+					e.stopPropagation();
+					closeAllSelect(this);
+					this.nextSibling.classList.toggle("select-hide");
+					this.classList.toggle("select-arrow-active");
+				});
+			}
+			function closeAllSelect(elmnt) {
+				/*a function that will close all select boxes in the document,
+				except the current select box:*/
+				var x, y, i, arrNo = [];
+				x = document.getElementsByClassName("select-items");
+				y = document.getElementsByClassName("select-selected");
+				for (i = 0; i < y.length; i++) {
+					if (elmnt == y[i]) {
+						arrNo.push(i)
+					} else {
+						y[i].classList.remove("select-arrow-active");
+					}
+				}
+				for (i = 0; i < x.length; i++) {
+					if (arrNo.indexOf(i)) {
+						x[i].classList.add("select-hide");
+					}
+				}
+			}
+			/*if the user clicks anywhere outside the select box,
+			 then close all select boxes:*/
+			document.addEventListener("click", closeAllSelect);
+		</script>
+		<input type="image" src="https://i.imgur.com/bgSYjEw.png"
+			alt="Delivery" name="deliverypref" value="true"> <input
+			type="image" src="https://i.imgur.com/vElZnLF.png" alt="Pickup"
+			name="deliverypref" value="false">
+	</form>
 
 </body>
 </html>
