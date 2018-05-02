@@ -7,7 +7,7 @@ public class Item {
 	private double price;
 	private String condiments;
 	private int itemId;
-	
+	private int amount = 1;
 	public Item() {
 
 	}
@@ -58,6 +58,14 @@ public class Item {
 	
 	public int getItemId() {
 		return itemId;
+	}
+
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 	
 	
