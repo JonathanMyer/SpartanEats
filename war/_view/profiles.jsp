@@ -52,6 +52,9 @@ a:hover {
     width: 65px;
     height: 15px;
 }
+li{
+font-size: 35px  !important;
+}
   </style>
 <body class="body" onLoad="myContributionsFunction">
   <a href="http://localhost:8081/spartaneats/login" class="previous round">Go Back</a>
