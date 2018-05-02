@@ -35,15 +35,16 @@ public class ViewOrderAdminServlet extends HttpServlet {
 			throws ServletException, IOException {
 		System.out.println("View Order Admin Servlet: doGet");
 		HttpSession session = req.getSession(false);    // fetch the session and handle 
-        Order order = new Order(false, 1, 1);
+        Order order = null;
         List<OrderItem> orderItem = null;
 	    if (session == null) {    // no session exists, redirect to error page with error message
 	    	resp.sendRedirect(req.getContextPath()+"/login");
 	        } 
 	    DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
-	    order.setOrderId((int)session.getAttribute("order_id"));
+	    
 	    try {
 	    	// compile the order
+	    	order = db.findOrderFromOrderId((int)session.getAttribute("order_id"));
 			orderItem =  db.findOrderItemsFromOrderID(order.getOrderId());
 			for (OrderItem o: orderItem) {
 		    	 order.addItem(db.findItembyItemID(o.getItem_id()));
