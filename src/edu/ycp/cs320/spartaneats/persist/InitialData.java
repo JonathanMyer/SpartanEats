@@ -58,7 +58,6 @@ public class InitialData {
 			readCondiments.close();
 		}
 	}
-
 	public static List<Account> getAccount() throws IOException{
 		List <Account> accountList = new ArrayList<Account>();
 		ReadCSV readAccounts = new ReadCSV("accounts.csv");
@@ -94,5 +93,4 @@ public class InitialData {
 			readAccounts.close();
 		}
 	}
-
 }

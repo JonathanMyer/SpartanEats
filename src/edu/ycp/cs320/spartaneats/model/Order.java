@@ -11,6 +11,7 @@ public class Order  {
 	private int accountId;
 	private Boolean active;
 	private String deliveryDest;
+	private String orderName;
 	
 	public Order() {
 	selectedItems = new ArrayList<Item>();
@@ -116,7 +117,10 @@ public class Order  {
 	public void setDeliveryDest(String deliveryDest) {
 		this.deliveryDest = deliveryDest;
 	}
-	
-	
-	
+	public String getOrderName() {
+		return orderName;
+	}
+	public void setOrderName(String orderName) {
+		this.orderName= orderName;
+	}
 }

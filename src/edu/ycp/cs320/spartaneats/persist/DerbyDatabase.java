@@ -113,6 +113,7 @@ public class DerbyDatabase {
 			order.setActiveTrue();
 		}
 		order.setDeliveryDest(resultSet.getString(index++));
+		order.setOrderName(resultSet.getString(index++));
 	}
 	
 	private void loadCondiment(Condiments condiment, ResultSet resultSet, int index) throws SQLException {
@@ -248,12 +249,12 @@ public class DerbyDatabase {
 							"create table orders (" +
 									" order_id integer not null  "  + 
 									"		generated always as identity (start with 1, increment by 1), " +
-									
 									" delivery varChar(40)," +
 									" account_id integer, " +
 									" CONSTRAINT primary_key PRIMARY KEY (order_id)," +
 									" active integer," +
-									" deliveryDest varChar(40)" +
+									" deliveryDest varChar(40)," +
+									" orderName varChar(99)" +
 									")"
 							);
 					createOrdersTable.executeUpdate();
@@ -345,7 +346,7 @@ public class DerbyDatabase {
 					}
 					insertItem.executeBatch();
 					
-					// populate item table 
+					// populate condiment table 
 					insertCondiment = conn.prepareStatement("insert into condiments (CondType, CondName, CondID) values (?, ?, ?)");
 					for (Condiments condiment : condimentList) {
 						insertCondiment.setString(1, condiment.getCondType());
@@ -1126,6 +1127,29 @@ public class DerbyDatabase {
 		});
 	}
 	
+	public String insertOrderName(int order_id, String orderName) throws SQLException {
+		return doExecuteTransaction(new Transaction<String>() {
+			public String execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				PreparedStatement stmt2 = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"insert into orders (orderName)" +
+									"values (?) where order_id = ?");
+					stmt.setString(1, orderName);
+					stmt.setInt(2, order_id);
+					stmt.executeUpdate();
+					return orderName;
+				}	
+				finally {
+					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(stmt);
+				}				
+			}
+		});
+	}
 	public List<Order> findActiveOrders() throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Order>>() {
 			public List<Order> execute(Connection conn) throws SQLException{
@@ -1214,12 +1238,7 @@ public class DerbyDatabase {
 									"where orders.order_id = ?"
 							);
 					stmt.setInt(1, order_id);
-
-
 					resultSet = stmt.executeQuery();
-
-					
-
 					//retrieve attributes from resultSet starting with index 1
 					Order order = new Order();
 					if(resultSet.next()) {
