@@ -12,10 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
-import edu.ycp.cs320.spartaneats.controller.OrderController;
-
-
-import edu.ycp.cs320.spartaneats.controller.OrderController;
 import edu.ycp.cs320.spartaneats.model.Account;
 //import edu.ycp.cs320.spartaneats.model.AccountControllerPopulate;
 import edu.ycp.cs320.spartaneats.model.Condiments;
@@ -36,6 +32,7 @@ public class ViewOrderAdminServlet extends HttpServlet {
 		System.out.println("View Order Admin Servlet: doGet");
 		HttpSession session = req.getSession(false);    // fetch the session and handle 
         Order order = null;
+        List<Account> accounts = null;
         List<OrderItem> orderItem = null;
 	    if (session == null) {    // no session exists, redirect to error page with error message
 	    	resp.sendRedirect(req.getContextPath()+"/login");
@@ -45,7 +42,8 @@ public class ViewOrderAdminServlet extends HttpServlet {
 	    try {
 	    	// compile the order
 	    	order = db.findOrderFromOrderId((int)session.getAttribute("order_id"));
-			orderItem =  db.findOrderItemsFromOrderID(order.getOrderId());
+			accounts = db.findAccountbyAccountID(order.getAccountId());
+	    	orderItem =  db.findOrderItemsFromOrderID(order.getOrderId());
 			for (OrderItem o: orderItem) {
 		    	 order.addItem(db.findItembyItemID(o.getItem_id()));
 		    	 List<Condiments> tempCondArray = new ArrayList<Condiments>();
@@ -53,9 +51,9 @@ public class ViewOrderAdminServlet extends HttpServlet {
 		    		 tempCondArray.add(db.findCondimentsbyCondimentID(i));
 		    	 }
 		    	 order.addCondArrayList(tempCondArray);
-		    	 
 		     }
 			 session.setAttribute("order", order);
+			 session.setAttribute("accounts", accounts.get(0));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
