@@ -1135,6 +1135,44 @@ public class DerbyDatabase {
 			}
 		});
 	}
+	public int createOrderWithAccountId(int account_id) throws SQLException {
+		return doExecuteTransaction(new Transaction<Integer>() {
+			public Integer execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				PreparedStatement stmt2 = null;
+				ResultSet resultSet = null;
+				
+				
+				
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"insert into orders (account_id, active)" +
+									"values (?, ?)" 
+							, stmt.RETURN_GENERATED_KEYS);
+					
+					stmt.setInt(1, account_id);
+					int active = 0;
+					stmt.setInt(2, active);
+					
+					stmt.executeUpdate();
+					
+					resultSet = stmt.getGeneratedKeys();
+					int order_id = 0;
+					if(resultSet.next()) {
+						order_id = resultSet.getInt(1);
+						System.out.println("Order ID:" + order_id);
+					}
+
+					return order_id;
+				}	
+				finally {
+					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(stmt);
+				}				
+			}
+		});
+	}
 	public String insertOrderName(int order_id, String orderName) throws SQLException {
 		return doExecuteTransaction(new Transaction<String>() {
 			public String execute(Connection conn) throws SQLException{
@@ -1144,8 +1182,8 @@ public class DerbyDatabase {
 				try {
 					//retrieve all attributes 
 					stmt = conn.prepareStatement(
-							"insert into orders (orderName)" +
-									"values (?) where order_id = ?");
+							"update orders set orders.orderName = ?" +
+									"where order_id = ?");
 					stmt.setString(1, orderName);
 					stmt.setInt(2, order_id);
 					stmt.executeUpdate();
