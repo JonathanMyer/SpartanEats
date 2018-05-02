@@ -74,6 +74,8 @@ public class ViewOrderServlet extends HttpServlet {
 		String removeItemString = req.getParameter("removeItem");
 		String condiment = req.getParameter("removeCondiment");
 		String fromItem = req.getParameter("fromItem");
+		String orderName = req.getParameter("orderName");
+		System.out.println("Order Name: "+ orderName);
 		Boolean continueOrder = false;
 		Boolean orderComplete = false;
 		continueOrder =  Boolean.valueOf(req.getParameter("continueOrder"));
@@ -109,6 +111,9 @@ public class ViewOrderServlet extends HttpServlet {
 
 			try {
 				int orderId = (Integer) session.getAttribute("order_id");
+				if(orderName != null) {
+					db.insertOrderName(orderId, orderName);
+				}
 				db.updateOrderToActive(orderId);
 				resp.sendRedirect(req.getContextPath()+"/ordercomplete");
 			} catch (SQLException e) {
