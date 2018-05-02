@@ -7,7 +7,6 @@
 <style type="text/css">
 		.error {
 			color: red;
-			font-size: 40px;
 		}
 body{
 	font-family: Arial, Helvetica, sans-serif;
@@ -129,7 +128,7 @@ h1{
 	<h1>SPARTAN EATS</h1>
 <div>
 	<c:if test="${! empty model.error}">
-		<div class="error">&#9888;${model.error}</div>
+		<div class="error">${model.error}</div>
 	</c:if>
   <form action="${pageContext.servletContext.contextPath}/login" method="post">
     <label id="Name">USERNAME:</label>
