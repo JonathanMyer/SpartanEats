@@ -51,10 +51,45 @@ public class DerbyDatabaseTest {
 		assertTrue(account.getPhoneNumber().equals("845-181-2578"));
 		assertTrue(account.getAdminStatus().equals("user"));
 		assertTrue(account.getAccountId() == 3);
-
 		assertTrue(account.getFlex() == 13.25);
 		assertTrue(account.getDining() == 22.0);
 	}
+
+	
+	@Test
+	public void testUpdateDining() throws SQLException{
+		double price = 7.95;
+		int account_id = 4;
+		List<Account> accountList = db.findAccountbyAccountID(account_id);
+		try {
+			double dining = db.updateDiningBalance(price, account_id);
+			List<Account> accountList2 = db.findAccountbyAccountID(account_id);
+			Account account = accountList2.get(0);
+			System.out.println("DINING SET BALANCE:" +account.getDining());
+			assertTrue(account.getDining() == 67.05);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testUpdateFlex() throws SQLException{
+		double price = 7.90;
+		int account_id = 4;
+		List<Account> accountList = db.findAccountbyAccountID(account_id);
+		try {
+			double flex = db.updateFlexBalance(price, account_id);
+			List<Account> accountList2 = db.findAccountbyAccountID(account_id);
+			Account account = accountList2.get(0);
+			System.out.println("DINING SET BALANCE:" +account.getDining());
+			assertTrue(account.getFlex() == 124.73999999999998);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 
 	@Test
 	public void testFindAccountbyFirstName() throws SQLException {
@@ -233,7 +268,7 @@ public class DerbyDatabaseTest {
 	@Test
 	public void testActiveOrdersByUsername(){
 		try {
-			int order_id = db.createOrder(4, "delivery");
+			int order_id = db.createOrder(4, "delivery", "China");
 			int active = db.updateOrderToActive(order_id);
 			List<Order> activeOrders = db.findActiveOrders();
 			assertTrue(activeOrders.size() == 1);
@@ -247,6 +282,7 @@ public class DerbyDatabaseTest {
 	@Test
 	public void testFindAllAcounts() {
 		try {
+			System.out.println("Number of Accounts" + db.findAllAccounts().size());
 			assertTrue(db.findAllAccounts().size() == 15);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -331,6 +367,7 @@ public class DerbyDatabaseTest {
 			int order_id = db.createOrder(4, "true", "China");
 			int active = db.updateOrderToActive(order_id);
 			List<Order> activeOrders = db.findActiveOrders();
+			System.out.println(activeOrders.size());
 			assertTrue(activeOrders.size() == 1);
 			db.updateOrderToInActive(order_id);
 			activeOrders = db.findActiveOrders();
@@ -356,4 +393,6 @@ public class DerbyDatabaseTest {
 		}
 	}
 
+	
 }
+
