@@ -60,7 +60,7 @@ background-color: #696969;
 </c:if>
 		
 <form action="${pageContext.servletContext.contextPath}/additems" method="post">
-			
+	
 <table>
 	<c:forEach items="${itemList}" var="item">                      
       	<tr>
