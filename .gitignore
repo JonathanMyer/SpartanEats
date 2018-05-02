@@ -3,3 +3,5 @@
 /test.db/
 /derby.log
 derby.log
+derby.log
+*.log
