@@ -31,7 +31,6 @@ public class LoginServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		System.out.println("Login Servlet: doPost");
-		
 
 		// holds the error message text, if there is any
 		String errorMessage = null;

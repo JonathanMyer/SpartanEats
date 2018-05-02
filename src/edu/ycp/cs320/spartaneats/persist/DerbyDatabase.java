@@ -112,6 +112,7 @@ public class DerbyDatabase {
 		}else {
 			order.setActiveTrue();
 		}
+		order.setDeliveryDest(resultSet.getString(index++));
 	}
 	
 	private void loadCondiment(Condiments condiment, ResultSet resultSet, int index) throws SQLException {
@@ -251,7 +252,8 @@ public class DerbyDatabase {
 									" delivery varChar(40)," +
 									" account_id integer, " +
 									" CONSTRAINT primary_key PRIMARY KEY (order_id)," +
-									" active integer" +
+									" active integer," +
+									" deliveryDest varChar(40)" +
 									")"
 							);
 					createOrdersTable.executeUpdate();
@@ -675,13 +677,6 @@ public class DerbyDatabase {
 					if(resultSet.next()) {
 						loadItem(item, resultSet, 1);
 					}
-
-					
-					
-
-					
-
-					
 					return item;
 				}finally {
 					DBUtil.closeQuietly(resultSet);
@@ -1018,7 +1013,7 @@ public class DerbyDatabase {
 		});
 	}
 	
-	public int createOrder(int account_id, String delivery) throws SQLException {
+	public int createOrder(int account_id, String delivery, String deliveryDest) throws SQLException {
 		return doExecuteTransaction(new Transaction<Integer>() {
 			public Integer execute(Connection conn) throws SQLException{
 				PreparedStatement stmt = null;
@@ -1030,13 +1025,14 @@ public class DerbyDatabase {
 				try {
 					//retrieve all attributes 
 					stmt = conn.prepareStatement(
-							"insert into orders (delivery, account_id, active)" +
-									"values (?, ?, ?)" 
+							"insert into orders (delivery, account_id, active, deliveryDest)" +
+									"values (?, ?, ?, ?)" 
 							, stmt.RETURN_GENERATED_KEYS);
 					stmt.setString(1, delivery);
 					stmt.setInt(2, account_id);
 					int active = 0;
 					stmt.setInt(3, active);
+					stmt.setString(4, deliveryDest);
 					stmt.executeUpdate();
 					
 					resultSet = stmt.getGeneratedKeys();
@@ -1174,6 +1170,39 @@ public class DerbyDatabase {
 			}
 		});
 	}	
+	
+	public Order findOrderFromOrderId(int order_id) throws SQLException {
+		return doExecuteTransaction(new Transaction<Order>() {
+			public Order execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"select orders.*"+
+									" from orders " +
+									"where orders.order_id = ?"
+							);
+					stmt.setInt(1, order_id);
+
+
+					resultSet = stmt.executeQuery();
+
+					
+
+					//retrieve attributes from resultSet starting with index 1
+					Order order = new Order();
+					if(resultSet.next()) {
+						loadOrder(order, resultSet, 1);
+					}
+					return order;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
 
 	public List<Order> findOrdersFromAccountID(int account_id) throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Order>>() {

@@ -94,7 +94,7 @@ public class ViewOrderServlet extends HttpServlet {
 			try {
 				int orderId = (Integer) session.getAttribute("order_id");
 				db.updateOrderToActive(orderId);
-				// TODO make a order complete servlet and forward there from this.
+				resp.sendRedirect(req.getContextPath()+"/ordercomplete");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
