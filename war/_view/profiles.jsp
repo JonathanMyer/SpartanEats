@@ -35,29 +35,20 @@
     height:100px;
     width: 400px;
   }
-  a {
+.previous {
     text-decoration: none;
     display: inline-block;
-    padding: 8px 16px;
+    padding: 20px 20px 20px 20px;
     color: white;
     background-color: #000!important;
-}
-a:hover {
-    background-color: #ddd;
-    color: white;
-}
-.previous {
-    background-color: #f1f1f1;
-    color: white;
-    width: 65px;
-    height: 15px;
+    font-size: 40px;
 }
 li{
 font-size: 35px  !important;
 }
   </style>
 <body class="body" onLoad="myContributionsFunction">
-  <a href="http://localhost:8081/spartaneats/login" class="previous round">Go Back</a>
+  <a href="http://localhost:8081/spartaneats/login" class="previous"> &#171; Go Back</a>
   <div class="Jonathan Myer"><a Name="John"></a>
     <img src="https://i.imgur.com/TMQL5kt.png" title="Jonathan Myer" class="headshot"/></a>
       <p class="name">Jonathan Myer</p>
