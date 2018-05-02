@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -5,7 +6,7 @@
 <style>
 body{
 	font-family: Arial, Helvetica, sans-serif;
-	background: #F5F5F5;
+	background: radial-gradient(#77F97D 5%, #68DE6D 25%, #4CAF50 70%);
 	height: 100%;
 	width: 100%;
 	font-size: 26px;
@@ -17,8 +18,7 @@ body{
 	font-family: Arial;
 	width: 100%;
 	height: 200px;
-	font-size: 45px;
-	background-color: #F5F5F5;
+	font-size: 100px;
 }
 
 .custom-select select {
@@ -26,9 +26,8 @@ body{
 }
 
 .select-selected {
-	background-color: #F5F5F5;
+	background-color: DodgerBlue;
 }
-
 /*style the arrow inside the select element:*/
 .select-selected:after {
 	position: absolute;
@@ -39,7 +38,6 @@ body{
 	height: 0;
 	border: 6px solid transparent;
 	border-color: #fff transparent transparent transparent;
-	color: black;
 }
 /*point the arrow upwards when the select box is open (active):*/
 .select-selected.select-arrow-active:after {
@@ -48,8 +46,7 @@ body{
 }
 /*style the items (options), including the selected item:*/
 .select-items div, .select-selected {
-	color: Black;
-	text-align: center;
+	color: #ffffff;
 	padding: 8px 16px;
 	border: 1px solid transparent;
 	border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
@@ -58,8 +55,7 @@ body{
 /*style items (options):*/
 .select-items {
 	position: absolute;
-	background-color: #F5F5F5;
-	color: Black;
+	background-color: DodgerBlue;
 	top: 50;
 	left: 0;
 	right: 0;
@@ -73,23 +69,17 @@ body{
 .select-items div:hover, .same-as-selected {
 	background-color: rgba(0, 0, 0, 0.1);
 }
-input[type="image"]{
-	width: 60%;
-	padding-left: 200px;
-	padding-right: 200px;
-}
-
 </style>
 
 <body>
-	<form action="${pageContext.servletContext.contextPath}/setdeliverymethod" method="post">
-		
-		<input type="image" src="https://i.imgur.com/dLIBIxO.png" alt="Pickup" name="deliverypref" value="false">
-		<input type="image" src="https://i.imgur.com/gVDArzF.png" alt="Delivery" name="deliverypref" value="true">
-				
+
+
+	<form
+		action="${pageContext.servletContext.contextPath}/setdeliverymethod"
+		method="post">
 		<div class="custom-select">
 			<select name="deliveryDest">
-				<option value="DeliveryDestinations">Destinations
+				<option value="null">Delivery Destination
 				<option value="Beard Hall">Beard Hall
 				<option value="Penn Hall">Penn Hall
 				<option value="Susquehana Hall">Susquehana Hall
@@ -184,8 +174,11 @@ input[type="image"]{
 			 then close all select boxes:*/
 			document.addEventListener("click", closeAllSelect);
 		</script>
-	
-		
+		<input type="image" src="https://i.imgur.com/bgSYjEw.png"
+			alt="Delivery" name="deliverypref" value="true"> <input
+			type="image" src="https://i.imgur.com/vElZnLF.png" alt="Pickup"
+			name="deliverypref" value="false">
 	</form>
+
 </body>
 </html>
