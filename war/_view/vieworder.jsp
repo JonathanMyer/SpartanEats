@@ -39,7 +39,6 @@ h1{
 	text-shadow: 4px 4px 8px #377A3A;
 	padding-bottom: 15px;
 }
-
 .Continue {
   display: inline-block;
   border-radius: 80px;
@@ -60,9 +59,10 @@ h1{
 	font-size: 50px;
 }
 
-.Items {
-  display: inline-block;
-  border-radius: 80px;
+.removeButton {
+	position: absolute;
+	right: 0;
+
   background-color: #f2f2f2;
   border: none;
   color: #4CAF50;
@@ -79,7 +79,50 @@ h1{
 	margin-bottom: 20px;
 }
 
-.Items span {
+.h2{
+font-size: 200px;
+color: #4CAF50;
+}
+#condiments{
+padding-left:50px;
+font-size: 35px;
+color: black;
+}
+@keyframes click-wave {
+  0% {
+    height: 40px;
+    width: 40px;
+    opacity: 0.35;
+    position: relative;
+  }
+  100% {
+    height: 200px;
+    width: 200px;
+    margin-left: -80px;
+    margin-top: -80px;
+    opacity: 0;
+  }
+}
+.option-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  position: relative;
+  top: 20px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 100px;
+  width: 100px;
+  transition: all 0.15s ease-out 0s;
+  background: #ebebe4;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #9faab7;
+	box-shadow: 2px 2px 2px grey;
+  color: #fff;
   cursor: pointer;
   display: inline-block;
   position: relative;
@@ -95,13 +138,27 @@ h1{
   transition: 0.5s;
 }
 
-.Items:hover span {
-  padding-right: 25px;
+.option-input:checked::after {
+  -webkit-animation: click-wave 0.65s;
+  -moz-animation: click-wave 0.65s;
+  animation: click-wave 0.65s;
+  background: #4CAF50;
+  content: '';
+  display: block;
+  position: relative;
+  z-index: 100;
 }
+#textBox{
+	display: inline-block;
+	height: 70px;
+	width: 500px;
+	padding-top: 25px;
+	font-size: 50px;
+	color: #9faab7;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #9faab7;
 
-.Items:hover span:after {
-  opacity: 1;
-  right: 0;
 }
 
 .h2{
@@ -150,4 +207,13 @@ font-size: 80px;
 </table>   	
 </form>
 </body>
+<script>
+window.setOrderName = function() {
+	if(document.getElementById("custom").checked) {
+		document.getElementById("textBox").disabled = false;
+		document.getElementsByName('Text')[0].placeholder='Enter Order Name';
+	} else {
+		document.getElementById("textBox").disabled = true;
+	}
+}</script>
 </html>

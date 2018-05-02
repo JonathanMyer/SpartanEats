@@ -86,6 +86,9 @@ color: #ff0000;
 	right: 0
 	left: 0;
 }
+.orderInformation{
+font-size: 50px !important;
+}
 </style>
 <title>Admin View Orders</title>
 <h1><b>Admin View Orders</b></h1>
@@ -106,7 +109,7 @@ color: #ff0000;
 			<div id="condiments">${condiments.condName}</div>
 		</c:forEach>
 	</div>
-<div>
+<div class="orderInformation">
 	</c:forEach>
 	<div class="accountInfo">Student Name: ${accounts.firstName} ${accounts.lastName}</div>
 	<c:if test = "${ null != order.deliveryDest}">

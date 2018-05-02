@@ -9,9 +9,9 @@
 	font-size: 90px;
 	}
 	.button{
-	font-size: 120px;
-	width:500px;
-	height:500px;
+	font-size: 80px;
+	width:100%;
+	height:300px;
 	}
 	</style>
 	<head>
