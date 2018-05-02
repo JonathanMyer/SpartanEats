@@ -68,5 +68,27 @@ public class OrderItemTest {
 		assertTrue(EmptySample.getCondiment_id().get(0) == 1);
 		assertFalse(EmptySample.getCondiment_id().get(0) == 6);
 	}
+	
+	@Test
+	public void testRemoveCondiment() {
+		OrderItem orderItem = new OrderItem();
+		orderItem.addCondiment_idToList(5);
+		orderItem.addCondiment_idToList(23);
+		orderItem.addCondiment_idToList(54);
+		orderItem.addCondiment_idToList(51);
+		orderItem.addCondiment_idToList(38);
+		System.out.println("Condiments in testRemoveCondiemnt: ");
+		for(int i: orderItem.getCondiment_id()) {
+			System.out.println(i+",");
+		}
+		orderItem.removeCondiment(23);
+		assertTrue(orderItem.getCondiment_id().size() == 4);
+		System.out.println("Condiments in testRemoveCondiemnt: ");
+		for(int i: orderItem.getCondiment_id()) {
+			System.out.println(i+",");
+		}
+		
+	}
+
 }
 

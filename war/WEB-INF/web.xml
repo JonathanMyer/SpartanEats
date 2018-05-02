@@ -54,9 +54,15 @@
 	<servlet-name>SavedOrdersServlet</servlet-name>	
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.SavedOrdersServlet</servlet-class>	
   </servlet>
+
+   <servlet>
+	<servlet-name>CurrentOrdersServlet</servlet-name>	
+	<servlet-class>edu.ycp.cs320.spartaneats.servlet.CurrentOrdersServlet</servlet-class>	
+	</servlet>
   <servlet>
 	<servlet-name>OrderCompleteServlet</servlet-name>	
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.OrderCompleteServlet</servlet-class>	
+
   </servlet>
 
 
@@ -109,9 +115,15 @@
     <servlet-name>SavedOrdersServlet</servlet-name>
     <url-pattern>/savedorders</url-pattern>
   </servlet-mapping>
+
+    <servlet-mapping>
+    <servlet-name>CurrentOrdersServlet</servlet-name>
+    <url-pattern>/currentorders</url-pattern>
+</servlet-mapping>
   <servlet-mapping>
     <servlet-name>OrderCompleteServlet</servlet-name>
     <url-pattern>/ordercomplete</url-pattern>
+
   </servlet-mapping>
 
   <welcome-file-list>

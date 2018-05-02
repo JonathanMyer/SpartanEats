@@ -3,6 +3,7 @@ package edu.ycp.cs320.jmyer.model;
 import static org.junit.Assert.*;
 
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class DerbyDatabaseTest {
 	private OrderItem SampleOrderItem;
 	private ArrayList<Integer>ItemCondimentList = new ArrayList<Integer>();
 	private Order order;
+	DecimalFormat df = new DecimalFormat("#.##");
 
 	@Before
 	public void setUp() throws Exception {
@@ -51,10 +53,47 @@ public class DerbyDatabaseTest {
 		assertTrue(account.getPhoneNumber().equals("845-181-2578"));
 		assertTrue(account.getAdminStatus().equals("user"));
 		assertTrue(account.getAccountId() == 3);
-
 		assertTrue(account.getFlex() == 13.25);
 		assertTrue(account.getDining() == 22.0);
 	}
+
+	
+	@Test
+	public void testUpdateDining() throws SQLException{
+		double price = 7.90;
+		int account_id = 4;
+		try {
+			List<Account> accountList = db.findAccountbyAccountID(account_id);
+			double before = accountList.get(0).getDining();
+			System.out.println("DINING BEFORE:" + before);
+			double flex = db.updateDiningBalance(price, account_id);
+			List<Account> accountList2 = db.findAccountbyAccountID(account_id);
+			Account account = accountList2.get(0);
+			System.out.println("DINING SET BALANCE:" + account.getDining());
+			assertTrue(account.getDining() == Double.parseDouble(df.format(before - price)));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void testUpdateFlex() throws SQLException{
+		double price = 7.90;
+		int account_id = 4;
+		try {
+			List<Account> accountList = db.findAccountbyAccountID(account_id);
+			double before = accountList.get(0).getFlex();
+			double flex = db.updateFlexBalance(price, account_id);
+			List<Account> accountList2 = db.findAccountbyAccountID(account_id);
+			Account account = accountList2.get(0);
+			System.out.println("DINING SET BALANCE:" + account.getFlex());
+			assertTrue(account.getFlex() == Double.parseDouble(df.format(before - price)));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 
 	@Test
 	public void testFindAccountbyFirstName() throws SQLException {
@@ -231,8 +270,23 @@ public class DerbyDatabaseTest {
 	}
 	
 	@Test
+	public void testActiveOrdersByUsername(){
+		try {
+			int order_id = db.createOrder(4, "delivery", "China");
+			int active = db.updateOrderToActive(order_id);
+			List<Order> activeOrders = db.findActiveOrders();
+			assertTrue(activeOrders.size() == 1);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
 	public void testFindAllAcounts() {
 		try {
+			System.out.println("Number of Accounts" + db.findAllAccounts().size());
 			assertTrue(db.findAllAccounts().size() == 15);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -311,17 +365,18 @@ public class DerbyDatabaseTest {
 		}
 	}
 	
-	
 	@Test
 	public void testActiveOrders(){
 		try {
 			int order_id = db.createOrder(4, "true", "China");
+			List<Order> previous = db.findActiveOrders();
 			int active = db.updateOrderToActive(order_id);
 			List<Order> activeOrders = db.findActiveOrders();
-			assertTrue(activeOrders.size() == 1);
+			System.out.println(activeOrders.size());
+			assertTrue(activeOrders.size() == previous.size() +1 );
 			db.updateOrderToInActive(order_id);
 			activeOrders = db.findActiveOrders();
-			assertTrue(activeOrders.size() == 0);
+			assertTrue(activeOrders.size() == previous.size());
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -342,5 +397,39 @@ public class DerbyDatabaseTest {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void testRemoveCondimentFromOrderItem() {
+		try {
+			int order_number = db.createOrder(4, "false", "Africa");
+			List<Integer> conds = new ArrayList<Integer>();
+			conds.add(3);
+			conds.add(6);
+			conds.add(8);
+			conds.add(23);
+			db.addItemToOrder(order_number, 3, 1, conds);
+			List<OrderItem> orderitem = db.findOrderItemsFromOrderID(order_number);
+			System.out.print("testRemoveCondimentFromOrderItem: Current Items: ");
+			for(int i: orderitem.get(0).getCondiment_id()) {
+				System.out.print(i+",");
+			}
+			int lengthBefore = orderitem.get(0).getCondiment_id().size();
+			System.out.println("");
+			db.removeCondFromOrderItem(orderitem.get(0), 6);
+			List<OrderItem> orderitem2 = db.findOrderItemsFromOrderID(order_number);
+			System.out.print("testRemoveCondimentFromOrderItem: Current Items: ");
+			for(int i2: orderitem2.get(0).getCondiment_id()) {
+				System.out.print(i2+",");
+			}
+			int lengthAfter = orderitem2.get(0).getCondiment_id().size();
+			System.out.println("");
+			assertTrue(lengthBefore > lengthAfter);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
+	
 }
+
