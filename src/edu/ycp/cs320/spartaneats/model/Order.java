@@ -1,5 +1,6 @@
 package edu.ycp.cs320.spartaneats.model;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ public class Order  {
 	private Boolean active;
 	private String deliveryDest;
 	private String orderName;
+	
 	
 	public Order() {
 	selectedItems = new ArrayList<Item>();
@@ -71,7 +73,8 @@ public class Order  {
 		for(Item i: selectedItems) {
 			price += i.getPrice();
 		}
-		return price;
+		DecimalFormat df = new DecimalFormat("#.##");
+		return Double.parseDouble(df.format(price));
 	}
 	
 	public List<List<Condiments>> getCondArray() {

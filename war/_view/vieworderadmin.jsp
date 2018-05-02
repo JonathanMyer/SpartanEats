@@ -7,7 +7,7 @@
 
 body{
 	font-family: Arial, Helvetica, sans-serif;
-	background-color: #f2f2f2;
+	background: radial-gradient(#77F97D 5%, #68DE6D 25%, #4CAF50 70%);
 	height: 100%;
 	width: 100%;
 	font-size: 26px;
@@ -118,7 +118,7 @@ font-size: 80px;
 }
 </style>
 <title>Order</title>
-<div class="foreground"></div>
+<!-- <div class="foreground"></div> -->
 <div class="head">
 <h1><b>Order</b></h1>
 </div>
@@ -145,7 +145,9 @@ font-size: 80px;
 	
 	</c:forEach>
 	<div id="items">Total: ${order.totalPrice}</div>
-	
+	<c:if test = "${ null != order.deliveryDest }">
+		<div>Delivery Destination: "${order.deliveryDest}"</div>
+	</c:if>
 	<button class="Continue" type="Submit" value="true" name="orderComplete" style="vertical-align:middle">Order is Completed</button>
 </table>   	
 </form>

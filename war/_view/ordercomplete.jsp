@@ -131,7 +131,8 @@ font-size: 80px;
 <div>Your Order is in Queue</div>
 <br>
 <div>Ready in: ${time} minutes</div>
-
+<br>
+<div>Delivery Destination: ${order.deliveryDest}</div>
 </form>
 </body>
 </html>

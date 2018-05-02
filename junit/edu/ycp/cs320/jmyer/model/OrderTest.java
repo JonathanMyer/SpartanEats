@@ -23,11 +23,11 @@ public class OrderTest {
 	public void setUp() {
 
 		SampleOrder1 = new Order(true, 1, 1);
-		SampleItem1 = new Item("Drink", "Water", 1.49, "false", 1);
+		SampleItem1 = new Item("Drink", "Water", 1.49111, "false", 1);
 		SampleOrder1.addItem(SampleItem1);
 
 		
-		SampleItem2 = new Item("Drink", "Mug", 1.49, "false", 2);
+		SampleItem2 = new Item("Drink", "Mug", 1.4911, "false", 2);
 		SampleOrder2 = new Order();
 		
 		SampleOrder3 = new Order(true, 1, 1);		
@@ -83,6 +83,7 @@ public class OrderTest {
 	public void testGetTotalPrice(){
 		SampleOrder2.addItem(SampleItem1);
 		SampleOrder2.addItem(SampleItem2);
+		System.out.println("price: " + SampleOrder2.getTotalPrice());
 		assertTrue(SampleOrder2.getTotalPrice() == 2.98);
 		assertFalse(SampleOrder2.getTotalPrice() == 3.00);
 		SampleOrder2.removeItem(SampleItem1);
@@ -109,7 +110,7 @@ public class OrderTest {
 		assertTrue(sampleOrder3.getCondArray().size() == 4);
 		sampleOrder3.removeItemAndCond(2);
 		assertTrue(sampleOrder3.getItemList().size() == 3);
-		assertTrue(sampleOrder3.getCondArray().size() == 3);
+		assertTrue(sampleOrder3.getCondArray().size() == 3 );
 	}
 }
 
