@@ -47,8 +47,16 @@
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.ViewOrderServlet</servlet-class>
   </servlet>
   <servlet>
+	<servlet-name>ViewOrderAdminServlet</servlet-name>
+	<servlet-class>edu.ycp.cs320.spartaneats.servlet.ViewOrderAdminServlet</servlet-class>
+  </servlet>
+  <servlet>
 	<servlet-name>SavedOrdersServlet</servlet-name>	
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.SavedOrdersServlet</servlet-class>	
+  </servlet>
+  <servlet>
+	<servlet-name>OrderCompleteServlet</servlet-name>	
+	<servlet-class>edu.ycp.cs320.spartaneats.servlet.OrderCompleteServlet</servlet-class>	
   </servlet>
 
 
@@ -90,12 +98,20 @@
     <url-pattern>/vieworder</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
+    <servlet-name>ViewOrderAdminServlet</servlet-name>
+    <url-pattern>/vieworderadmin</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
     <servlet-name>AdminServlet</servlet-name>
     <url-pattern>/admin</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>SavedOrdersServlet</servlet-name>
     <url-pattern>/savedorders</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>OrderCompleteServlet</servlet-name>
+    <url-pattern>/ordercomplete</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>

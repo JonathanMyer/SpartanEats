@@ -51,6 +51,7 @@
 .show {display:block;}
 </style>
 <body>
+
   <div class="dropdown">
     <button onclick="myFunction()" class="dropbtn">Dropdown</button>
     <div id="myDropdown" class="dropdown-content">
@@ -90,5 +91,11 @@ window.onclick = function(event) {
   }
 }
 </script>
+
+  <form action="${pageContext.servletContext.contextPath}/createorder" method="get">
+    <input type="image" src="https://i.imgur.com/bgSYjEw.png" alt="Delivery" name="deliverypref" value="true">
+    <input type="image" src="https://i.imgur.com/vElZnLF.png" alt="Pickup" name="deliverypref" value="false">
+   </form>
+
 </body>
 </html>

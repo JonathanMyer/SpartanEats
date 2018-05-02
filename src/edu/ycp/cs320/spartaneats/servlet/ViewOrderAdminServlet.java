@@ -27,13 +27,13 @@ import edu.ycp.cs320.spartaneats.model.OrderItem;
 import edu.ycp.cs320.spartaneats.persist.DerbyDatabase;
 
 
-public class ViewOrderServlet extends HttpServlet {
+public class ViewOrderAdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		System.out.println("Create Order Servlet: doGet");
+		System.out.println("View Order Admin Servlet: doGet");
 		HttpSession session = req.getSession(false);    // fetch the session and handle 
         Order order = new Order(false, 1, 1);
         List<OrderItem> orderItem = null;
@@ -59,54 +59,42 @@ public class ViewOrderServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    req.getRequestDispatcher("/_view/vieworder.jsp").forward(req, resp);
+	    req.getRequestDispatcher("/_view/vieworderadmin.jsp").forward(req, resp);
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		System.out.println("Create Order Servlet: doPost");
+		System.out.println("View Order Admin Servlet: doPost");
 		HttpSession session = req.getSession(false); 
-		// holds the error message text, if there is any
-		String errorMessage = null;
+		
 		DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
-		Order order = (Order) session.getAttribute("order");
-		String removeItemString = req.getParameter("removeItem");
-		Boolean continueOrder = false;
+		
+		
+		Boolean adminPage = false;
 		Boolean orderComplete = false;
-		continueOrder =  Boolean.valueOf(req.getParameter("continueOrder"));
+		adminPage =  Boolean.valueOf(req.getParameter("adminpage"));
 		orderComplete = Boolean.valueOf(req.getParameter("orderComplete"));
 
-		if (removeItemString != null) {
-			int removeItem = Integer.parseInt(removeItemString);
-			System.out.println("Removed Item ID: " + removeItem);
-			OrderItem removeOrderItem = order.getOrderItem(removeItem);
-			try {
-				db.removeItemFromOrder(removeOrderItem);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			doGet(req,resp);
-		}
 		
-		else if (orderComplete) {
+		
+		if (orderComplete) { // set order to inactive if this is true.
 
 			try {
 				int orderId = (Integer) session.getAttribute("order_id");
-				db.updateOrderToActive(orderId);
-				resp.sendRedirect(req.getContextPath()+"/ordercomplete");
+				db.updateOrderToInActive(orderId);
+				// TODO make a order complete servlet and forward there from this.
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		else if (continueOrder) {
-			req.getRequestDispatcher("/_view/createorder.jsp").forward(req, resp);
+		else if (adminPage) {
+			req.getRequestDispatcher("/_view/admin.jsp").forward(req, resp);
 		}
 		else {
 
 
-			req.getRequestDispatcher("/_view/vieworder.jsp").forward(req, resp);
+			req.getRequestDispatcher("/_view/vieworderadmin.jsp").forward(req, resp);
 		}
 	}
 }
