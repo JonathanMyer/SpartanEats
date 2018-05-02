@@ -41,29 +41,16 @@ width:100%;
 
 
 .itemPrice{
+color: #4CAF50;
+}
+input{
 float: right;
-padding-right: 100px;
-padding-top: 10px;
-font-size: 40px;
+width: 60px;
+height: 60px;
+color: #696969;
+background-color: #696969;
 }
-.addButton{
-	position: absolute;
-	right: 0;
-  	background-color: #f2f2f2;
-  	border: none;
-  	color: #4CAF50;
-  	text-align: center;
-  	font-size: 50px;
-  	padding: 10 10 10 10;
- 	width: 10%;
-	height: 60px;	`
-  	transition: all 0.5s;
-  	cursor: pointer;
-	margin-left: 10px;
-	margin-bottom: 30px;
-	font-weight: 900;
-	text-shadow: 4px 4px 8px #377A3A;
-}
+
 </style>
 <body>
 <title>Items</title>
@@ -73,10 +60,16 @@ font-size: 40px;
 </c:if>
 		
 <form action="${pageContext.servletContext.contextPath}/additems" method="post">
+	
+<table>
 	<c:forEach items="${itemList}" var="item">                      
-		<label class="container"><span class="itemName">${item.itemName}: </span><span class="itemPrice">&#36;${item.price}</span>
-      	<button class="addButton"type="Submit" value="${item.itemName}" name="additem">&#10010;</button></label>
+      	<tr>
+		<td><label class="container"><span class="itemName">${item.itemName}: </span><span class="itemPrice">${item.price}</span>
+      	<input type="Submit" value="${item.itemName}" name="additem"></input></label></td>
+      	</tr>
    	</c:forEach>
+</table>
+		
 </form>
 </body>
 </html>
