@@ -27,10 +27,6 @@
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.AdminServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>SetDeliveryMethod</servlet-name>
-  	<servlet-class>edu.ycp.cs320.spartaneats.servlet.SetDeliveryMethod</servlet-class>
-  </servlet>
-  <servlet>
 	<servlet-name>PreferencesServlet</servlet-name>
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.CreateOrderServlet</servlet-class>
   </servlet>
@@ -82,10 +78,6 @@
     <servlet-mapping>
     <servlet-name>AddCondimentsServlet</servlet-name>
     <url-pattern>/addcondiments</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>SetDeliveryMethod</servlet-name>
-    <url-pattern>/setdeliverymethod</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>PreferencesServlet</servlet-name>
