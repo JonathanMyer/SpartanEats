@@ -192,6 +192,12 @@ color: black;
   -ms-user-select: none;
   user-select: none;
   }
+.itemPrice{
+float: right;
+padding-right: 100px;
+padding-top: 10px;
+font-size: 40px;
+}
 </style>
 <title>Online Order</title>
 <h1><b>Online Order</b></h1>
@@ -209,7 +215,7 @@ color: black;
 
 <table>
 	<c:forEach items="${order.condArray}" var="condarray" varStatus="iter">
-	<div><label class="container"><span class="itemName">${order.itemList[iter.index].itemName}: </span><span class="itemPrice">${order.itemList[iter.index].price}</span>
+	<div><label class="container"><span class="itemName">${order.itemList[iter.index].itemName}: </span><span class="itemPrice">&#36;${order.itemList[iter.index].price}</span>
 	<button class="removeButton" type = "Submit" value="${iter.index}"name= "removeItem" title="Remove Item From Cart">&#215;</button></label>
 </div>
 		<c:forEach items= "${condarray}" var = "condiments">
@@ -219,7 +225,7 @@ color: black;
 		</c:forEach>
 	</c:forEach>
 <div class="Submit">
-		<span class="total"><b>Total:</b>${order.totalPrice}</span>
+		<span class="total"><b>Total:</b> &#36;${order.totalPrice}</span>
 		<button type="Submit" value="true" name="orderComplete">Submit Order&#187;</button>
 </div>
 </table>
