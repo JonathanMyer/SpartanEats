@@ -50,6 +50,7 @@ public class OrderCompleteServlet extends HttpServlet {
 		    }
 			List<Order> activeOrders = db.findActiveOrders();
 			time += activeOrders.size();
+			req.setAttribute("order", order);
 			req.setAttribute("time", time);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
