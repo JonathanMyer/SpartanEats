@@ -50,7 +50,6 @@
 	<servlet-name>SavedOrdersServlet</servlet-name>	
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.SavedOrdersServlet</servlet-class>	
   </servlet>
-
    <servlet>
 	<servlet-name>CurrentOrdersServlet</servlet-name>	
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.CurrentOrdersServlet</servlet-class>	
@@ -58,9 +57,7 @@
   <servlet>
 	<servlet-name>OrderCompleteServlet</servlet-name>	
 	<servlet-class>edu.ycp.cs320.spartaneats.servlet.OrderCompleteServlet</servlet-class>	
-
   </servlet>
-
 
   <!-- Servlet mappings -->
   <servlet-mapping>
