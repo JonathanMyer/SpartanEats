@@ -215,7 +215,8 @@ font-size: 40px;
 </div>
 		<c:forEach items= "${condarray}" var = "condiments">
 			<div id="condiments">${condiments.condName}
-		<!--		<button class="removeButton" type = "Submit" value="${iter.index}"name= "removeItem" title="Remove Condiment From Item">&#215;</button> -->
+				<input type = "hidden" value="${iter.index}" name = "fromItem">
+				<button class="removeButton" type = "Submit" name= "removeCondiment"  value = "${condiments.condID}"  title="Remove Condiment From Item">&#215;</button>
 			</div>
 		</c:forEach>
 	</c:forEach>
