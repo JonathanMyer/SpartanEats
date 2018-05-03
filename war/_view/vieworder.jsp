@@ -75,119 +75,11 @@ keyframes click-wave { 0% {
 
 100%
 {
-height
-
-
-
-
-
-
-:
-
-
-
- 
-
-
-
-200
-px
-
-
-
-
-
-
-;
-width
-
-
-
-
-
-
-:
-
-
-
- 
-
-
-
-200
-px
-
-
-
-
-
-
-;
-margin-left
-
-
-
-
-
-
-:
-
-
-
- 
-
-
-
--80
-px
-
-
-
-
-
-
-;
-margin-top
-
-
-
-
-
-
-:
-
-
-
- 
-
-
-
--80
-px
-
-
-
-
-
-
-;
-opacity
-
-
-
-
-
-
-:
-
-
-
- 
-
-
-
-0;
-}
+height:200px;
+width:200px;
+margin-left:-80px;
+margin-top:-80px;
+opacity:0;}
 }
 .option-input {
 	-webkit-appearance: none;
@@ -318,16 +210,24 @@ opacity
 	font-size: 40px;
 }
 
+.titleText {
+	font-weight: 400;
+	font-size: 36px;
+	color: grey;
+	padding: 0px 0px 0px 0px !important;
+	margin: 0px 0px -20px 0px !important;
+}
+
 .ChooseDeliveryMethod {
-	display: block;
+	display: inline-block;
 	position: relative;
 	height: auto;
-	width: 500px;
-	padding: 20px;
+	padding: 0px 20px 0px 150px;
+	margin: 20px 20px 0px 20px;
 }
 
 h2 {
-	color: #AAAAAA;
+	color: #4FAC50;
 }
 
 .ChooseDeliveryMethod ul {
@@ -338,11 +238,11 @@ h2 {
 }
 
 ul li {
-	color: #AAAAAA;
+	color: grey;
 	float: left;
 	display: inline-block !important;
 	position: relative;
-	width: 50%;
+	padding-right: 60px;
 	height: 100px;
 }
 
@@ -355,7 +255,7 @@ ul li label {
 	display: inline-block;
 	position: relative;
 	font-weight: 300;
-	font-size: 1.35em;
+	font-size: 48px;
 	padding: 25px 25px 25px 80px;
 	margin: 10px auto;
 	height: 30px;
@@ -411,16 +311,30 @@ input[type=radio]:checked ~ .check::before {
 input[type=radio]:checked ~ label {
 	color: #4CAF50;
 }
+
+.ChooseDeliveryDestination {
+	color: red;
+}
+
+.firstDestination {
+	display: inline-block;
+	color: blue;
+}
+
+.secondDestination {
+	display: inline-block;
+	color: blue;
+}
 </style>
 <title>View Order</title>
 <h1>
 	<b>Finalize Order</b>
 </h1>
 <body>
-	<form action="${pageContext.servletContext.contextPath}/vieworder"
-		method="post">
-		<label>
-			<hr> <input type="checkbox" class="option-input checkbox"
+	<form action="${pageContext.servletContext.contextPath}/vieworder" method="post">
+	<hr> 
+			<label>
+			<input type="checkbox" class="option-input checkbox"
 			name="example" id="custom" value="one-time" onclick="setOrderName()" />
 			<input type="text" name="orderName" id="textBox"
 			placeholder="Click to Save Order" onfocus="this.placeholder = ''"
@@ -429,19 +343,62 @@ input[type=radio]:checked ~ label {
 		<hr style="opacity: 0;">
 		<hr style="opacity: 0;">
 		<hr>
+		<p class="titleText">Select Delivery Method</p>
 		<div class="ChooseDeliveryMethod">
 			<ul>
-				<li><input type="radio" id="optionDelivery" name="deliverypref" value="true">
-					<label for="optionDelivery">Delivery</label>
+				<li><input type="radio" id="f-option" name="deliverypref"
+					value="false"> <label for="f-option">Delivery</label>
 					<div class="check"></div></li>
-				<li><input type="radio" id="optionPickup" name="deliverypref" value="false">
-					<label for="optionPickup">Pickup</label>
+				<li><input type="radio" id="s-option" name="deliverypref"
+					value="true"> <label for="s-option">Pickup</label>
 					<div class="check">
 						<div class="inside"></div>
 					</div></li>
 			</ul>
 		</div>
 		<hr>
+		<div class="ChooseDeliveryDestination">
+			<div class="firstDestination">
+				<input type="radio" value="Beard Hall">Beard Hall
+			</div>
+			<div class="secondDestination">
+				<input type="radio" value="Codorous Hall">Codorous Hall <br>
+			</div>
+			<div class="firstDestination">
+				<input type="radio" value="Penn Hall">Penn Hall
+			</div>
+			<div class="secondDestination">
+				<input type="radio" value="Susquehana Hall">Susquehana Hall
+				<br>
+			</div>
+			<div class="firstDestination">
+				<input type="radio" value="Manor Hall">Manor Complex
+			</div>
+			<div class="secondDestination">
+				<input type="radio" value="Tyler Run Appt">Tyler Run Appt <br>
+			</div>
+			<div class="firstDestination">
+				<input type="radio" value="Northside Commons">Northside
+				Commons
+			</div>
+			<div class="secondDestination">
+				<input type="radio" value="Little Run Lodge">Little RunLodge<br>
+			</div>
+			<div class="firstDestination">
+				<input type="radio" value="Richland Hall">Richland Hall
+			</div>
+			<div class="secondDestination">
+				<input type="radio" value="Brockie Commons">Brockie Commons<br>
+			</div>
+			<div class="firstDestination">
+				<input type="radio" value="Spring Garden Appt">Spring Garden Appt
+			</div>
+			<div class="secondDestination">
+				<input type="radio" value="Country Club Manor">Country Club Manor<br>
+		
+			</div>
+			<hr>
+		</div>
 		<button class="Continue" type="Submit" value="true"
 			name="continueOrder" style="vertical-align: middle">&#43;
 			Add Items</button>
@@ -463,7 +420,6 @@ input[type=radio]:checked ~ label {
 					</div>
 				</c:forEach>
 			</c:forEach>
-
 			<div class="Submit">
 				<span class="total"><b>Total:</b> &#36;${order.totalPrice}</span>
 				<button type="Submit" value="true" name="orderComplete">Submit
@@ -471,15 +427,15 @@ input[type=radio]:checked ~ label {
 			</div>
 		</table>
 	</form>
-</body>
 <script>
-	window.setOrderName = function() {
-		if (document.getElementById("custom").checked) {
-			document.getElementById("textBox").disabled = false;
-			document.getElementsByName('Text')[0].placeholder = 'Enter Order Name';
-		} else {
-			document.getElementById("textBox").disabled = true;
-		}
+window.setOrderName = function() {
+	if (document.getElementById("custom").checked) {
+		document.getElementById("textBox").disabled = false;
+		document.getElementsByName('orderName')[0].placeholder = 'Enter Order Name';
+	} else {
+		document.getElementById("textBox").disabled = true;
 	}
+}
 </script>
+</body>
 </html>
