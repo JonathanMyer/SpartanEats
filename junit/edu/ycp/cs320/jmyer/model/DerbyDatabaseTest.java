@@ -94,6 +94,23 @@ public class DerbyDatabaseTest {
 		}
 	}
 	
+	@Test
+	public void testFindPhoneNumberbyAccountID() throws SQLException {
+		//cTeich,Chase,Teichmann,903-202-533,sKFpeVhc,cteichmann@ycp.edu,235-256-2783,141.71,175.75, user
+		int id = 2;
+		String result;
+		result = db.findPhoneNumberbyAccountID(id);
+		assertTrue(result.toString().equals("(235)-256-2783"));
+	}
+	
+	@Test
+	public void testFindStudentIDbyAccountID() throws SQLException {
+		//cTeich,Chase,Teichmann,903-202-533,sKFpeVhc,cteichmann@ycp.edu,235-256-2783,141.71,175.75, user
+		int id = 2;
+		String result;
+		result = db.findStudentIDbyAccountID(id);
+		assertTrue(result.toString().equals("903-202-533"));
+	}
 
 	@Test
 	public void testFindAccountbyFirstName() throws SQLException {

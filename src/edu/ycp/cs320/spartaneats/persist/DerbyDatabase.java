@@ -737,6 +737,92 @@ public class DerbyDatabase {
 			}
 		});
 	}
+	
+	public String findPhoneNumberbyAccountID(int iD) throws SQLException {
+		return doExecuteTransaction(new Transaction<String>() {
+			public String execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes from both Books and Authors tables
+					stmt = conn.prepareStatement(
+							"select accounts.phoneNumber"+
+									" from accounts " +
+									"where accounts.account_id = ?"
+							);
+					stmt.setInt(1, iD);
+
+					String result = new String();
+					resultSet = stmt.executeQuery();
+
+					//for testing that a result was returned
+					Boolean found = false;
+
+					while (resultSet.next()) {
+						found = true;
+
+						//retrieve attributes from resultSet starting with index 1
+						result = resultSet.getString("phoneNumber");
+						System.out.println("phone number is "+result);
+					}
+
+					//check if the title was found
+					if (!found) {
+						System.out.println("<" +iD+ "> -Id wasn't found in the accounts table");
+
+					}
+					return result;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	public String findStudentIDbyAccountID(int iD) throws SQLException {
+		return doExecuteTransaction(new Transaction<String>() {
+			public String execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes from both Books and Authors tables
+					stmt = conn.prepareStatement(
+							"select accounts.studentID"+
+									" from accounts " +
+									"where accounts.account_id = ?"
+							);
+					stmt.setInt(1, iD);
+
+					String result = new String();
+					resultSet = stmt.executeQuery();
+
+					//for testing that a result was returned
+					Boolean found = false;
+
+					while (resultSet.next()) {
+						found = true;
+
+						//retrieve attributes from resultSet starting with index 1
+						result = resultSet.getString("studentID");
+						System.out.println("studentID is "+result);
+					}
+
+					//check if the title was found
+					if (!found) {
+						System.out.println("<" +iD+ "> -Id wasn't found in the accounts table");
+
+					}
+					return result;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+
+
 
 	public Item findItembyName(String name) throws SQLException {
 		return doExecuteTransaction(new Transaction<Item>() {
@@ -754,8 +840,6 @@ public class DerbyDatabase {
 
 
 					resultSet = stmt.executeQuery();
-
-					
 
 					//retrieve attributes from resultSet starting with index 1
 					Item item = new Item();
@@ -795,11 +879,6 @@ public class DerbyDatabase {
 					if (resultSet.next()){
 						loadItem(item, resultSet, 1);
 					}
-
-					
-
-					
-
 					
 					return item;
 				}finally {
