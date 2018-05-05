@@ -448,6 +448,49 @@ public class DerbyDatabase {
 			}
 		});
 	}
+	public double findFlexBalance(int account_id) throws SQLException {
+		return doExecuteTransaction(new Transaction<Double>() {
+			public Double execute(Connection conn) throws SQLException{
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet1 = null;
+				double balance = 0.0;
+				DecimalFormat df = new DecimalFormat("#.##");
+				try {conn.setAutoCommit(true);
+				//get dining balance
+				stmt1 = conn.prepareStatement("select accounts.flex from accounts where accounts.account_id = ?");
+				stmt1.setInt(1, account_id);
+				resultSet1 = stmt1.executeQuery();
+				balance = Double.parseDouble(df.format(resultSet1.getDouble(1)));
+					return balance;
+				}finally {
+					DBUtil.closeQuietly(resultSet1);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});
+	}
+	public double findDiningBalance(int account_id) throws SQLException {
+		return doExecuteTransaction(new Transaction<Double>() {
+			public Double execute(Connection conn) throws SQLException{
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet1 = null;
+				double balance = 0.0;
+				DecimalFormat df = new DecimalFormat("#.##");
+				try {conn.setAutoCommit(true);
+				//get dining balance
+				stmt1 = conn.prepareStatement("select accounts.dining from accounts where accounts.account_id = ?");
+				stmt1.setInt(1, account_id);
+				resultSet1 = stmt1.executeQuery();
+				balance = Double.parseDouble(df.format(resultSet1.getDouble(1)));
+					return balance;
+					
+				}finally {
+					DBUtil.closeQuietly(resultSet1);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});
+	}
 	public List<Account> findAllAccounts() throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Account>>() {
 			public List<Account> execute(Connection conn) throws SQLException{

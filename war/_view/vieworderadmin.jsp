@@ -111,7 +111,9 @@ font-size: 50px !important;
 	</div>
 <div class="orderInformation">
 	</c:forEach>
-	<div class="accountInfo">Student Name: ${accounts.firstName} ${accounts.lastName}</div>
+	<div class="accountInfo">Student Name: ${accounts.firstName} ${accounts.lastName}
+	<br>
+	Student Phone Number: ${accounts.phoneNumber}</div>
 	<c:if test = "${ null != order.deliveryDest}">
 		<div class="deliveryInfo">Delivery Destination: "${order.deliveryDest}"</div>
 	</c:if>
@@ -119,6 +121,11 @@ font-size: 50px !important;
 		<div class="deliveryInfo">Delivery Destination: Pickup</div>
 	</c:if>
 </div>
+
+<div class="Submit">
+	<button type="Submit" value="true" name="orderComplete">Complete Order &#10008;</button>
+</div>
+
 </table>
 	<div class = "Submit">
 	<button type="Submit" value="true" name="orderComplete">Order is Completed &#10008;</button>
