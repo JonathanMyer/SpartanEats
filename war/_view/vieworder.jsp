@@ -100,7 +100,7 @@ opacity:0;}
 	border-width: 1px;
 	border-color: #9faab7;
 	box-shadow: 2px 2px 2px grey;
-	color: #fff;
+	color: #202020;
 	cursor: pointer;
 	display: inline-block;
 	margin-right: 0.5rem;
@@ -122,6 +122,7 @@ opacity:0;}
 	width: 100px;
 	position: absolute;
 	content: '\2714';
+	color: white;
 	display: inline-block;
 	font-size: 100px;
 	text-align: center;
@@ -145,7 +146,7 @@ opacity:0;}
 	width: 500px;
 	padding-top: 25px;
 	font-size: 50px;
-	color: #9faab7;
+	color: #202020;
 	border-style: solid;
 	border-width: 1px;
 	border-color: #9faab7;
@@ -209,121 +210,63 @@ opacity:0;}
 	padding-top: 10px;
 	font-size: 40px;
 }
-
-.titleText {
-	font-weight: 400;
-	font-size: 36px;
-	color: grey;
-	padding: 0px 0px 0px 0px !important;
-	margin: 0px 0px -20px 0px !important;
+.hideDropdown {
+  display: none;
 }
 
-.ChooseDeliveryMethod {
-	display: inline-block;
-	position: relative;
-	height: auto;
-	padding: 0px 20px 0px 150px;
-	margin: 20px 20px 0px 20px;
+.DormDrop {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
-
-h2 {
-	color: #4FAC50;
+.DormDrop input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
 }
-
-.ChooseDeliveryMethod ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	overflow: auto;
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+	background-color: #9faab7;
+    border-radius: 50%;
 }
-
-ul li {
-	color: grey;
-	float: left;
-	display: inline-block !important;
-	position: relative;
-	padding-right: 60px;
-	height: 100px;
+.DormDrop:hover input ~ .checkmark {
+    background-color: #9faab7;
 }
-
-ul li input[type=radio] {
-	position: absolute;
-	visibility: hidden;
+.DormDrop input:checked ~ .checkmark {
+    background-color: #4FAC50;
 }
-
-ul li label {
-	display: inline-block;
-	position: relative;
-	font-weight: 300;
-	font-size: 48px;
-	padding: 25px 25px 25px 80px;
-	margin: 10px auto;
-	height: 30px;
-	z-index: 9;
-	cursor: pointer;
-	-webkit-transition: all 0.25s linear;
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
 }
-
-ul li:hover label {
-	color: #FFFFFF;
+.DormDrop input:checked ~ .checkmark:after {
+    display: block;
 }
-
-ul li .check {
-	display: inline-block;
-	position: absolute;
-	border: 5px solid #AAAAAA;
-	border-radius: 100%;
-	height: 25px;
-	width: 25px;
-	top: 30px;
-	left: 20px;
-	z-index: 5;
-	transition: border .25s linear;
-	-webkit-transition: border .25s linear;
+.DormDrop .checkmark:after {
+ 	top: 9px;
+	left: 9px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: white;
 }
-
-ul li:hover .check {
-	border: 5px solid #FFFFFF;
+#f{
+float: left;
 }
-
-ul li .check::before {
-	display: inline-block;
-	position: absolute;
-	content: '';
-	border-radius: 100%;
-	height: 15px;
-	width: 15px;
-	top: 5px;
-	left: 5px;
-	margin: auto;
-	transition: background 0.25s linear;
-	-webkit-transition: background 0.25s linear;
-}
-
-input[type=radio]:checked ~ .check {
-	border: 5px solid #4CAF50;
-}
-
-input[type=radio]:checked ~ .check::before {
-	background: #4CAF50;
-}
-
-input[type=radio]:checked ~ label {
-	color: #4CAF50;
-}
-
-.ChooseDeliveryDestination {
-	color: red;
-}
-
-.firstDestination {
-	display: inline-block;
-	color: blue;
-}
-
-.secondDestination {
-	display: inline-block;
-	color: blue;
+#s{
+float: right;
 }
 </style>
 <title>View Order</title>
@@ -336,6 +279,7 @@ input[type=radio]:checked ~ label {
 			<label>
 			<input type="checkbox" class="option-input checkbox"
 			name="example" id="custom" value="one-time" onclick="setOrderName()" />
+			
 			<input type="text" name="orderName" id="textBox"
 			placeholder="Click to Save Order" onfocus="this.placeholder = ''"
 			disabled />
@@ -343,62 +287,32 @@ input[type=radio]:checked ~ label {
 		<hr style="opacity: 0;">
 		<hr style="opacity: 0;">
 		<hr>
-		<p class="titleText">Select Delivery Method</p>
-		<div class="ChooseDeliveryMethod">
-			<ul>
-				<li><input type="radio" id="f-option" name="deliverypref"
-					value="false"> <label for="f-option">Delivery</label>
-					<div class="check"></div></li>
-				<li><input type="radio" id="s-option" name="deliverypref"
-					value="true"> <label for="s-option">Pickup</label>
-					<div class="check">
-						<div class="inside"></div>
-					</div></li>
-			</ul>
-		</div>
-		<hr>
-		<div class="ChooseDeliveryDestination">
-			<div class="firstDestination">
-				<input type="radio" value="Beard Hall">Beard Hall
-			</div>
-			<div class="secondDestination">
-				<input type="radio" value="Codorous Hall">Codorous Hall <br>
-			</div>
-			<div class="firstDestination">
-				<input type="radio" value="Penn Hall">Penn Hall
-			</div>
-			<div class="secondDestination">
-				<input type="radio" value="Susquehana Hall">Susquehana Hall
-				<br>
-			</div>
-			<div class="firstDestination">
-				<input type="radio" value="Manor Hall">Manor Complex
-			</div>
-			<div class="secondDestination">
-				<input type="radio" value="Tyler Run Appt">Tyler Run Appt <br>
-			</div>
-			<div class="firstDestination">
-				<input type="radio" value="Northside Commons">Northside
-				Commons
-			</div>
-			<div class="secondDestination">
-				<input type="radio" value="Little Run Lodge">Little RunLodge<br>
-			</div>
-			<div class="firstDestination">
-				<input type="radio" value="Richland Hall">Richland Hall
-			</div>
-			<div class="secondDestination">
-				<input type="radio" value="Brockie Commons">Brockie Commons<br>
-			</div>
-			<div class="firstDestination">
-				<input type="radio" value="Spring Garden Appt">Spring Garden Appt
-			</div>
-			<div class="secondDestination">
-				<input type="radio" value="Country Club Manor">Country Club Manor<br>
-		
+		Select a Delivery Type &nbsp; &nbsp; &nbsp; &nbsp;
+		<input type="radio" name="tab" value="false" onclick="pickup();"/> Pickup &nbsp; &nbsp;
+		<input type="radio" name="tab" value="true" onclick="delivery();" /> Delivery
+		<div id="div1" class="hideDropdown">
+  			<hr>
+  			<p>Select a Dorm...</p>
+  			<label class="DormDrop" id="f"><input type="radio" name="DORM" value="Beard Hall"> Beard Hall &nbsp; <span class="checkmark"></span></label>
+			<label class="DormDrop" id="s"><input type="radio" name="DORM" value="Codorous Hall"> Codorous Hall  &nbsp; <span class="checkmark"></span></label>
+			<br>
+			<label class="DormDrop" id="f"><input type="radio" name="DORM" value="Penn Hall"> Penn Hall  &nbsp; <span class="checkmark"></span></label>
+			<label class="DormDrop" id="s"><input type="radio" name="DORM" value="Susquehana Hall"> Susquehana Hall  &nbsp; <span class="checkmark"></span></label>
+			<br>
+			<label class="DormDrop" id="f"><input type="radio" name="DORM" value="Manor Hall"> Manor Hall  &nbsp; <span class="checkmark"></span></label>
+			<label class="DormDrop" id="s"><input type="radio" name="DORM" value="Tyler Run Appt"> Tyler Run Appt  &nbsp; <span class="checkmark"></span></label>
+			<br>
+			<label class="DormDrop" id="f"><input type="radio" name="DORM" value="Northside Commons"> Northside Commons  &nbsp; <span class="checkmark"></span></label>
+			<label class="DormDrop" id="s"><input type="radio" name="DORM" value="Little Run Lodge"> Little Run Lodge  &nbsp; <span class="checkmark"></span></label>
+			<br>
+			<label class="DormDrop" id="f"><input type="radio" name="DORM" value="Richland Hal"> Richland Hall  &nbsp; <span class="checkmark"></span></label>
+			<label class="DormDrop" id="s"><input type="radio" name="DORM" value="Brockie Commons"> Brockie Commons  &nbsp; <span class="checkmark"></span></label>
+			<br>
+			<label class="DormDrop" id="f"><input type="radio" name="DORM" value="Spring Garden Appt"> Spring Garden Appt  &nbsp; <span class="checkmark"></span></label>
+			<label class="DormDrop" id="s"><input type="radio" name="DORM" value="Country Club Manor"> Country Club Manor  &nbsp; <span class="checkmark"></span></label>
+					<hr style="opacity: 0;">
 			</div>
 			<hr>
-		</div>
 		<button class="Continue" type="Submit" value="true"
 			name="continueOrder" style="vertical-align: middle">&#43;
 			Add Items</button>
@@ -420,12 +334,18 @@ input[type=radio]:checked ~ label {
 					</div>
 				</c:forEach>
 			</c:forEach>
+			</table>
+			<hr>
+		Select a Payment Type &nbsp; &nbsp; &nbsp; &nbsp;
+		<input type="radio" name="tab" value="Flex"/> Flex &nbsp;
+		<input type="radio" name="tab" value="Dining"/> Dining Points
+		
 			<div class="Submit">
 				<span class="total"><b>Total:</b> &#36;${order.totalPrice}</span>
 				<button type="Submit" value="true" name="orderComplete">Submit
 					Order&#187;</button>
 			</div>
-		</table>
+		
 	</form>
 <script>
 window.setOrderName = function() {
@@ -436,6 +356,12 @@ window.setOrderName = function() {
 		document.getElementById("textBox").disabled = true;
 	}
 }
+function pickup(){
+	  document.getElementById('div1').style.display ='none';
+	}
+	function delivery(){
+	  document.getElementById('div1').style.display = 'block';
+	}
 </script>
 </body>
 </html>
