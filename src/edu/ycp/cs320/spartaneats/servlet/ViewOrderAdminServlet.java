@@ -85,10 +85,12 @@ public class ViewOrderAdminServlet extends HttpServlet {
 			}
 		}
 		else if (adminPage) {
-			req.getRequestDispatcher("/_view/admin.jsp").forward(req, resp);
+			//req.getRequestDispatcher("/_view/admin.jsp").forward(req, resp);
+			resp.sendRedirect(req.getContextPath()+"/admin");
 		}
 		else {
-			req.getRequestDispatcher("/_view/admin.jsp").forward(req, resp);
+			//req.getRequestDispatcher("/_view/admin.jsp").forward(req, resp);
+			resp.sendRedirect(req.getContextPath()+"/admin");
 		}
 	}
 }
