@@ -93,7 +93,6 @@ font-size: 35px  !important;
         </ul>
       </div>
     </div>
-</div>
 <script>
 window.onload = function() {
     var elements = document.getElementsByTagName("span");
