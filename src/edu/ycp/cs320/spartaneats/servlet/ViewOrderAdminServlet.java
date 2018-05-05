@@ -78,6 +78,7 @@ public class ViewOrderAdminServlet extends HttpServlet {
 			try {
 				int orderId = (Integer) session.getAttribute("order_id");
 				db.updateOrderToInActive(orderId);
+				resp.sendRedirect(req.getContextPath()+"/admin");
 				// TODO make a order complete servlet and forward there from this.
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
