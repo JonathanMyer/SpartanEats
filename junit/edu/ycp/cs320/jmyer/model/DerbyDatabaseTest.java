@@ -93,8 +93,31 @@ public class DerbyDatabaseTest {
 			e.printStackTrace();
 		}
 	}
-	
-
+	@Test
+	public void testfindFlex() throws SQLException{
+		int account_id = 4;
+		try {
+			List<Account> accountList = db.findAccountbyAccountID(account_id);
+			double flex = accountList.get(0).getFlex();
+			double flexTest = db.findFlexBalance(account_id);
+			assertTrue(flex == flexTest);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void testfindDining() throws SQLException{
+		int account_id = 4;
+		try {
+			List<Account> accountList = db.findAccountbyAccountID(account_id);
+			double dining = accountList.get(0).getDining();
+			double diningTest = db.findDiningBalance(account_id);
+			assertTrue(dining == diningTest);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	@Test
 	public void testFindAccountbyFirstName() throws SQLException {
 		//cTeich,Chase,Teichmann,903-202-533,sKFpeVhc,cteichmann@ycp.edu,235-256-2783,141.71,175.75, user
