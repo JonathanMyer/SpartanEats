@@ -119,10 +119,10 @@ font-size: 50px !important;
 		<div class="deliveryInfo">Delivery Destination: Pickup</div>
 	</c:if>
 </div>
-<div class="Submit">
-	<button type="Submit" value="true" name="orderComplete">Order is Completed &#10008;</button>
-</div>
 </table>
+	<div class = "Submit">
+	<button type="Submit" value="true" name="orderComplete">Order is Completed &#10008;</button>
+	</div>
 </form>
 </body>
 </html>

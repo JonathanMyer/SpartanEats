@@ -66,15 +66,12 @@ public class ViewOrderAdminServlet extends HttpServlet {
 		System.out.println("View Order Admin Servlet: doPost");
 		HttpSession session = req.getSession(false); 
 		
-		DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
-		
+		DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");		
 		
 		Boolean adminPage = false;
 		Boolean orderComplete = false;
 		adminPage =  Boolean.valueOf(req.getParameter("adminpage"));
-		orderComplete = Boolean.valueOf(req.getParameter("orderComplete"));
-
-		
+		orderComplete = Boolean.valueOf(req.getParameter("orderComplete"));	
 		
 		if (orderComplete) { // set order to inactive if this is true.
 
@@ -91,9 +88,7 @@ public class ViewOrderAdminServlet extends HttpServlet {
 			req.getRequestDispatcher("/_view/admin.jsp").forward(req, resp);
 		}
 		else {
-
-
-			req.getRequestDispatcher("/_view/vieworderadmin.jsp").forward(req, resp);
+			req.getRequestDispatcher("/_view/admin.jsp").forward(req, resp);
 		}
 	}
 }
