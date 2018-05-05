@@ -75,119 +75,11 @@ keyframes click-wave { 0% {
 
 100%
 {
-height
-
-
-
-
-
-
-:
-
-
-
- 
-
-
-
-200
-px
-
-
-
-
-
-
-;
-width
-
-
-
-
-
-
-:
-
-
-
- 
-
-
-
-200
-px
-
-
-
-
-
-
-;
-margin-left
-
-
-
-
-
-
-:
-
-
-
- 
-
-
-
--80
-px
-
-
-
-
-
-
-;
-margin-top
-
-
-
-
-
-
-:
-
-
-
- 
-
-
-
--80
-px
-
-
-
-
-
-
-;
-opacity
-
-
-
-
-
-
-:
-
-
-
- 
-
-
-
-0;
-}
+height:200px;
+width:200px;
+margin-left:-80px;
+margin-top:-80px;
+opacity:0;}
 }
 .option-input {
 	-webkit-appearance: none;
@@ -208,7 +100,7 @@ opacity
 	border-width: 1px;
 	border-color: #9faab7;
 	box-shadow: 2px 2px 2px grey;
-	color: #fff;
+	color: #202020;
 	cursor: pointer;
 	display: inline-block;
 	margin-right: 0.5rem;
@@ -230,6 +122,7 @@ opacity
 	width: 100px;
 	position: absolute;
 	content: '\2714';
+	color: white;
 	display: inline-block;
 	font-size: 100px;
 	text-align: center;
@@ -253,7 +146,7 @@ opacity
 	width: 500px;
 	padding-top: 25px;
 	font-size: 50px;
-	color: #9faab7;
+	color: #202020;
 	border-style: solid;
 	border-width: 1px;
 	border-color: #9faab7;
@@ -317,99 +210,63 @@ opacity
 	padding-top: 10px;
 	font-size: 40px;
 }
-
-.ChooseDeliveryMethod {
-	display: block;
-	position: relative;
-	height: auto;
-	width: 500px;
-	padding: 20px;
+.hideDropdown {
+  display: none;
 }
 
-h2 {
-	color: #AAAAAA;
+.DormDrop {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
-
-.ChooseDeliveryMethod ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	overflow: auto;
+.DormDrop input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
 }
-
-ul li {
-	color: #AAAAAA;
-	float: left;
-	display: inline-block !important;
-	position: relative;
-	width: 50%;
-	height: 100px;
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+	background-color: #9faab7;
+    border-radius: 50%;
 }
-
-ul li input[type=radio] {
-	position: absolute;
-	visibility: hidden;
+.DormDrop:hover input ~ .checkmark {
+    background-color: #9faab7;
 }
-
-ul li label {
-	display: inline-block;
-	position: relative;
-	font-weight: 300;
-	font-size: 1.35em;
-	padding: 25px 25px 25px 80px;
-	margin: 10px auto;
-	height: 30px;
-	z-index: 9;
-	cursor: pointer;
-	-webkit-transition: all 0.25s linear;
+.DormDrop input:checked ~ .checkmark {
+    background-color: #4FAC50;
 }
-
-ul li:hover label {
-	color: #FFFFFF;
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
 }
-
-ul li .check {
-	display: inline-block;
-	position: absolute;
-	border: 5px solid #AAAAAA;
-	border-radius: 100%;
-	height: 25px;
-	width: 25px;
-	top: 30px;
-	left: 20px;
-	z-index: 5;
-	transition: border .25s linear;
-	-webkit-transition: border .25s linear;
+.DormDrop input:checked ~ .checkmark:after {
+    display: block;
 }
-
-ul li:hover .check {
-	border: 5px solid #FFFFFF;
+.DormDrop .checkmark:after {
+ 	top: 9px;
+	left: 9px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: white;
 }
-
-ul li .check::before {
-	display: inline-block;
-	position: absolute;
-	content: '';
-	border-radius: 100%;
-	height: 15px;
-	width: 15px;
-	top: 5px;
-	left: 5px;
-	margin: auto;
-	transition: background 0.25s linear;
-	-webkit-transition: background 0.25s linear;
+#f{
+float: left;
 }
-
-input[type=radio]:checked ~ .check {
-	border: 5px solid #4CAF50;
-}
-
-input[type=radio]:checked ~ .check::before {
-	background: #4CAF50;
-}
-
-input[type=radio]:checked ~ label {
-	color: #4CAF50;
+#s{
+float: right;
 }
 </style>
 <title>View Order</title>
@@ -417,11 +274,12 @@ input[type=radio]:checked ~ label {
 	<b>Finalize Order</b>
 </h1>
 <body>
-	<form action="${pageContext.servletContext.contextPath}/vieworder"
-		method="post">
-		<label>
-			<hr> <input type="checkbox" class="option-input checkbox"
+	<form action="${pageContext.servletContext.contextPath}/vieworder" method="post">
+	<hr> 
+			<label>
+			<input type="checkbox" class="option-input checkbox"
 			name="example" id="custom" value="one-time" onclick="setOrderName()" />
+			
 			<input type="text" name="orderName" id="textBox"
 			placeholder="Click to Save Order" onfocus="this.placeholder = ''"
 			disabled />
@@ -429,19 +287,32 @@ input[type=radio]:checked ~ label {
 		<hr style="opacity: 0;">
 		<hr style="opacity: 0;">
 		<hr>
-		<div class="ChooseDeliveryMethod">
-			<ul>
-				<li><input type="radio" id="optionDelivery" name="deliverypref" value="true">
-					<label for="optionDelivery">Delivery</label>
-					<div class="check"></div></li>
-				<li><input type="radio" id="optionPickup" name="deliverypref" value="false">
-					<label for="optionPickup">Pickup</label>
-					<div class="check">
-						<div class="inside"></div>
-					</div></li>
-			</ul>
-		</div>
-		<hr>
+		Select a Delivery Type &nbsp; &nbsp; &nbsp; &nbsp;
+		<input type="radio" name="tab" value="false" onclick="pickup();"/> Pickup &nbsp; &nbsp;
+		<input type="radio" name="tab" value="true" onclick="delivery();" /> Delivery
+		<div id="div1" class="hideDropdown">
+  			<hr>
+  			<p>Select a Dorm...</p>
+  			<label class="DormDrop" id="f"><input type="radio" name="DORM" value="Beard Hall"> Beard Hall &nbsp; <span class="checkmark"></span></label>
+			<label class="DormDrop" id="s"><input type="radio" name="DORM" value="Codorous Hall"> Codorous Hall  &nbsp; <span class="checkmark"></span></label>
+			<br>
+			<label class="DormDrop" id="f"><input type="radio" name="DORM" value="Penn Hall"> Penn Hall  &nbsp; <span class="checkmark"></span></label>
+			<label class="DormDrop" id="s"><input type="radio" name="DORM" value="Susquehana Hall"> Susquehana Hall  &nbsp; <span class="checkmark"></span></label>
+			<br>
+			<label class="DormDrop" id="f"><input type="radio" name="DORM" value="Manor Hall"> Manor Hall  &nbsp; <span class="checkmark"></span></label>
+			<label class="DormDrop" id="s"><input type="radio" name="DORM" value="Tyler Run Appt"> Tyler Run Appt  &nbsp; <span class="checkmark"></span></label>
+			<br>
+			<label class="DormDrop" id="f"><input type="radio" name="DORM" value="Northside Commons"> Northside Commons  &nbsp; <span class="checkmark"></span></label>
+			<label class="DormDrop" id="s"><input type="radio" name="DORM" value="Little Run Lodge"> Little Run Lodge  &nbsp; <span class="checkmark"></span></label>
+			<br>
+			<label class="DormDrop" id="f"><input type="radio" name="DORM" value="Richland Hal"> Richland Hall  &nbsp; <span class="checkmark"></span></label>
+			<label class="DormDrop" id="s"><input type="radio" name="DORM" value="Brockie Commons"> Brockie Commons  &nbsp; <span class="checkmark"></span></label>
+			<br>
+			<label class="DormDrop" id="f"><input type="radio" name="DORM" value="Spring Garden Appt"> Spring Garden Appt  &nbsp; <span class="checkmark"></span></label>
+			<label class="DormDrop" id="s"><input type="radio" name="DORM" value="Country Club Manor"> Country Club Manor  &nbsp; <span class="checkmark"></span></label>
+					<hr style="opacity: 0;">
+			</div>
+			<hr>
 		<button class="Continue" type="Submit" value="true"
 			name="continueOrder" style="vertical-align: middle">&#43;
 			Add Items</button>
@@ -463,23 +334,34 @@ input[type=radio]:checked ~ label {
 					</div>
 				</c:forEach>
 			</c:forEach>
-
+			</table>
+			<hr>
+		Select a Payment Type &nbsp; &nbsp; &nbsp; &nbsp;
+		<input type="radio" name="tab" value="Flex"/> Flex &nbsp;
+		<input type="radio" name="tab" value="Dining"/> Dining Points
+		
 			<div class="Submit">
 				<span class="total"><b>Total:</b> &#36;${order.totalPrice}</span>
 				<button type="Submit" value="true" name="orderComplete">Submit
 					Order&#187;</button>
 			</div>
-		</table>
+		
 	</form>
-</body>
 <script>
-	window.setOrderName = function() {
-		if (document.getElementById("custom").checked) {
-			document.getElementById("textBox").disabled = false;
-			document.getElementsByName('Text')[0].placeholder = 'Enter Order Name';
-		} else {
-			document.getElementById("textBox").disabled = true;
-		}
+window.setOrderName = function() {
+	if (document.getElementById("custom").checked) {
+		document.getElementById("textBox").disabled = false;
+		document.getElementsByName('orderName')[0].placeholder = 'Enter Order Name';
+	} else {
+		document.getElementById("textBox").disabled = true;
+	}
+}
+function pickup(){
+	  document.getElementById('div1').style.display ='none';
+	}
+	function delivery(){
+	  document.getElementById('div1').style.display = 'block';
 	}
 </script>
+</body>
 </html>
