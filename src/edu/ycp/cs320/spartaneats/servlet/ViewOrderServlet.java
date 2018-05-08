@@ -99,15 +99,18 @@ public class ViewOrderServlet extends HttpServlet {
 		Boolean orderComplete = false;
 		continueOrder =  Boolean.valueOf(req.getParameter("continueOrder"));
 		orderComplete = Boolean.valueOf(req.getParameter("orderComplete"));
-		if(delivery.equals("false")) {
-			deliveryDest = "Pickup";
+		if (delivery != null) {
+			if(delivery.equals("false")) {
+				deliveryDest = "Pickup";
+			}
+			try {
+				db.updateDeliveryPreferences(order.getOrderId(), delivery, deliveryDest);
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
-		try {
-			db.updateDeliveryPreferences(order.getOrderId(), delivery, deliveryDest);
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
 		if (condiment != null && fromItem != null) {
 			OrderItem removeOrderItem2 = order.getOrderItem(Integer.parseInt(fromItem));
 			try {
@@ -135,18 +138,21 @@ public class ViewOrderServlet extends HttpServlet {
 			doGet(req,resp);
 		}
 		else if (orderComplete) {
-
+			
 			try {
-				if(payment.equals("Flex")) {
-					System.out.println("Old Flex Balance: " + db.findFlexBalance(order.getAccountId()));
-					db.updateFlexBalance(order.getTotalPrice(), order.getAccountId());
-					System.out.println("New Flex Balance: " + db.findFlexBalance(order.getAccountId()));
+				if(payment != null) {
+					if(payment.equals("Flex")) {
+						System.out.println("Old Flex Balance: " + db.findFlexBalance(order.getAccountId()));
+						db.updateFlexBalance(order.getTotalPrice(), order.getAccountId());
+						System.out.println("New Flex Balance: " + db.findFlexBalance(order.getAccountId()));
+					}
+					if(payment.equals("Dining")) {
+						System.out.println("Old Dining Balance: " + db.findDiningBalance(order.getAccountId()));
+						db.updateDiningBalance(order.getTotalPrice(), order.getAccountId());
+						System.out.println("New Dining Balance: " + db.findDiningBalance(order.getAccountId()));
+					}
 				}
-				if(payment.equals("Dining")) {
-					System.out.println("Old Dining Balance: " + db.findDiningBalance(order.getAccountId()));
-					db.updateDiningBalance(order.getTotalPrice(), order.getAccountId());
-					System.out.println("New Dining Balance: " + db.findDiningBalance(order.getAccountId()));
-				}
+				
 				int orderId = (Integer) session.getAttribute("order_id");
 				if(orderName != null) {
 					db.insertOrderName(orderId, orderName);
