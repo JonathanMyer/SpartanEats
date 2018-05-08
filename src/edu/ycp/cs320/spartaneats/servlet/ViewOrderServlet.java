@@ -61,7 +61,7 @@ public class ViewOrderServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}try {
-			double flex =  db.findFlexBalance(order.getOrderId());
+			double flex =  db.findFlexBalance(order.getAccountId());
 			session.setAttribute("flexBalance", flex);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -69,7 +69,7 @@ public class ViewOrderServlet extends HttpServlet {
 		}
 		try {
 			// compile the order
-			double dining =  db.findDiningBalance(order.getOrderId());
+			double dining =  db.findDiningBalance(order.getAccountId());
 			session.setAttribute("diningBalance", dining);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -134,7 +134,6 @@ public class ViewOrderServlet extends HttpServlet {
 			}
 			doGet(req,resp);
 		}
-		
 		else if (orderComplete) {
 
 			try {
@@ -163,8 +162,6 @@ public class ViewOrderServlet extends HttpServlet {
 			req.getRequestDispatcher("/_view/createorder.jsp").forward(req, resp);
 		}
 		else {
-
-
 			req.getRequestDispatcher("/_view/vieworder.jsp").forward(req, resp);
 		}
 	}
