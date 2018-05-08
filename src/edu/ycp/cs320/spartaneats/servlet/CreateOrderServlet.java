@@ -34,7 +34,7 @@ public class CreateOrderServlet extends HttpServlet {
 		
 		
         
-	    if (session == null) {    // no session exists, redirect to error page with error message
+		if (session == null) {    // no session exists, redirect to error page with error message
 	    	resp.sendRedirect(req.getContextPath()+"/login");
 	        } 
 

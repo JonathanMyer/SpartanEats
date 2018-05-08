@@ -337,8 +337,8 @@ float: right;
 			</table>
 			<hr>
 		Select a Payment Type &nbsp; &nbsp; &nbsp; &nbsp;
-		<input type="radio" name="tab" value="Flex"/> Flex &nbsp;
-		<input type="radio" name="tab" value="Dining"/> Dining Points
+		<input type="radio" name="payment" value="Flex"/> Flex &nbsp;
+		<input type="radio" name="payment" value="Dining"/> Dining Points
 		
 			<div class="Submit">
 				<span class="total"><b>Total:</b> &#36;${order.totalPrice}</span>
