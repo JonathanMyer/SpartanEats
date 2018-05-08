@@ -317,10 +317,11 @@ public class DerbyDatabaseTest {
 	@Test
 	public void testActiveOrdersByUsername(){
 		try {
+			List<Order> activeOrdersBefore = db.findActiveOrders();
 			int order_id = db.createOrder(4, "delivery", "China");
 			int active = db.updateOrderToActive(order_id);
-			List<Order> activeOrders = db.findActiveOrders();
-			assertTrue(activeOrders.size() == 1);
+			List<Order> activeOrdersAfter = db.findActiveOrders();
+			assertTrue(activeOrdersAfter.size() == activeOrdersBefore.size() + 1);
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -443,6 +444,26 @@ public class DerbyDatabaseTest {
 		}
 	}
 	
+	@Test
+	public void testUpdateDeliveryPreferences(){
+		try {
+			int order_id = db.createOrderWithAccountId(4);
+			Order order = db.findOrderFromOrderId(order_id);
+			assertTrue(order.getAccountId() == 4);
+			System.out.println("Delivery Status: " + order.getDelivery());
+			assertTrue(order.getDelivery() == false);
+			assertTrue(order.getDeliveryDest() == null);
+			String deliv = db.updateDeliveryPreferences(order_id, "true", "Beard Hall");
+			Order orderAfter = db.findOrderFromOrderId(order_id);
+			assertTrue(orderAfter.getAccountId() == 4);
+			System.out.println("Delivery Status: " + orderAfter.getDelivery());
+			assertTrue(orderAfter.getDelivery() == true);
+			assertTrue(orderAfter.getDeliveryDest().equals("Beard Hall"));
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	@Test
 	public void testRemoveCondimentFromOrderItem() {
 		try {

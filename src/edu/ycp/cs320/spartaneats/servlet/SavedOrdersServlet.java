@@ -35,7 +35,7 @@ public class SavedOrdersServlet extends HttpServlet{
 	    int userId = (int) session.getAttribute("account_id");
 	    List <Order> orderList= null;
 	    try {
-			orderList = db.findOrdersFromAccountID(userId);
+			orderList = db.findSavedOrdersFromAccountID(userId);
 			System.out.println("Order Length is: " + orderList.size());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

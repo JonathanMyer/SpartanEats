@@ -89,11 +89,23 @@ public class ViewOrderServlet extends HttpServlet {
 		String condiment = req.getParameter("removeCondiment");
 		String fromItem = req.getParameter("fromItem");
 		String orderName = req.getParameter("orderName");
+		String deliveryDest = req.getParameter("DORM");
+		String delivery = req.getParameter("tab");
+		System.out.println("Delivery Dest: " + deliveryDest +" Delivery: " + delivery);
 		System.out.println("Order Name: "+ orderName);
 		Boolean continueOrder = false;
 		Boolean orderComplete = false;
 		continueOrder =  Boolean.valueOf(req.getParameter("continueOrder"));
 		orderComplete = Boolean.valueOf(req.getParameter("orderComplete"));
+		if(delivery.equals("false")) {
+			deliveryDest = "Pickup";
+		}
+		try {
+			db.updateDeliveryPreferences(order.getOrderId(), delivery, deliveryDest);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		if (condiment != null && fromItem != null) {
 			OrderItem removeOrderItem2 = order.getOrderItem(Integer.parseInt(fromItem));
 			try {
