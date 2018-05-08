@@ -59,6 +59,20 @@ public class ViewOrderServlet extends HttpServlet {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}try {
+			double flex =  db.findFlexBalance(order.getOrderId());
+			session.setAttribute("flexBalance", flex);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			// compile the order
+			double dining =  db.findDiningBalance(order.getOrderId());
+			session.setAttribute("diningBalance", dining);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	    req.getRequestDispatcher("/_view/vieworder.jsp").forward(req, resp);
 	}

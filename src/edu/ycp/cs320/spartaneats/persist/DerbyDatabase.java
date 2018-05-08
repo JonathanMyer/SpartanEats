@@ -448,6 +448,49 @@ public class DerbyDatabase {
 			}
 		});
 	}
+	public double findFlexBalance(int account_id) throws SQLException {
+		return doExecuteTransaction(new Transaction<Double>() {
+			public Double execute(Connection conn) throws SQLException{
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet1 = null;
+				double balance = 0.0;
+				DecimalFormat df = new DecimalFormat("#.##");
+				try {conn.setAutoCommit(true);
+				//get dining balance
+				stmt1 = conn.prepareStatement("select accounts.flex from accounts where accounts.account_id = ?");
+				stmt1.setInt(1, account_id);
+				resultSet1 = stmt1.executeQuery();
+				balance = Double.parseDouble(df.format(resultSet1.getDouble(1)));
+					return balance;
+				}finally {
+					DBUtil.closeQuietly(resultSet1);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});
+	}
+	public double findDiningBalance(int account_id) throws SQLException {
+		return doExecuteTransaction(new Transaction<Double>() {
+			public Double execute(Connection conn) throws SQLException{
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet1 = null;
+				double balance = 0.0;
+				DecimalFormat df = new DecimalFormat("#.##");
+				try {conn.setAutoCommit(true);
+				//get dining balance
+				stmt1 = conn.prepareStatement("select accounts.dining from accounts where accounts.account_id = ?");
+				stmt1.setInt(1, account_id);
+				resultSet1 = stmt1.executeQuery();
+				balance = Double.parseDouble(df.format(resultSet1.getDouble(1)));
+					return balance;
+					
+				}finally {
+					DBUtil.closeQuietly(resultSet1);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});
+	}
 	public List<Account> findAllAccounts() throws SQLException {
 		return doExecuteTransaction(new Transaction<List<Account>>() {
 			public List<Account> execute(Connection conn) throws SQLException{
@@ -737,6 +780,92 @@ public class DerbyDatabase {
 			}
 		});
 	}
+	
+	public String findPhoneNumberbyAccountID(int iD) throws SQLException {
+		return doExecuteTransaction(new Transaction<String>() {
+			public String execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes from both Books and Authors tables
+					stmt = conn.prepareStatement(
+							"select accounts.phoneNumber"+
+									" from accounts " +
+									"where accounts.account_id = ?"
+							);
+					stmt.setInt(1, iD);
+
+					String result = new String();
+					resultSet = stmt.executeQuery();
+
+					//for testing that a result was returned
+					Boolean found = false;
+
+					while (resultSet.next()) {
+						found = true;
+
+						//retrieve attributes from resultSet starting with index 1
+						result = resultSet.getString("phoneNumber");
+						System.out.println("phone number is "+result);
+					}
+
+					//check if the title was found
+					if (!found) {
+						System.out.println("<" +iD+ "> -Id wasn't found in the accounts table");
+
+					}
+					return result;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	public String findStudentIDbyAccountID(int iD) throws SQLException {
+		return doExecuteTransaction(new Transaction<String>() {
+			public String execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes from both Books and Authors tables
+					stmt = conn.prepareStatement(
+							"select accounts.studentID"+
+									" from accounts " +
+									"where accounts.account_id = ?"
+							);
+					stmt.setInt(1, iD);
+
+					String result = new String();
+					resultSet = stmt.executeQuery();
+
+					//for testing that a result was returned
+					Boolean found = false;
+
+					while (resultSet.next()) {
+						found = true;
+
+						//retrieve attributes from resultSet starting with index 1
+						result = resultSet.getString("studentID");
+						System.out.println("studentID is "+result);
+					}
+
+					//check if the title was found
+					if (!found) {
+						System.out.println("<" +iD+ "> -Id wasn't found in the accounts table");
+
+					}
+					return result;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+
+
 
 	public Item findItembyName(String name) throws SQLException {
 		return doExecuteTransaction(new Transaction<Item>() {
@@ -754,8 +883,6 @@ public class DerbyDatabase {
 
 
 					resultSet = stmt.executeQuery();
-
-					
 
 					//retrieve attributes from resultSet starting with index 1
 					Item item = new Item();
@@ -795,11 +922,6 @@ public class DerbyDatabase {
 					if (resultSet.next()){
 						loadItem(item, resultSet, 1);
 					}
-
-					
-
-					
-
 					
 					return item;
 				}finally {
