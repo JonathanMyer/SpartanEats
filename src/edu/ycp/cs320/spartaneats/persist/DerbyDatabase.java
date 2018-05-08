@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -448,6 +449,36 @@ public class DerbyDatabase {
 			}
 		});
 	}
+	
+	public String updateDeliveryPreferences(int order_id, String delivery, String deliveryDest) throws SQLException {
+		return doExecuteTransaction(new Transaction<String>() {
+			public String execute(Connection conn) throws SQLException{
+				PreparedStatement stmt2 = null;
+				ResultSet resultSet2 = null;
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet1 = null;
+				try {conn.setAutoCommit(true);
+				//get Flex balance
+				
+				stmt2 = conn.prepareStatement(
+						"update orders"+
+								" set orders.delivery = ? ," +
+								" orders.deliveryDest = ?" +
+								"where orders.order_id = ?" 
+						);
+				stmt2.setString(1, delivery);
+				stmt2.setString(2, deliveryDest);
+				stmt2.setInt(3, order_id);
+				stmt2.executeUpdate();
+					return delivery;
+				}finally {
+					DBUtil.closeQuietly(resultSet2);
+					DBUtil.closeQuietly(stmt2);
+				}
+			}
+		});
+	}
+	
 	public double findFlexBalance(int account_id) throws SQLException {
 		return doExecuteTransaction(new Transaction<Double>() {
 			public Double execute(Connection conn) throws SQLException{
@@ -460,8 +491,10 @@ public class DerbyDatabase {
 				stmt1 = conn.prepareStatement("select accounts.flex from accounts where accounts.account_id = ?");
 				stmt1.setInt(1, account_id);
 				resultSet1 = stmt1.executeQuery();
-				balance = Double.parseDouble(df.format(resultSet1.getDouble(1)));
-					return balance;
+				if(resultSet1.next()) {
+					balance = Double.parseDouble(df.format(resultSet1.getDouble(1)));
+				}
+				return balance;
 				}finally {
 					DBUtil.closeQuietly(resultSet1);
 					DBUtil.closeQuietly(stmt1);
@@ -481,9 +514,10 @@ public class DerbyDatabase {
 				stmt1 = conn.prepareStatement("select accounts.dining from accounts where accounts.account_id = ?");
 				stmt1.setInt(1, account_id);
 				resultSet1 = stmt1.executeQuery();
-				balance = Double.parseDouble(df.format(resultSet1.getDouble(1)));
-					return balance;
-					
+				if(resultSet1.next()) {
+					balance = Double.parseDouble(df.format(resultSet1.getDouble(1)));
+				}
+				return balance;
 				}finally {
 					DBUtil.closeQuietly(resultSet1);
 					DBUtil.closeQuietly(stmt1);
@@ -1486,6 +1520,55 @@ public class DerbyDatabase {
 						loadOrder(order, resultSet, 1);
 						result.add(order);
 					}
+					
+					return result;
+				}finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	public List<Order> findSavedOrdersFromAccountID(int account_id) throws SQLException {
+		return doExecuteTransaction(new Transaction<List<Order>>() {
+			public List<Order> execute(Connection conn) throws SQLException{
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					//retrieve all attributes 
+					stmt = conn.prepareStatement(
+							"select orders.* " +
+									"from accounts, orders " +
+									"where orders.account_id = accounts.account_id and " +
+									"accounts.account_id = ?"
+							);
+					stmt.setInt(1, account_id);
+					
+					
+
+
+					List<Order> result = new ArrayList<Order>();
+					resultSet = stmt.executeQuery();
+					//for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+
+						//retrieve attributes from resultSet starting with index 1
+						Order order = new Order();
+						loadOrder(order, resultSet, 1);
+						result.add(order);
+					}
+					Iterator<Order> iter = result.iterator();
+					while (iter.hasNext()) {
+						if (iter.next().getOrderName() == null) {
+							iter.remove();
+						}
+						
+					}
+					
+		
 					
 					return result;
 				}finally {
