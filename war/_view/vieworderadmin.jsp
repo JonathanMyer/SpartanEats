@@ -15,7 +15,7 @@ h1{
 	text-align: center;
 	color: white;
 	font-size: 80px;
-	text-shadow: 6px 6px 10px #980000;
+	text-shadow: 10px 10px 15px black;
 	padding-bottom: 15px;
 }
 
@@ -76,14 +76,14 @@ color: #ff0000;
 }
 .accountInfo{
 	position: fixed;
-	bottom: 250px;
+	bottom: 300px;
 	right: 0
 	left: 0;
 }
 .deliveryInfo{
 	position: fixed;
 	bottom: 200px;
-	right: 0
+	right: 0;
 	left: 0;
 }
 .orderInformation{
@@ -113,9 +113,9 @@ font-size: 50px !important;
 	</c:forEach>
 	<div class="accountInfo">Student Name: ${accounts.firstName} ${accounts.lastName}
 	<br>
-	Student Phone Number: ${accounts.phoneNumber}</div>
+	Student Phone Number: ${accounts.phoneNumber}</div> 
 	<c:if test = "${ null != order.deliveryDest}">
-		<div class="deliveryInfo">Delivery Destination: "${order.deliveryDest}"</div>
+		<div class="deliveryInfo">Delivery Destination:"${order.deliveryDest}"</div>
 	</c:if>
 	<c:if test = "${ null == order.deliveryDest}">
 		<div class="deliveryInfo">Delivery Destination: Pickup</div>
