@@ -460,8 +460,10 @@ public class DerbyDatabase {
 				stmt1 = conn.prepareStatement("select accounts.flex from accounts where accounts.account_id = ?");
 				stmt1.setInt(1, account_id);
 				resultSet1 = stmt1.executeQuery();
-				balance = Double.parseDouble(df.format(resultSet1.getDouble(1)));
-					return balance;
+				if (resultSet1.next()) {
+					balance = Double.parseDouble(df.format(resultSet1.getDouble(1)));
+				}
+				return balance;
 				}finally {
 					DBUtil.closeQuietly(resultSet1);
 					DBUtil.closeQuietly(stmt1);
@@ -481,9 +483,10 @@ public class DerbyDatabase {
 				stmt1 = conn.prepareStatement("select accounts.dining from accounts where accounts.account_id = ?");
 				stmt1.setInt(1, account_id);
 				resultSet1 = stmt1.executeQuery();
-				balance = Double.parseDouble(df.format(resultSet1.getDouble(1)));
-					return balance;
-					
+				if (resultSet1.next()) {
+					balance = Double.parseDouble(df.format(resultSet1.getDouble(1)));
+				}
+				return balance;
 				}finally {
 					DBUtil.closeQuietly(resultSet1);
 					DBUtil.closeQuietly(stmt1);
