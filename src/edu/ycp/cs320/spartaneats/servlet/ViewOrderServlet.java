@@ -43,6 +43,7 @@ public class ViewOrderServlet extends HttpServlet {
 	        } 
 	    DerbyDatabase db = (DerbyDatabase) session.getAttribute("db");
 	    order.setOrderId((int)session.getAttribute("order_id"));
+	    order.setAccount_id((int)session.getAttribute("account_id"));
 	    try {
 	    	// compile the order
 			orderItem =  db.findOrderItemsFromOrderID(order.getOrderId());
@@ -91,6 +92,7 @@ public class ViewOrderServlet extends HttpServlet {
 		String orderName = req.getParameter("orderName");
 		String deliveryDest = req.getParameter("DORM");
 		String delivery = req.getParameter("tab");
+		String payment = req.getParameter("payment");
 		System.out.println("Delivery Dest: " + deliveryDest +" Delivery: " + delivery);
 		System.out.println("Order Name: "+ orderName);
 		Boolean continueOrder = false;
@@ -136,6 +138,16 @@ public class ViewOrderServlet extends HttpServlet {
 		else if (orderComplete) {
 
 			try {
+				if(payment.equals("Flex")) {
+					System.out.println("Old Flex Balance: " + db.findFlexBalance(order.getAccountId()));
+					db.updateFlexBalance(order.getTotalPrice(), order.getAccountId());
+					System.out.println("New Flex Balance: " + db.findFlexBalance(order.getAccountId()));
+				}
+				if(payment.equals("Dining")) {
+					System.out.println("Old Dining Balance: " + db.findDiningBalance(order.getAccountId()));
+					db.updateDiningBalance(order.getTotalPrice(), order.getAccountId());
+					System.out.println("New Dining Balance: " + db.findDiningBalance(order.getAccountId()));
+				}
 				int orderId = (Integer) session.getAttribute("order_id");
 				if(orderName != null) {
 					db.insertOrderName(orderId, orderName);
