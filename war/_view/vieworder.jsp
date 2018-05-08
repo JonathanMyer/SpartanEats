@@ -8,7 +8,7 @@ body {
 	background-color: #f2f2f2;
 	height: 100%;
 	width: 100%;
-	font-size: 35px;
+	font-size: 40px;
 	letter-spacing: 2px;
 }
 
@@ -143,9 +143,9 @@ opacity:0;}
 #textBox {
 	display: inline-block;
 	height: 70px;
-	width: 500px;
+	width: 850px;
 	padding-top: 25px;
-	font-size: 50px;
+	font-size: 45px;
 	color: #202020;
 	border-style: solid;
 	border-width: 1px;
@@ -220,7 +220,7 @@ opacity:0;}
     padding-left: 35px;
     margin-bottom: 12px;
     cursor: pointer;
-    font-size: 22px;
+    font-size: 30px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -287,7 +287,7 @@ float: right;
 		<hr style="opacity: 0;">
 		<hr style="opacity: 0;">
 		<hr>
-		Select a Delivery Type &nbsp; &nbsp; &nbsp; &nbsp;
+		Select a Delivery Type &nbsp; &nbsp;
 		<input type="radio" name="tab" value="false" onclick="pickup();"/> Pickup &nbsp; &nbsp;
 		<input type="radio" name="tab" value="true" onclick="delivery();" /> Delivery
 		<div id="div1" class="hideDropdown">
@@ -336,9 +336,9 @@ float: right;
 			</c:forEach>
 			</table>
 			<hr>
-		Select a Payment Type &nbsp; &nbsp; &nbsp; &nbsp;
-		<input type="radio" name="payment" value="Flex"/> Flex ${flexBalance} &nbsp;
-		<input type="radio" name="payment" value="Dining"/> Dining ${diningBalance}
+		Select the Payment Type <br>
+		&nbsp; &nbsp; &nbsp; &nbsp; <input type="radio" name="payment" value="Flex"/> Flex [&#36;${flexBalance}]
+		&nbsp; &nbsp; &nbsp; &nbsp; <input type="radio" name="payment" value="Dining"/> Dining [&#36;${diningBalance}]
 		
 			<div class="Submit">
 				<span class="total"><b>Total:</b> &#36;${order.totalPrice}</span>
@@ -361,7 +361,7 @@ function pickup(){
 	}
 	function delivery(){
 	  document.getElementById('div1').style.display = 'block';
-	}
+}
 </script>
 </body>
 </html>
