@@ -58,7 +58,6 @@ font-size: 35px  !important;
         <ul>
           <li>Initial Project Setup</li>
           <li>Resolving Github Issues</li>
-          <li>Derby Database Creation</li>
           <li>Integrated Databases into Servlets</li>
           <li>HTML functions on JSP pages</li>
         </ul>
@@ -67,15 +66,15 @@ font-size: 35px  !important;
   <div class="Chase Teichmann"><a Name="Chase"></a>
     <img src="https://i.imgur.com/sC1osnw.png" title="Chase Teichmann" class="headshot"/></a>
       <p class="name">Chase Teichmann</p>
-      <p class="bio"><i>Central Jersey Native, Looking to Work in Front-End Development or Research and Development for mobile apps</i></p>
+      <p class="bio"><i>Philadelphia 76ers fan, Looking to Work in Front-End Development or Research and Development for mobile apps</i></p>
       <span rel="HiddenContributionsChase">Show Contributions</span><br />
       <div id="HiddenContributionsChase" style="display: none;">
         <ul>
           <li>HTML/CSS/Javascript for JSP pages</li>
-          <li>Index, ViewOrder, Admin Servlets</li>
-          <li>Design and Graphics</li>
-          <li>Derby Database Files</li>
+          <li>Derby Database Functions</li>
           <li>JUnit Testing</li>
+          <li>Servlet Development</li>
+          <li>Design and Graphics</li>
         </ul>
       </div>
   </div>
@@ -86,10 +85,9 @@ font-size: 35px  !important;
       <span rel="HiddenContributionsSam">Show Contributions</span><br />
       <div id="HiddenContributionsSam" style="display: none;">
         <ul>
-          <li>Reimplemented Database Tables for Items and Condiments</li>
+          <li>Creating Database Tables for Items and Condiments</li>
           <li>Model Creation and Refactoring</li>
           <li>JUnit Testing</li>
-          <li>Servlet Development</li>
         </ul>
       </div>
     </div>
