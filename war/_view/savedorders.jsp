@@ -117,6 +117,25 @@ h1{
 	margin-bottom: 50px;
 }
 
+.Return {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	font-size: 80px;
+	letter-spacing: 5px;
+	color: #4FAC50;
+	text-shadow: 4px 4px 8px Black;
+	width: 100%;
+	height: 125px;
+	background-color: #f2f2f2;
+	letter-spacing: 2px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	text-transform: uppercase;
+	text-shadow: 6px 6px 10px Black;
+	box-shadow: 10px 10px 30px 	#505050 inset;
+}
+
 
 </style>
 <title>Saved Orders</title>
@@ -131,6 +150,9 @@ h1{
 	<c:forEach items ="${orderList}" var="order">                      
       	<button class = "savedOrder" id = "savedOrder" type = "Submit" value="${order.orderId}" name  = "orderId"> View Order: ${order.orderName}</button>	
    	</c:forEach>
+</form>
+<form action="${pageContext.servletContext.contextPath}/index" method="get">
+<button class = "Return">Return</button>
 </form>
 </body>
 </html>
